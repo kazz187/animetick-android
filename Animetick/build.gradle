@@ -1,0 +1,32 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:0.5.+'
+        classpath group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.2.3'
+        classpath group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.2.3'
+    }
+}
+apply plugin: 'android'
+
+repositories {
+    mavenCentral()
+}
+
+android {
+    compileSdkVersion 18
+    buildToolsVersion "17.0.0"
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 15
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:18.0.0'
+    compile 'com.fasterxml.jackson.core:jackson-core:2.2.2'
+    compile 'com.fasterxml.jackson.core:jackson-databind:2.2.2'
+    compile project(":library:PullToRefresh")
+}
