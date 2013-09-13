@@ -20,6 +20,10 @@ public class Ticket {
     private String iconPath;
     private List<String> flags;
 
+    public void setTitleId(int titleId) {
+        this.titleId = titleId;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -49,6 +53,17 @@ public class Ticket {
         this.startAt = startAt;
     }
 
+    public void setIconPath(String iconPath) {
+        this.iconPath = iconPath;
+    }
+
+    public void setFlags(List<String> flags) {
+        this.flags = flags;
+    }
+
+    public int getTitleId() {
+        return titleId;
+    }
     public String getTitle() {
         return title;
     }
@@ -73,19 +88,20 @@ public class Ticket {
         return startAt;
     }
 
-    public void setTitleId(int titleId) {
-        this.titleId = titleId;
-    }
-
-    public void setIconPath(String iconPath) {
-        this.iconPath = iconPath;
-    }
-
-    public void setFlags(List<String> flags) {
-        this.flags = flags;
-    }
-
     public String getIconPath() {
         return iconPath;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Ticket ticket = (Ticket) obj;
+        return this.titleId == ticket.getTitleId() && this.count == ticket.getCount();
+    }
+
 }

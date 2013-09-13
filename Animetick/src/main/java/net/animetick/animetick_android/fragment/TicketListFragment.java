@@ -1,5 +1,6 @@
 package net.animetick.animetick_android.fragment;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,80 +8,82 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.ListView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import net.animetick.animetick_android.config.Config;
 import net.animetick.animetick_android.model.Authentication;
-import net.animetick.animetick_android.model.Networking;
-import net.animetick.animetick_android.model.Ticket;
 import net.animetick.animetick_android.model.TicketAdapter;
-import net.animetick.animetick_android.model.TicketListFactory;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import net.animetick.animetick_android.model.TicketManager;
 
 /**
  * Created by kazz on 2013/08/10.
  */
 public class TicketListFragment extends Fragment {
-    private TicketAdapter ticketAdapter = null;
     private Authentication authentication;
+    private TicketManager ticketManager;
+    private PullToRefreshListView listView;
+    private TicketAdapter ticketAdapter;
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        authentication = new Authentication(activity);
+        ticketAdapter = new TicketAdapter(activity);
+        ticketManager = new TicketManager(ticketAdapter, authentication);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        authentication = new Authentication(getActivity());
-        //View view = super.onCreateView(inflater, container, savedInstanceState);
-        PullToRefreshListView listView = new PullToRefreshListView(getActivity());
-        ticketAdapter = new TicketAdapter(getActivity());
-
-        listView.setAdapter(ticketAdapter);
-        reloadTickets();
-        return listView;
-    }
-
-    private void reloadTickets() {
-        AsyncTask<Void, Void, List<Ticket>> task = new AsyncTask<Void, Void, List<Ticket>>() {
+        ticketManager.loadTickets(true);
+        listView = new PullToRefreshListView(getActivity());
+        listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
-            protected List<Ticket> doInBackground(Void... params) {
-                Networking networking = new Networking(authentication);
-                String path = "/ticket/list/0.json";
-                InputStream is;
-                try {
-                    is = networking.get(path);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e(Config.LOG_LABEL, "Failed to get ticket list. path: " + path);
-                    return null;
-                }
+            public void onRefresh(final PullToRefreshBase<ListView> refreshView) {
+                AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
 
-                TicketListFactory ticketListFactory = new TicketListFactory();
-                ArrayList<Ticket> ticketList;
-                try {
-                    ticketList = ticketListFactory.createTicketList(is);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                    Log.e(Config.LOG_LABEL, "Failed to parse ticket list.");
-                    return null;
-                }
-                return ticketList;
-            }
-
-            @Override
-            protected void onPostExecute(List<Ticket> result) {
-                if (result != null) {
-                    ticketAdapter.clear();
-                    for (Ticket ticket : result) {
-                        ticketAdapter.add(ticket);
+                    @Override
+                    protected Void doInBackground(Void... params) {
+                        ticketManager.loadTickets(true);
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
                     }
-                    //getListView().setSelection(0);
+
+                    @Override
+                    protected void onPostExecute(Void result) {
+                        super.onPostExecute(result);
+                        refreshView.onRefreshComplete();
+                    }
+                };
+                task.execute();
+            }
+        });
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (totalItemCount == firstVisibleItem + visibleItemCount) {
+                    ticketManager.loadTickets(false);
+                    Log.e(Config.LOG_LABEL, "End!!");
                 }
             }
-        };
-        task.execute();
+
+        });
+        listView.setAdapter(ticketAdapter);
+        return listView;
     }
 
 }
