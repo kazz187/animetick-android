@@ -14,6 +14,7 @@ import android.widget.ListView;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
+import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.config.Config;
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.TicketAdapter;
@@ -27,6 +28,7 @@ public class TicketListFragment extends Fragment {
     private TicketManager ticketManager;
     private PullToRefreshListView listView;
     private TicketAdapter ticketAdapter;
+    private View footer;
 
     @Override
     public void onAttach(Activity activity) {
@@ -41,6 +43,7 @@ public class TicketListFragment extends Fragment {
                              Bundle savedInstanceState) {
         ticketManager.loadTickets(true);
         listView = new PullToRefreshListView(getActivity());
+        listView.getRefreshableView().addFooterView(getFooterLayout());
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(final PullToRefreshBase<ListView> refreshView) {
@@ -86,4 +89,10 @@ public class TicketListFragment extends Fragment {
         return listView;
     }
 
+    private View getFooterLayout() {
+        if (footer == null) {
+            footer = getActivity().getLayoutInflater().inflate(R.layout.ticket_footer, null);
+        }
+        return footer;
+    }
 }

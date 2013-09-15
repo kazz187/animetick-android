@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:longClickable="false"
-        xmlns:android="http://schemas.android.com/apk/res/android" >
-<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:longClickable="false"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ticket_layout">
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:longClickable="false"
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_toLeftOf="@+id/ticket_watch_button"
-        android:id="@+id/relativeLayout"
-        android:background="@drawable/ticket_grad">
-
-    <ImageView
+        android:id="@+id/ticket_detail_layout"
+        android:background="@drawable/ticket_grad"
+        android:layout_toLeftOf="@+id/ticket_watch_button">
+        <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:id="@+id/ticket_icon"
@@ -21,8 +21,7 @@
             android:layout_alignParentLeft="true"
             android:layout_margin="5dp"
             />
-
-    <TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Anime Title"
@@ -30,9 +29,8 @@
             android:layout_alignTop="@+id/ticket_icon"
             android:layout_toRightOf="@+id/ticket_icon"
             android:textStyle="bold"
-            android:layout_toLeftOf="@+id/ticket_watch_button"/>
-
-    <TextView
+            />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -42,13 +40,12 @@
             android:layout_toRightOf="@+id/ticket_icon"
             android:layout_marginLeft="3dp"
             android:textColor="#333"
-            android:layout_toLeftOf="@+id/ticket_watch_button"/>
-
-    <TextView
+            />
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Channel / n ch4"
+            android:text="Channel / nch"
             android:id="@+id/ticket_channel"
             android:layout_below="@+id/ticket_sub_title"
             android:layout_alignLeft="@+id/ticket_sub_title"
@@ -61,8 +58,7 @@
             android:paddingBottom="1dp"
             android:textStyle="bold"
             />
-
-    <TextView
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -71,32 +67,26 @@
             android:layout_alignTop="@+id/ticket_channel"
             android:layout_toRightOf="@+id/ticket_channel"
             android:layout_marginLeft="5dp"
-            android:layout_toLeftOf="@+id/ticket_watch_button"
             />
-
-    <Space
+        <Space
             android:layout_width="0dp"
             android:layout_height="5dp"
             android:layout_below="@+id/ticket_channel"
-            android:layout_toLeftOf="@+id/ticket_watch_button"
-            android:id="@+id/space"/>
+            android:id="@+id/space"
+            />
 
-</RelativeLayout>
-
+    </RelativeLayout>
     <TextView
-            android:layout_width="@dimen/watch_button_width"
-            android:layout_height="match_parent"
-            android:text="Watch"
-            android:id="@+id/ticket_watch_button"
-            android:background="@drawable/watch_button"
-            android:textColor="#ffffff"
-            android:gravity="center|center_vertical"
-            android:clickable="true"
-            android:layout_alignWithParentIfMissing="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentStart="true"
-            android:minHeight="60dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignBottom="@+id/relativeLayout"/>
+        android:layout_width="55dp"
+        android:layout_height="wrap_content"
+        android:text="Watch"
+        android:id="@+id/ticket_watch_button"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:clickable="false"
+        android:background="@drawable/watch_button"
+        android:textColor="#FFFFFF"
+        android:gravity="center|center_vertical"
+        android:layout_alignBottom="@+id/ticket_detail_layout"
+        />
 </RelativeLayout>
