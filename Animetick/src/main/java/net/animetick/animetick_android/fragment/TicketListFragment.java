@@ -78,6 +78,8 @@ public class TicketListFragment extends Fragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                // TODO: ticketAdapter.getWatchButtonManager().resetWatchMenu("watch");
+                ticketAdapter.getWatchMenuManager().cancel();
                 if (totalItemCount == firstVisibleItem + visibleItemCount) {
                     ticketManager.loadTickets(false);
                     Log.e(Config.LOG_LABEL, "End!!");

@@ -11,5 +11,6 @@
     <string name="sign_in_button_text">Sign in with Twitter</string>
     <string name="title_activity_authentication">Animetick</string>
     <string name="hello_world">Hello world!</string>
+    <string name="sign_out">Sign out</string>
 
 </resources>

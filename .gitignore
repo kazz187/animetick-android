@@ -1,4 +1,5 @@
 .gradle
 /local.properties
 /.idea/workspace.xml
+library/PullToRefresh/build/
 .DS_Store

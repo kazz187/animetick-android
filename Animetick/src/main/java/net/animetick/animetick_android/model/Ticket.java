@@ -19,6 +19,7 @@ public class Ticket {
     private Date startAt = null;
     private String iconPath;
     private List<String> flags;
+    private boolean isWatched = false;
 
     public void setTitleId(int titleId) {
         this.titleId = titleId;
@@ -104,4 +105,11 @@ public class Ticket {
         return this.titleId == ticket.getTitleId() && this.count == ticket.getCount();
     }
 
+    public boolean isWatched() {
+        return isWatched;
+    }
+
+    public void setWatched(boolean isWatched) {
+        this.isWatched = isWatched;
+    }
 }

@@ -2,7 +2,6 @@ package net.animetick.animetick_android.model;
 
 import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.animetick.animetick_android.R;
-import net.animetick.animetick_android.config.Config;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,11 +22,13 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
 
     private LayoutInflater ticketInflater;
     private Authentication authentication;
+    private WatchMenuManager watchMenuManager;
 
     public TicketAdapter(Context context) {
         super(context, R.layout.ticket_list);
         ticketInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         this.authentication = new Authentication(context);
+        this.watchMenuManager = new WatchMenuManager();
     }
 
     @Override
@@ -45,7 +45,7 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
         setChannel(convertView, ticket);
         setStartAt(convertView, ticket);
         setIcon(convertView, ticket);
-        setWatchButton(convertView);
+        setWatchButton(convertView, ticket);
 
         return convertView;
     }
@@ -100,15 +100,17 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
         IconManager.applyIcon(ticket.getIconPath(), networking, icon);
     }
 
-    private void setWatchButton(View convertView) {
-        TextView watchButton = (TextView) convertView.findViewById(R.id.ticket_watch_button);
+    private void setWatchButton(View convertView, final Ticket ticket) {
+        final TextView watchButton = (TextView) convertView.findViewById(R.id.ticket_watch_button);
+        final ImageView tweetButton = (ImageView) convertView.findViewById(R.id.ticket_tweet_button);
         watchButton.setHeight(0);
-        watchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e(Config.LOG_LABEL, "test");
-            }
-        });
+        watchMenuManager.initWatchMenuComponent(ticket, watchButton, tweetButton);
+        //watchButtonManager.resetWatchMenu(watchButton, tweetButton, "watch");
+        //watchButtonManager.setWatchButton(watchButton, tweetButton);
+    }
+
+    public WatchMenuManager getWatchMenuManager() {
+        return watchMenuManager;
     }
 
 }

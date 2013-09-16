@@ -76,6 +76,21 @@
             />
 
     </RelativeLayout>
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/ticket_tweet_button"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ticket_detail_layout"
+        android:layout_alignBottom="@+id/ticket_detail_layout"
+        android:background="@drawable/tweet_button"
+        android:clickable="true"
+        android:src="@drawable/twitter_button"
+        android:baselineAlignBottom="false"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp" />
+
     <TextView
         android:layout_width="55dp"
         android:layout_height="wrap_content"
@@ -84,9 +99,10 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:clickable="false"
-        android:background="@drawable/watch_button"
+        android:background="@drawable/trans_watch_to_confirm"
         android:textColor="#FFFFFF"
         android:gravity="center|center_vertical"
         android:layout_alignBottom="@+id/ticket_detail_layout"
         />
+
 </RelativeLayout>
