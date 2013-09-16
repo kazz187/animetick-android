@@ -59,4 +59,9 @@ public class WatchConfirmButton extends AbstractButton {
     public void hide() {
 
     }
+
+    @Override
+    public void init() {
+
+    }
 }

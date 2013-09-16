@@ -60,4 +60,9 @@ public class UnwatchConfirmButton extends AbstractButton {
 
     }
 
+    @Override
+    public void init() {
+
+    }
+
 }

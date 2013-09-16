@@ -16,11 +16,14 @@ public class UnwatchMenuComponent extends AbstractMenuComponent {
     ImageView tweetButton;
     WatchMenuManager manager;
 
-    public UnwatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton, WatchMenuManager manager) {
+    public UnwatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton, WatchMenuManager manager, boolean isInit) {
         this.ticket = ticket;
         this.watchButton = new UnwatchButton(watchButton, this);
         this.tweetButton = tweetButton;
         this.manager = manager;
+        if (isInit) {
+            this.watchButton.init();
+        }
     }
 
     @Override

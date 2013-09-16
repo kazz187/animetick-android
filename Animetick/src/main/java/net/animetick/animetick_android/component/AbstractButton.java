@@ -26,4 +26,6 @@ public abstract class AbstractButton {
     public View getView() {
         return button;
     }
+
+    public abstract void init();
 }

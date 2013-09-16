@@ -55,4 +55,9 @@ public class TweetButton extends AbstractButton {
             transX.reverse();
         }
     }
+
+    @Override
+    public void init() {
+        
+    }
 }

@@ -16,11 +16,14 @@ public class WatchMenuComponent extends AbstractMenuComponent {
     TweetButton tweetButton;
     WatchMenuManager manager;
 
-    public WatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton, WatchMenuManager manager) {
+    public WatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton, WatchMenuManager manager, boolean isInit) {
         this.ticket = ticket;
         this.watchButton = new WatchButton(watchButton, this);
         this.tweetButton = new TweetButton(tweetButton, this);
         this.manager = manager;
+        if (isInit) {
+            this.watchButton.init();
+        }
     }
 
     @Override

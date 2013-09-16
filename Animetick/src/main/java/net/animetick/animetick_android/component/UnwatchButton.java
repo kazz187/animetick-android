@@ -24,7 +24,6 @@ public class UnwatchButton extends AbstractButton {
     @Override
     protected void setup() {
         watchButton.setText("Watched");
-//        watchButton.setBackgroundResource(R.drawable.trans_unwatch_to_confirm);
         watchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,5 +54,10 @@ public class UnwatchButton extends AbstractButton {
     @Override
     public void hide() {
 
+    }
+
+    @Override
+    public void init() {
+        watchButton.setBackgroundResource(R.drawable.trans_unwatch_to_confirm);
     }
 }

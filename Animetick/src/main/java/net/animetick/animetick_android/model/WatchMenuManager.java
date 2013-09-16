@@ -16,9 +16,9 @@ public class WatchMenuManager {
 
     public void initWatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton) {
         if (ticket.isWatched()) {
-            new UnwatchMenuComponent(ticket, watchButton, tweetButton, this);
+            new UnwatchMenuComponent(ticket, watchButton, tweetButton, this, true);
         } else {
-            new WatchMenuComponent(ticket, watchButton, tweetButton, this);
+            new WatchMenuComponent(ticket, watchButton, tweetButton, this, true);
         }
     }
 
@@ -32,7 +32,7 @@ public class WatchMenuManager {
         ticket.setWatched(true);
         TextView watchButton = watchMenuComponent.getWatchButton();
         ImageView tweetButton = watchMenuComponent.getTweetButton();
-        this.component = new UnwatchMenuComponent(ticket, watchButton, tweetButton, this);
+        this.component = new UnwatchMenuComponent(ticket, watchButton, tweetButton, this, false);
     }
 
     public void unwatch(AbstractMenuComponent component) {
@@ -41,7 +41,7 @@ public class WatchMenuManager {
         ticket.setWatched(false);
         TextView watchButton = unwatchMenuComponent.getWatchButton();
         ImageView tweetButton = unwatchMenuComponent.getTweetButton();
-        this.component = new WatchMenuComponent(ticket, watchButton, tweetButton, this);
+        this.component = new WatchMenuComponent(ticket, watchButton, tweetButton, this, false);
     }
 
     public void cancel() {
