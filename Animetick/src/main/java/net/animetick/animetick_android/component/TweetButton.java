@@ -58,6 +58,6 @@ public class TweetButton extends AbstractButton {
 
     @Override
     public void init() {
-        
+
     }
 }

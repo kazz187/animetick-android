@@ -1,7 +1,5 @@
 package net.animetick.animetick_android.activity;
 
-import java.util.Locale;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +15,8 @@ import android.widget.TextView;
 import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.fragment.TicketListFragment;
 import net.animetick.animetick_android.model.Authentication;
+
+import java.util.Locale;
 
 public class MainActivity extends FragmentActivity {
 
@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-    
+
     /**
      * A {@link android.support.v4.app.FragmentPagerAdapter} that returns a fragment corresponding to
      * one of the sections/tabs/pages.

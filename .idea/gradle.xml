@@ -10,7 +10,7 @@
       </GradleProjectSettings>
       <GradleProjectSettings>
         <option name="distributionType" value="WRAPPED" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$/Animetick/library" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/Animetick" />
         <option name="gradleHome" value="$USER_HOME$/.gradle" />
         <option name="useAutoImport" value="true" />
       </GradleProjectSettings>
