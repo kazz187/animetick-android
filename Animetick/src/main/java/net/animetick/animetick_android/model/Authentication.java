@@ -51,4 +51,18 @@ public class Authentication {
         editor.commit();
     }
 
+    public void removeSessionId() {
+        SharedPreferences.Editor editor = preferences.edit();
+        sessionId = null;
+        editor.remove(KEY_SESSION_ID);
+        editor.commit();
+    }
+
+    public void removeCsrfToken() {
+        SharedPreferences.Editor editor = preferences.edit();
+        csrfToken = null;
+        editor.remove(KEY_CSRF_TOKEN);
+        editor.commit();
+    }
+
 }

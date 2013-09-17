@@ -1,5 +1,6 @@
 package net.animetick.animetick_android.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -62,6 +64,36 @@ public class MainActivity extends FragmentActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean res;
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                res = true;
+                break;
+            case R.id.action_sign_out:
+                res = true;
+                signOut();
+                break;
+            default:
+                res = super.onOptionsItemSelected(item);
+                break;
+        }
+        return res;
+    }
+
+    private void signOut() {
+        this.authentication.removeSessionId();
+        this.authentication.removeCsrfToken();
+        moveToAuthenticationActivity();
+        finish();
+    }
+
+    private void moveToAuthenticationActivity() {
+        Intent intent = new Intent(this, AuthenticationActivity.class);
+        startActivity(intent);
     }
 
     /**
