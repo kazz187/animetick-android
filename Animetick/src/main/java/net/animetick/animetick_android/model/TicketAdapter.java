@@ -28,7 +28,7 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
         super(context, R.layout.ticket_list);
         ticketInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         this.authentication = new Authentication(context);
-        this.watchMenuManager = new WatchMenuManager();
+        this.watchMenuManager = new WatchMenuManager(authentication);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
         if (convertView == null) {
             convertView = ticketInflater.inflate(R.layout.ticket, null);
             if (convertView == null) {
-                return convertView;
+                return null;
             }
         }
         Ticket ticket = getItem(position);
@@ -105,8 +105,6 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
         final ImageView tweetButton = (ImageView) convertView.findViewById(R.id.ticket_tweet_button);
         watchButton.setHeight(0);
         watchMenuManager.initWatchMenuComponent(ticket, watchButton, tweetButton);
-        //watchButtonManager.resetWatchMenu(watchButton, tweetButton, "watch");
-        //watchButtonManager.setWatchButton(watchButton, tweetButton);
     }
 
     public WatchMenuManager getWatchMenuManager() {

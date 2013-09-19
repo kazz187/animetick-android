@@ -47,7 +47,7 @@ public class Authentication {
     public void saveCsrfToken(String csrfToken) {
         this.csrfToken = csrfToken;
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(KEY_CSRF_TOKEN, sessionId);
+        editor.putString(KEY_CSRF_TOKEN, csrfToken);
         editor.commit();
     }
 

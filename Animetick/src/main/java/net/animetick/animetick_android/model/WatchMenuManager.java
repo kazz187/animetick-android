@@ -1,18 +1,36 @@
 package net.animetick.animetick_android.model;
 
+import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.animetick.animetick_android.component.AbstractMenuComponent;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import net.animetick.animetick_android.component.TicketMenuComponent;
 import net.animetick.animetick_android.component.UnwatchMenuComponent;
 import net.animetick.animetick_android.component.WatchMenuComponent;
+import net.animetick.animetick_android.config.Config;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by kazz on 2013/09/16.
  */
 public class WatchMenuManager {
 
-    AbstractMenuComponent component;
+    private final Authentication authentication;
+    private TicketMenuComponent component;
+    private static JsonFactory jsonFactory = new JsonFactory();
+
+    public WatchMenuManager(Authentication authentication) {
+        this.authentication = authentication;
+    }
 
     public void initWatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton) {
         if (ticket.isWatched()) {
@@ -22,27 +40,85 @@ public class WatchMenuManager {
         }
     }
 
-    public void setComponent(AbstractMenuComponent component) {
+    public void setComponent(TicketMenuComponent component) {
         this.component = component;
     }
 
-    public void watch(AbstractMenuComponent component) {
-        WatchMenuComponent watchMenuComponent = (WatchMenuComponent) component;
-        Ticket ticket = watchMenuComponent.getTicket();
-        ticket.setWatched(true);
-        TextView watchButton = watchMenuComponent.getWatchButton();
-        ImageView tweetButton = watchMenuComponent.getTweetButton();
-        this.component = new UnwatchMenuComponent(ticket, watchButton, tweetButton, this, false);
+    public void watch(TicketMenuComponent component, boolean tweet) {
+        WatchAsyncTask task = new WatchAsyncTask(component, "watch", this, tweet);
+        task.execute();
     }
 
-    public void unwatch(AbstractMenuComponent component) {
-        UnwatchMenuComponent unwatchMenuComponent = (UnwatchMenuComponent) component;
-        Ticket ticket = unwatchMenuComponent.getTicket();
-        ticket.setWatched(false);
-        TextView watchButton = unwatchMenuComponent.getWatchButton();
-        ImageView tweetButton = unwatchMenuComponent.getTweetButton();
-        this.component = new WatchMenuComponent(ticket, watchButton, tweetButton, this, false);
+    public void unwatch(TicketMenuComponent component) {
+        WatchAsyncTask task = new WatchAsyncTask(component, "unwatch", this);
+        task.execute();
     }
+
+    class WatchAsyncTask extends AsyncTask<Void, Void, Boolean> {
+
+        TicketMenuComponent menuComponent;
+        Ticket ticket;
+        String action;
+        WatchMenuManager manager;
+        boolean tweet = false;
+
+        public WatchAsyncTask(TicketMenuComponent menuComponent, String action, WatchMenuManager manager, boolean tweet) {
+            this(menuComponent, action, manager);
+            this.tweet = tweet;
+        }
+
+        public WatchAsyncTask(TicketMenuComponent menuComponent, String action, WatchMenuManager manager) {
+            super();
+            this.menuComponent = menuComponent;
+            this.ticket = menuComponent.getTicket();
+            this.action = action;
+            this.manager = manager;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            Networking networking = new Networking(authentication);
+            int titleId = ticket.getTitleId();
+            int count = ticket.getCount();
+            String path = "/ticket/" + titleId + "/" + count + "/" + action + ".json";
+            Map<String, String> rawParams = new HashMap<String, String>();
+            if (tweet) {
+                rawParams.put("twitter", "true");
+            }
+            try {
+                InputStream is = networking.post(path, rawParams);
+                ObjectMapper mapper = new ObjectMapper(jsonFactory);
+                JsonNode rootNode = mapper.readTree(is);
+                if (!rootNode.has("success")) {
+                    Log.e(Config.LOG_LABEL, "Failed to post " + action + ".");
+                    throw new IOException("Failed to post " + action + ".");
+                }
+                return rootNode.get("success").booleanValue();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return false;
+        }
+
+        @Override
+        protected void onPostExecute(Boolean isSuccess) {
+            super.onPostExecute(isSuccess);
+            if (!isSuccess) {
+                component.cancel();
+                return;
+            }
+            TextView watchButton = component.getWatchButton();
+            ImageView tweetButton = component.getTweetButton();
+            if ("watch".equals(action)) {
+                ticket.setWatched(true);
+                component = new UnwatchMenuComponent(ticket, watchButton, tweetButton, manager, false);
+            } else if ("unwatch".equals(action)) {
+                ticket.setWatched(false);
+                component = new WatchMenuComponent(ticket, watchButton, tweetButton, manager, false);
+            }
+        }
+    }
+
 
     public void cancel() {
         if (component != null) {

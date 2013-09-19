@@ -9,15 +9,14 @@ import net.animetick.animetick_android.model.WatchMenuManager;
 /**
  * Created by kazz on 2013/09/17.
  */
-public class UnwatchMenuComponent extends AbstractMenuComponent {
+public class UnwatchMenuComponent extends TicketMenuComponent {
 
-    Ticket ticket;
-    AbstractButton watchButton;
-    ImageView tweetButton;
-    WatchMenuManager manager;
+    protected AbstractButton watchButton;
+    protected ImageView tweetButton;
+    protected WatchMenuManager manager;
 
     public UnwatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton, WatchMenuManager manager, boolean isInit) {
-        this.ticket = ticket;
+        super(ticket);
         this.watchButton = new UnwatchButton(watchButton, this);
         this.tweetButton = tweetButton;
         this.manager = manager;
@@ -53,10 +52,6 @@ public class UnwatchMenuComponent extends AbstractMenuComponent {
     public void unwatch() {
         watchButton.press();
         manager.unwatch(this);
-    }
-
-    public Ticket getTicket() {
-        return ticket;
     }
 
     public TextView getWatchButton() {
