@@ -10,6 +10,8 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.webkit.CookieManager;
+import android.webkit.CookieSyncManager;
 import android.webkit.HttpAuthHandler;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -37,6 +39,10 @@ public class AuthenticationActivity extends FragmentActivity {
         setContentView(R.layout.sign_in);
         Button signInButton = (Button) findViewById(R.id.sign_in_button);
         final AuthenticationActivity activity = this;
+        CookieSyncManager.createInstance(this);
+        CookieSyncManager.getInstance().startSync();
+        CookieManager.getInstance().setAcceptCookie(true);
+        CookieManager.getInstance().removeSessionCookie();
         signInButton.setOnClickListener(new OnClickListener() {
             @SuppressLint("SetJavaScriptEnabled")
             @Override
@@ -55,6 +61,7 @@ public class AuthenticationActivity extends FragmentActivity {
                         authentication.saveSessionId(sessionId);
                         Log.i("AnimetickLog", "session_id: " + sessionId);
                     }
+
                     @JavascriptInterface
                     public void saveCsrfToken(String csrfToken) {
                         authentication.saveCsrfToken(csrfToken);
@@ -70,6 +77,7 @@ public class AuthenticationActivity extends FragmentActivity {
                             handler.proceed(Config.ANIMETICK_USER, Config.ANIMETICK_PASS);
                         }
                     }
+
                     @Override
                     public boolean shouldOverrideUrlLoading(WebView view, String url) {
                         if (url.equals("animetick://login_session")) {

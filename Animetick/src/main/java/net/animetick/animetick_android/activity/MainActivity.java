@@ -1,6 +1,7 @@
 package net.animetick.animetick_android.activity;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,7 +18,9 @@ import android.widget.TextView;
 import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.fragment.TicketListFragment;
 import net.animetick.animetick_android.model.Authentication;
+import net.animetick.animetick_android.model.Networking;
 
+import java.io.IOException;
 import java.util.Locale;
 
 public class MainActivity extends FragmentActivity {
@@ -85,10 +88,32 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void signOut() {
-        this.authentication.removeSessionId();
-        this.authentication.removeCsrfToken();
-        moveToAuthenticationActivity();
-        finish();
+        final Networking networking = new Networking(authentication);
+        AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                String path = "/sign_out";
+                try {
+                    networking.get(path);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return false;
+                }
+                return true;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean isSucceeded) {
+                super.onPostExecute(isSucceeded);
+                if (isSucceeded) {
+                    authentication.removeSessionId();
+                    authentication.removeCsrfToken();
+                    moveToAuthenticationActivity();
+                    finish();
+                }
+            }
+        };
+        task.execute();
     }
 
     private void moveToAuthenticationActivity() {

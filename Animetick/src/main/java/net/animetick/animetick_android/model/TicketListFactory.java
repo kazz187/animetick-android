@@ -20,11 +20,11 @@ public class TicketListFactory {
 
     private static JsonFactory jsonFactory = new JsonFactory();
 
-    public ArrayList<Ticket> createTicketList(InputStream is) throws IOException {
+    public TicketResult createTicketList(InputStream is) throws IOException {
         ArrayList<Ticket> ticketList = new ArrayList<Ticket>();
         ObjectMapper mapper = new ObjectMapper(jsonFactory);
         JsonNode rootNode = mapper.readTree(is);
-        if (!rootNode.has("list")) {
+        if (!rootNode.has("list") || !rootNode.has("last_flag")) {
             Log.e(Config.LOG_LABEL, "Failed to get valid ticket list from Animetick server.");
             throw new IOException("Failed to get valid ticket list from Animetick server.");
         }
@@ -40,7 +40,12 @@ public class TicketListFactory {
                 e.printStackTrace();
             }
         }
-        return ticketList;
+        boolean isLast = rootNode.get("last_flag").asBoolean();
+        TicketResult ticketResult = new TicketResult();
+        ticketResult.setTicketList(ticketList);
+
+        ticketResult.setIsLast(isLast);
+        return ticketResult;
     }
 
 }
