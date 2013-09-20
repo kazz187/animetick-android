@@ -3,8 +3,9 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical" >
-    <library.PullToRefreshListView
+    <com.handmark.pulltorefresh.library.PullToRefreshListView
             android:id="@+id/pull_refresh_list"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"/>
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+        android:layout_gravity="center" />
 </LinearLayout>

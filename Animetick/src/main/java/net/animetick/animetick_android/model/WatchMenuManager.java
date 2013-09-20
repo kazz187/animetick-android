@@ -44,6 +44,10 @@ public class WatchMenuManager {
         this.component = component;
     }
 
+    public TicketMenuComponent getComponent() {
+        return this.component;
+    }
+
     public void watch(TicketMenuComponent component, boolean tweet) {
         WatchAsyncTask task = new WatchAsyncTask(component, "watch", this, tweet);
         task.execute();
@@ -118,7 +122,6 @@ public class WatchMenuManager {
             }
         }
     }
-
 
     public void cancel() {
         if (component != null) {

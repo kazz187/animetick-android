@@ -12,5 +12,6 @@
     <string name="title_activity_authentication">Animetick</string>
     <string name="hello_world">Hello world!</string>
     <string name="sign_out">Sign out</string>
+    <string name="title_activity_anime">Anime</string>
 
 </resources>

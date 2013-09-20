@@ -1,22 +1,24 @@
 package net.animetick.animetick_android.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import net.animetick.animetick_android.R;
-import net.animetick.animetick_android.config.Config;
+import net.animetick.animetick_android.activity.AnimeEpisodeActivity;
 import net.animetick.animetick_android.model.Authentication;
+import net.animetick.animetick_android.model.Ticket;
 import net.animetick.animetick_android.model.TicketAdapter;
 import net.animetick.animetick_android.model.TicketManager;
 
@@ -69,27 +71,51 @@ public class TicketListFragment extends Fragment {
                 task.execute();
             }
         });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (ticketAdapter.getWatchMenuManager().getComponent() != null) {
+                    ticketAdapter.getWatchMenuManager().cancel();
+                    return;
+                }
+                Ticket ticket = ticketAdapter.getItem(position - 1);
+                moveToAnimeEpisodeActivity();
+            }
+        });
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
-
+                switch (scrollState) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                        ticketAdapter.getWatchMenuManager().cancel();
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                        ticketAdapter.getWatchMenuManager().cancel();
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                        break;
+                    default:
+                        break;
+                }
             }
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                // TODO: ticketAdapter.getWatchButtonManager().resetWatchMenu("watch");
-                ticketAdapter.getWatchMenuManager().cancel();
                 if (totalItemCount == firstVisibleItem + visibleItemCount) {
                     ticketManager.loadTickets(false);
-                    Log.e(Config.LOG_LABEL, "End!!");
                 }
             }
-
         });
         listView.setAdapter(ticketAdapter);
         return listView;
     }
+
+    private void moveToAnimeEpisodeActivity() {
+        Intent intent = new Intent(this.getActivity(), AnimeEpisodeActivity.class);
+        startActivity(intent);
+        this.getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.abc_fade_out);
+    }
+
 
     private View getFooterLayout() {
         if (footer == null) {
