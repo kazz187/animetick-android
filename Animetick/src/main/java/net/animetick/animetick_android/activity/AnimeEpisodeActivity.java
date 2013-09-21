@@ -9,15 +9,9 @@ import net.animetick.animetick_android.R;
 public class AnimeEpisodeActivity extends Activity {
 
     @Override
-    protected void onPause() {
-        overridePendingTransition(R.anim.abc_fade_in, R.anim.slide_out_right);
-        super.onPause();
-    }
-
-    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.anime_activity);
+        setContentView(R.layout.ticket_list);
     }
 
 
@@ -27,5 +21,11 @@ public class AnimeEpisodeActivity extends Activity {
         getMenuInflater().inflate(R.menu.anime, menu);
         return true;
     }
-    
+
+    @Override
+    protected void onPause() {
+        overridePendingTransition(R.anim.fade_in, R.anim.slide_out_right);
+        super.onPause();
+    }
+
 }

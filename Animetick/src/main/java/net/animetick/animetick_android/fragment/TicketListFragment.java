@@ -113,7 +113,7 @@ public class TicketListFragment extends Fragment {
     private void moveToAnimeEpisodeActivity() {
         Intent intent = new Intent(this.getActivity(), AnimeEpisodeActivity.class);
         startActivity(intent);
-        this.getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.abc_fade_out);
+        this.getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
     }
 
 
