@@ -18,9 +18,9 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.activity.AnimeEpisodeActivity;
 import net.animetick.animetick_android.model.Authentication;
-import net.animetick.animetick_android.model.Ticket;
-import net.animetick.animetick_android.model.TicketAdapter;
-import net.animetick.animetick_android.model.TicketManager;
+import net.animetick.animetick_android.model.ticket.Ticket;
+import net.animetick.animetick_android.model.ticket.TicketAdapter;
+import net.animetick.animetick_android.model.ticket.TicketManager;
 
 /**
  * Created by kazz on 2013/08/10.
@@ -79,7 +79,7 @@ public class TicketListFragment extends Fragment {
                     return;
                 }
                 Ticket ticket = ticketAdapter.getItem(position - 1);
-                moveToAnimeEpisodeActivity();
+                moveToAnimeEpisodeActivity(ticket);
             }
         });
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -110,8 +110,9 @@ public class TicketListFragment extends Fragment {
         return listView;
     }
 
-    private void moveToAnimeEpisodeActivity() {
+    private void moveToAnimeEpisodeActivity(Ticket ticket) {
         Intent intent = new Intent(this.getActivity(), AnimeEpisodeActivity.class);
+        intent.putExtra("title_id", ticket.getTitleId());
         startActivity(intent);
         this.getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
     }

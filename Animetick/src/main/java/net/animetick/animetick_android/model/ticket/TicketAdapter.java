@@ -1,4 +1,4 @@
-package net.animetick.animetick_android.model;
+package net.animetick.animetick_android.model.ticket;
 
 import android.app.Activity;
 import android.content.Context;
@@ -10,6 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.animetick.animetick_android.R;
+import net.animetick.animetick_android.model.Authentication;
+import net.animetick.animetick_android.model.IconManager;
+import net.animetick.animetick_android.model.Networking;
+import net.animetick.animetick_android.model.WatchMenuManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package net.animetick.animetick_android.component;
+package net.animetick.animetick_android.component.ticket;
 
 import android.graphics.drawable.TransitionDrawable;
 import android.view.View;

@@ -1,9 +1,11 @@
-package net.animetick.animetick_android.model;
+package net.animetick.animetick_android.model.ticket;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
 import net.animetick.animetick_android.config.Config;
+import net.animetick.animetick_android.model.Authentication;
+import net.animetick.animetick_android.model.Networking;
 
 import java.io.IOException;
 import java.io.InputStream;

@@ -1,4 +1,4 @@
-package net.animetick.animetick_android.model;
+package net.animetick.animetick_android.model.ticket;
 
 import java.text.DateFormat;
 import java.text.ParseException;

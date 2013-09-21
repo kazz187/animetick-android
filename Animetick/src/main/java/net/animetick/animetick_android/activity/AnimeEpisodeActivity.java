@@ -12,8 +12,8 @@ public class AnimeEpisodeActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ticket_list);
+        int titleId = getIntent().getIntExtra("title_id", 0);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

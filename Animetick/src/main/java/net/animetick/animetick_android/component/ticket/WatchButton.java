@@ -1,11 +1,11 @@
-package net.animetick.animetick_android.component;
+package net.animetick.animetick_android.component.ticket;
 
 import android.graphics.drawable.TransitionDrawable;
 import android.view.View;
 import android.widget.TextView;
 
 import net.animetick.animetick_android.R;
-import net.animetick.animetick_android.model.Ticket;
+import net.animetick.animetick_android.model.ticket.Ticket;
 
 /**
  * Created by kazz on 2013/09/16.

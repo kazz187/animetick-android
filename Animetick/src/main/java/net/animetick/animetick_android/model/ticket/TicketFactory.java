@@ -1,4 +1,4 @@
-package net.animetick.animetick_android.model;
+package net.animetick.animetick_android.model.ticket;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

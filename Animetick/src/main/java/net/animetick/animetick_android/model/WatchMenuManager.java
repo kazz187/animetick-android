@@ -9,10 +9,11 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.animetick.animetick_android.component.TicketMenuComponent;
-import net.animetick.animetick_android.component.UnwatchMenuComponent;
-import net.animetick.animetick_android.component.WatchMenuComponent;
+import net.animetick.animetick_android.component.ticket.TicketMenuComponent;
+import net.animetick.animetick_android.component.ticket.UnwatchMenuComponent;
+import net.animetick.animetick_android.component.ticket.WatchMenuComponent;
 import net.animetick.animetick_android.config.Config;
+import net.animetick.animetick_android.model.ticket.Ticket;
 
 import java.io.IOException;
 import java.io.InputStream;

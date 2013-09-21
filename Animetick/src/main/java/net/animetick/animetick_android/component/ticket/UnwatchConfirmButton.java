@@ -1,4 +1,4 @@
-package net.animetick.animetick_android.component;
+package net.animetick.animetick_android.component.ticket;
 
 import android.graphics.drawable.TransitionDrawable;
 import android.view.View;
@@ -9,32 +9,32 @@ import net.animetick.animetick_android.R;
 /**
  * Created by kazz on 2013/09/17.
  */
-public class UnwatchButton extends AbstractButton {
+public class UnwatchConfirmButton extends AbstractButton {
 
     TextView watchButton;
     UnwatchMenuComponent component;
 
-    public UnwatchButton(TextView watchButton, UnwatchMenuComponent unwatchMenuComponent) {
+    public UnwatchConfirmButton(TextView watchButton, UnwatchMenuComponent component) {
         super(watchButton);
         this.watchButton = watchButton;
-        this.component = unwatchMenuComponent;
+        this.component = component;
         setup();
     }
 
     @Override
     protected void setup() {
-        watchButton.setText("Watched");
+        watchButton.setText("Unwatch?");
         watchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                component.unwatchConfirm();
+                component.unwatch();
             }
         });
     }
 
     @Override
     public void press() {
-        watchButton.setBackgroundResource(R.drawable.trans_unwatch_to_confirm);
+        watchButton.setBackgroundResource(R.drawable.trans_confirm_to_watch);
         TransitionDrawable drawable = (TransitionDrawable) watchButton.getBackground();
         if (drawable != null) {
             drawable.startTransition(300);
@@ -43,7 +43,11 @@ public class UnwatchButton extends AbstractButton {
 
     @Override
     public void cancel() {
-
+        watchButton.setBackgroundResource(R.drawable.trans_confirm_to_unwatch);
+        TransitionDrawable drawable = (TransitionDrawable) watchButton.getBackground();
+        if (drawable != null) {
+            drawable.startTransition(300);
+        }
     }
 
     @Override
@@ -58,6 +62,7 @@ public class UnwatchButton extends AbstractButton {
 
     @Override
     public void init() {
-        watchButton.setBackgroundResource(R.drawable.trans_unwatch_to_confirm);
+
     }
+
 }
