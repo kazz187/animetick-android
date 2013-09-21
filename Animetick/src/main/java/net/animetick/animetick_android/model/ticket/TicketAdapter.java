@@ -2,6 +2,7 @@ package net.animetick.animetick_android.model.ticket;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.animetick.animetick_android.R;
+import net.animetick.animetick_android.config.Config;
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.IconManager;
 import net.animetick.animetick_android.model.Networking;
@@ -99,6 +101,7 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
 
     private void setIcon(View convertView, Ticket ticket) {
         ImageView icon = (ImageView) convertView.findViewById(R.id.ticket_icon);
+        Log.e(Config.LOG_LABEL, convertView.toString() + ":" + ticket.getTitleId());
         icon.setImageDrawable(null);
         Networking networking = new Networking(authentication);
         IconManager.applyIcon(ticket.getIconPath(), networking, icon);

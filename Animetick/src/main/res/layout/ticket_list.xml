@@ -3,9 +3,11 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical" >
-    <com.handmark.pulltorefresh.library.PullToRefreshListView
-            android:id="@+id/pull_refresh_list"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-        android:layout_gravity="center" />
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/ticket_list"
+        android:layout_gravity="left|center_vertical"
+        android:headerDividersEnabled="false" />
 </LinearLayout>

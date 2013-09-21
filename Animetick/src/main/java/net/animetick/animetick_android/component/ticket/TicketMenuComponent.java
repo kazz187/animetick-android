@@ -27,5 +27,7 @@ public abstract class TicketMenuComponent {
     }
 
     public abstract TextView getWatchButton();
+
     public abstract ImageView getTweetButton();
+
 }

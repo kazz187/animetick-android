@@ -23,6 +23,8 @@ import net.animetick.animetick_android.model.Networking;
 import java.io.IOException;
 import java.util.Locale;
 
+import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
+
 public class MainActivity extends FragmentActivity {
 
     /**
@@ -41,12 +43,15 @@ public class MainActivity extends FragmentActivity {
     ViewPager mViewPager;
 
     private Authentication authentication;
+    private PullToRefreshAttacher pullToRefreshAttacher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         authentication = new Authentication(this);
         setContentView(R.layout.main);
+
+        pullToRefreshAttacher = PullToRefreshAttacher.get(this);
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the app.
@@ -55,6 +60,7 @@ public class MainActivity extends FragmentActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
     }
 
     @Override
@@ -194,6 +200,10 @@ public class MainActivity extends FragmentActivity {
             dummyTextView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
+    }
+
+    public PullToRefreshAttacher getPullToRefreshAttacher() {
+        return this.pullToRefreshAttacher;
     }
 
 }

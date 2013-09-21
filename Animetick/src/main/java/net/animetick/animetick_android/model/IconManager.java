@@ -19,10 +19,12 @@ public class IconManager {
 
     private HashMap<String, Drawable> iconHash = new HashMap<String, Drawable>();
     private ConcurrentHashMap<String, List<ImageView>> iconViewHash = new ConcurrentHashMap<String, List<ImageView>>();
+    private ConcurrentHashMap<ImageView, String> iconPathHash = new ConcurrentHashMap<ImageView, String>();
     private CopyOnWriteArraySet<String> availableIconSet = new CopyOnWriteArraySet<String>();
     private static IconManager instance = new IconManager();
 
     public static void applyIcon(final String path, final Networking networking, ImageView iconView) {
+        instance.iconPathHash.put(iconView, path);
         List<ImageView> taskList = instance.iconViewHash.get(path);
         if (taskList == null) {
             CopyOnWriteArrayList<ImageView> newTaskList = new CopyOnWriteArrayList<ImageView>();
@@ -40,13 +42,13 @@ public class IconManager {
             }
             taskList.remove(iconView);
             iconView.setImageDrawable(drawable);
+            instance.iconPathHash.remove(iconView);
         } else {
             AsyncTask<Void, Void, Drawable> iconRequest = new AsyncTask<Void, Void, Drawable>() {
                 @Override
                 protected Drawable doInBackground(Void... voids) {
                     try {
-                        Drawable drawable = Drawable.createFromStream(networking.get(path), path);
-                        return drawable;
+                        return Drawable.createFromStream(networking.get(path), path);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -59,7 +61,11 @@ public class IconManager {
                     List<ImageView> iconViewList = instance.iconViewHash.get(path);
                     List<ImageView> drawnViewList = new ArrayList<ImageView>();
                     for (ImageView iconView : iconViewList) {
-                        iconView.setImageDrawable(drawable);
+                        String expectPath = instance.iconPathHash.get(iconView);
+                        if (expectPath != null && expectPath.equals(path)) {
+                            iconView.setImageDrawable(drawable);
+                            instance.iconPathHash.remove(iconView);
+                        }
                         drawnViewList.add(iconView);
                     }
                     iconViewList.removeAll(drawnViewList);

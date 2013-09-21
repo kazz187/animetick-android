@@ -6,6 +6,7 @@ buildscript {
         classpath 'com.android.tools.build:gradle:0.5.+'
         classpath group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.2.3'
         classpath group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.2.3'
+        classpath 'com.github.chrisbanes.actionbarpulltorefresh:library:0.7.+'
     }
 }
 apply plugin: 'android'
@@ -20,7 +21,7 @@ android {
 
     defaultConfig {
         minSdkVersion 15
-        targetSdkVersion 15
+        targetSdkVersion 18
     }
 }
 
@@ -28,5 +29,6 @@ dependencies {
     compile 'com.android.support:appcompat-v7:18.0.0'
     compile 'com.fasterxml.jackson.core:jackson-core:2.2.2'
     compile 'com.fasterxml.jackson.core:jackson-databind:2.2.2'
+    compile 'com.github.chrisbanes.actionbarpulltorefresh:library:0.7.+'
     compile project(":library:PullToRefresh")
 }

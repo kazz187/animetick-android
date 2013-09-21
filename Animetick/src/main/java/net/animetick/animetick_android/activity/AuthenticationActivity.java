@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.AndroidRuntimeException;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -40,15 +41,25 @@ public class AuthenticationActivity extends FragmentActivity {
         Button signInButton = (Button) findViewById(R.id.sign_in_button);
         final AuthenticationActivity activity = this;
         CookieSyncManager.createInstance(this);
-        CookieSyncManager.getInstance().startSync();
+        CookieSyncManager cookieSyncManager = CookieSyncManager.getInstance();
+        if (cookieSyncManager != null) {
+            cookieSyncManager.startSync();
+        }
         CookieManager.getInstance().setAcceptCookie(true);
         CookieManager.getInstance().removeSessionCookie();
         signInButton.setOnClickListener(new OnClickListener() {
+            final Dialog dialog = new Dialog(activity);
+
             @SuppressLint("SetJavaScriptEnabled")
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(activity);
-                dialog.requestWindowFeature(Window.FEATURE_LEFT_ICON);
+                if (dialog.isShowing()) {
+                    return;
+                }
+                try {
+                    dialog.requestWindowFeature(Window.FEATURE_LEFT_ICON);
+                } catch (AndroidRuntimeException ignored) {
+                }
                 dialog.setContentView(R.layout.sign_in_web);
                 dialog.setTitle("Sign in with Twitter");
                 dialog.setCancelable(true);
@@ -84,6 +95,11 @@ public class AuthenticationActivity extends FragmentActivity {
                             view.loadUrl("javascript:animetickObj.saveSessionId(animetick.app.getSessionForNativeApp())");
                             view.loadUrl("javascript:animetickObj.saveCsrfToken(animetick.app.getCSRFTokenForNativeApp())");
                             dialog.cancel();
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
                             Intent mainIntent = new Intent(activity, MainActivity.class);
                             startActivity(mainIntent);
                             activity.finish();
