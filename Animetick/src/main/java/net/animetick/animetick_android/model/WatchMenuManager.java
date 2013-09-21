@@ -122,6 +122,7 @@ public class WatchMenuManager {
                 component = new WatchMenuComponent(ticket, watchButton, tweetButton, manager, false);
             }
         }
+
     }
 
     public void cancel() {
@@ -129,4 +130,5 @@ public class WatchMenuManager {
             component.cancel();
         }
     }
+
 }
