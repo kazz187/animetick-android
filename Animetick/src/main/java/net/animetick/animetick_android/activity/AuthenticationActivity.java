@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AndroidRuntimeException;
-import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -70,13 +69,11 @@ public class AuthenticationActivity extends FragmentActivity {
                     @JavascriptInterface
                     public void saveSessionId(String sessionId) {
                         authentication.saveSessionId(sessionId);
-                        Log.i("AnimetickLog", "session_id: " + sessionId);
                     }
 
                     @JavascriptInterface
                     public void saveCsrfToken(String csrfToken) {
                         authentication.saveCsrfToken(csrfToken);
-                        Log.i("AnimetickLog", "csrf_token: " + csrfToken);
                     }
                 }
                 webView.addJavascriptInterface(new JsObject(), "animetickObj");

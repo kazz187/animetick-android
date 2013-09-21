@@ -2,6 +2,8 @@ package net.animetick.animetick_android.model.ticket;
 
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ListView;
 
 import net.animetick.animetick_android.config.Config;
 import net.animetick.animetick_android.model.Authentication;
@@ -31,7 +33,7 @@ public class TicketManager {
         this.adapter = adapter;
     }
 
-    public void loadTickets(boolean reset) {
+    public void loadTickets(boolean reset, final ListView listView, final View footerView, final Runnable postTask) {
         if (running.getAndSet(true)) {
             return;
         }
@@ -44,7 +46,11 @@ public class TicketManager {
             running.set(false);
             return;
         }
-        AsyncTask<Void, Void, List<Ticket>> task = new AsyncTask<Void, Void, List<Ticket>>() {
+        if (listView.getFooterViewsCount() < 1) {
+            listView.addFooterView(footerView);
+        }
+        final AsyncTask<Void, Void, List<Ticket>> task = new AsyncTask<Void, Void, List<Ticket>>() {
+
             @Override
             protected List<Ticket> doInBackground(Void... params) {
                 Networking networking = new Networking(authentication);
@@ -85,7 +91,14 @@ public class TicketManager {
                     adapter.addAll(result);
                 }
                 running.set(false);
+                if (isLast) {
+                    listView.removeFooterView(footerView);
+                }
+                if (postTask != null) {
+                    postTask.run();
+                }
             }
+
         };
         task.execute();
     }

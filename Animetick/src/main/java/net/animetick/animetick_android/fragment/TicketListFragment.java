@@ -2,10 +2,8 @@ package net.animetick.animetick_android.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import android.widget.ListView;
 import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.activity.AnimeEpisodeActivity;
 import net.animetick.animetick_android.activity.MainActivity;
-import net.animetick.animetick_android.config.Config;
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.ticket.Ticket;
 import net.animetick.animetick_android.model.ticket.TicketAdapter;
@@ -45,41 +42,32 @@ public class TicketListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (listView == null) {
-            ticketManager.loadTickets(true);
-        }
+        boolean isLoad = listView == null;
         View view = inflater.inflate(R.layout.ticket_list, null);
         if (view == null) {
             return null;
         }
         listView = (ListView) view.findViewById(R.id.ticket_list);
         listView.addFooterView(getFooterLayout());
+        if (isLoad) {
+            ticketManager.loadTickets(true, listView, getFooterLayout(), null);
+        }
         MainActivity activity = (MainActivity) getActivity();
         final PullToRefreshAttacher attacher = activity.getPullToRefreshAttacher();
         attacher.addRefreshableView(listView, new PullToRefreshAttacher.OnRefreshListener() {
             @Override
             public void onRefreshStarted(View view) {
-                AsyncTask<Void, Void, Void> task = new AsyncTask<Void, Void, Void>() {
-
+                ticketManager.loadTickets(true, listView, getFooterLayout(), new Runnable() {
                     @Override
-                    protected Void doInBackground(Void... params) {
-                        ticketManager.loadTickets(true);
+                    public void run() {
                         try {
                             Thread.sleep(200);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        return null;
-                    }
-
-                    @Override
-                    protected void onPostExecute(Void result) {
-                        super.onPostExecute(result);
                         attacher.setRefreshComplete();
                     }
-                };
-                task.execute();
-
+                });
             }
         });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -112,10 +100,8 @@ public class TicketListFragment extends Fragment {
 
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                Log.e(Config.LOG_LABEL, "firstVisibleItem: " + firstVisibleItem + ", visibleItemCount: " + visibleItemCount + ", totalItemCount: " + totalItemCount);
                 if (totalItemCount != 0 && totalItemCount != 1 && totalItemCount == firstVisibleItem + visibleItemCount) {
-                    Log.e(Config.LOG_LABEL, "load");
-                    ticketManager.loadTickets(false);
+                    ticketManager.loadTickets(false, listView, getFooterLayout(), null);
                 }
             }
         });
