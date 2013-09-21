@@ -112,4 +112,10 @@ public class Ticket {
     public void setWatched(boolean isWatched) {
         this.isWatched = isWatched;
     }
+
+    public boolean isBroadcasted() {
+        Date now = new Date();
+        return now.before(startAt);
+    }
+
 }

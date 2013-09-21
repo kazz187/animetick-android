@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import net.animetick.animetick_android.R;
+import net.animetick.animetick_android.model.Ticket;
 
 /**
  * Created by kazz on 2013/09/16.
@@ -27,6 +28,10 @@ public class WatchButton extends AbstractButton {
         watchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Ticket ticket = menuComponent.getTicket();
+                if (ticket.isBroadcasted()) {
+                    return;
+                }
                 menuComponent.watchConfirm();
             }
         });
