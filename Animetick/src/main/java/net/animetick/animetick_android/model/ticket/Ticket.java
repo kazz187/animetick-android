@@ -116,7 +116,7 @@ public class Ticket {
 
     public boolean isBroadcasted() {
         Date now = new Date();
-        return now.before(startAt);
+        return now.after(startAt);
     }
 
     public List<String> getFlags() {

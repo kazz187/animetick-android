@@ -15,7 +15,8 @@ public class WatchMenuComponent extends TicketMenuComponent {
     private TweetButton tweetButton;
     private WatchMenuManager manager;
 
-    public WatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton, WatchMenuManager manager, boolean isInit) {
+    public WatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton,
+                              WatchMenuManager manager, boolean isInit) {
         super(ticket);
         this.watchButton = new WatchButton(watchButton, this);
         this.tweetButton = new TweetButton(tweetButton, this);

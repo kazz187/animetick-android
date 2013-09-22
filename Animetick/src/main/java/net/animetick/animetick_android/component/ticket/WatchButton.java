@@ -3,6 +3,7 @@ package net.animetick.animetick_android.component.ticket;
 import android.graphics.drawable.TransitionDrawable;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.model.ticket.Ticket;
@@ -29,7 +30,11 @@ public class WatchButton extends AbstractButton {
             @Override
             public void onClick(View v) {
                 Ticket ticket = menuComponent.getTicket();
-                if (ticket.isBroadcasted()) {
+                if (!ticket.isBroadcasted()) {
+                    if (v != null) {
+                        Toast.makeText(v.getContext(), "まだ放送されていない作品です。",
+                                       Toast.LENGTH_SHORT).show();
+                    }
                     return;
                 }
                 menuComponent.watchConfirm();

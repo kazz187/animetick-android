@@ -1,9 +1,11 @@
 package net.animetick.animetick_android.model;
 
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,9 +30,11 @@ public class WatchMenuManager {
     private final Authentication authentication;
     private TicketMenuComponent component;
     private static JsonFactory jsonFactory = new JsonFactory();
+    private Context context;
 
-    public WatchMenuManager(Authentication authentication) {
+    public WatchMenuManager(Authentication authentication, Context context) {
         this.authentication = authentication;
+        this.context = context;
     }
 
     public void initWatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton) {
@@ -126,6 +130,16 @@ public class WatchMenuManager {
                 component = new WatchMenuComponent(ticket, watchButton, tweetButton, manager, false);
             }
             callback.run();
+            String toastText = "";
+            if (action.equals("watch")) {
+                toastText = ticket.getTitle() + " #" + ticket.getCount() + " を Watch しました。";
+                if (tweet) {
+                    toastText += "(Tweet しました。)";
+                }
+            } else if (action.equals("unwatch")) {
+                toastText = ticket.getTitle() + " #" + ticket.getCount() + " を Unwatch しました。";
+            }
+            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
         }
 
     }

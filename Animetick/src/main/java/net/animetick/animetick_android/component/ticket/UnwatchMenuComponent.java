@@ -15,7 +15,8 @@ public class UnwatchMenuComponent extends TicketMenuComponent {
     protected ImageView tweetButton;
     protected WatchMenuManager manager;
 
-    public UnwatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton, WatchMenuManager manager, boolean isInit) {
+    public UnwatchMenuComponent(Ticket ticket, TextView watchButton, ImageView tweetButton,
+                                WatchMenuManager manager, boolean isInit) {
         super(ticket);
         this.watchButton = new UnwatchButton(watchButton, this);
         this.tweetButton = tweetButton;

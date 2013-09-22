@@ -34,7 +34,7 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
         super(context, R.layout.ticket_list);
         ticketInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         this.authentication = new Authentication(context);
-        this.watchMenuManager = new WatchMenuManager(authentication);
+        this.watchMenuManager = new WatchMenuManager(authentication, context);
     }
 
     @Override
