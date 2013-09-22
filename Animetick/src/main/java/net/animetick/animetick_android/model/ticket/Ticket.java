@@ -3,6 +3,7 @@ package net.animetick.animetick_android.model.ticket;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -18,7 +19,7 @@ public class Ticket {
     private int chNum = -1;
     private Date startAt = null;
     private String iconPath;
-    private List<String> flags;
+    private List<String> flags = new ArrayList<String>();
     private boolean isWatched = false;
 
     public void setTitleId(int titleId) {
@@ -118,4 +119,7 @@ public class Ticket {
         return now.before(startAt);
     }
 
+    public List<String> getFlags() {
+        return flags;
+    }
 }

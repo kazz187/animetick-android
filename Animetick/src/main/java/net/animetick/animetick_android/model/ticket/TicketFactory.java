@@ -3,6 +3,8 @@ package net.animetick.animetick_android.model.ticket;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by kazz on 2013/08/29.
@@ -43,7 +45,12 @@ public class TicketFactory {
             ticket.setChNum(node.get("ch_number").intValue());
         }
         if (node.has("flags")) {
-            ticket.setFlags(node.findValuesAsText("flags"));
+            JsonNode flagsNode = node.get("flags");
+            List<String> flags = new ArrayList<String>();
+            for (JsonNode flagNode : flagsNode) {
+                flags.add(flagNode.asText());
+            }
+            ticket.setFlags(flags);
         }
         return ticket;
     }

@@ -17,7 +17,9 @@ import net.animetick.animetick_android.model.WatchMenuManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by kazz on 2013/08/11.
@@ -70,10 +72,14 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
         int count = ticket.getCount();
         if (ticketSubTitle != null) {
             ticketSubTitle = "#" + count + " " + ticketSubTitle;
-            subTitle.setText(ticketSubTitle);
         } else {
-            subTitle.setText("#" + count);
+            ticketSubTitle = "#" + count;
         }
+        List<String> flags = ticket.getFlags();
+        for (String flag : flags) {
+            ticketSubTitle += " [" + flag + "]";
+        }
+        subTitle.setText(ticketSubTitle);
     }
 
     private void setChannel(View convertView, Ticket ticket) {
@@ -93,8 +99,45 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
         Date ticketStartAt = ticket.getStartAt();
         if (ticketStartAt != null) {
             DateFormat df = new SimpleDateFormat("MM/dd HH:mm ~");
-            startAt.setText(df.format(ticketStartAt));
+            String startAtStr = df.format(ticketStartAt);
+            String relativeDay = getRelativeDay(ticketStartAt);
+            if (relativeDay != null) {
+                startAtStr = relativeDay + " " + startAtStr;
+            }
+            startAt.setText(startAtStr);
         }
+    }
+
+    public String getRelativeDay(Date startAt) {
+        Calendar now = Calendar.getInstance();
+        now.setTime(new Date());
+        Calendar today = shiftDate(now);
+        Calendar yesterday = (Calendar) today.clone();
+        yesterday.add(Calendar.DATE, -1);
+        Calendar tomorrow = (Calendar) today.clone();
+        tomorrow.add(Calendar.DATE, 1);
+        Calendar startAtCal = Calendar.getInstance();
+        startAtCal.setTime(startAt);
+        startAtCal = shiftDate(startAtCal);
+        if (yesterday.equals(startAtCal)) {
+            return "昨晩";
+        } else if (today.equals(startAtCal)) {
+            return "今晩";
+        } else if (tomorrow.equals(startAtCal)) {
+            return "翌晩";
+        }
+        return null;
+    }
+
+    private Calendar shiftDate(Calendar original) {
+        Calendar calendar = (Calendar) original.clone();
+        calendar.add(Calendar.HOUR, -5);
+        calendar.set(Calendar.AM_PM, 0);
+        calendar.set(Calendar.HOUR, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
     }
 
     private void setIcon(View convertView, Ticket ticket) {
