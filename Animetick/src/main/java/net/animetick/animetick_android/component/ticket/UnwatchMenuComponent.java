@@ -50,8 +50,12 @@ public class UnwatchMenuComponent extends TicketMenuComponent {
     }
 
     public void unwatch() {
-        watchButton.press();
-        manager.unwatch(this);
+        manager.unwatch(this, new Runnable() {
+            @Override
+            public void run() {
+                watchButton.press();
+            }
+        });
     }
 
     public TextView getWatchButton() {

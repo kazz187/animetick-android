@@ -52,9 +52,13 @@ public class WatchMenuComponent extends TicketMenuComponent {
     }
 
     public void watch(boolean tweet) {
-        watchButton.press();
         hideMenu();
-        manager.watch(this, tweet);
+        manager.watch(this, tweet, new Runnable() {
+            @Override
+            public void run() {
+                watchButton.press();
+            }
+        });
     }
 
     public TextView getWatchButton() {

@@ -49,35 +49,39 @@ public class WatchMenuManager {
         return this.component;
     }
 
-    public void watch(TicketMenuComponent component, boolean tweet) {
-        WatchAsyncTask task = new WatchAsyncTask(component, "watch", this, tweet);
+    public void watch(TicketMenuComponent component, boolean tweet, Runnable callback) {
+        WatchAsyncTask task = new WatchAsyncTask(component, "watch", this, callback, tweet);
         task.execute();
     }
 
-    public void unwatch(TicketMenuComponent component) {
-        WatchAsyncTask task = new WatchAsyncTask(component, "unwatch", this);
+    public void unwatch(TicketMenuComponent component, Runnable callback) {
+        WatchAsyncTask task = new WatchAsyncTask(component, "unwatch", this, callback);
         task.execute();
     }
 
     class WatchAsyncTask extends AsyncTask<Void, Void, Boolean> {
 
+        private final Runnable callback;
         TicketMenuComponent menuComponent;
         Ticket ticket;
         String action;
         WatchMenuManager manager;
         boolean tweet = false;
 
-        public WatchAsyncTask(TicketMenuComponent menuComponent, String action, WatchMenuManager manager, boolean tweet) {
-            this(menuComponent, action, manager);
+        public WatchAsyncTask(TicketMenuComponent menuComponent, String action,
+                              WatchMenuManager manager, Runnable callback, boolean tweet) {
+            this(menuComponent, action, manager, callback);
             this.tweet = tweet;
         }
 
-        public WatchAsyncTask(TicketMenuComponent menuComponent, String action, WatchMenuManager manager) {
+        public WatchAsyncTask(TicketMenuComponent menuComponent, String action,
+                              WatchMenuManager manager, Runnable callback) {
             super();
             this.menuComponent = menuComponent;
             this.ticket = menuComponent.getTicket();
             this.action = action;
             this.manager = manager;
+            this.callback = callback;
         }
 
         @Override
@@ -121,6 +125,7 @@ public class WatchMenuManager {
                 ticket.setWatched(false);
                 component = new WatchMenuComponent(ticket, watchButton, tweetButton, manager, false);
             }
+            callback.run();
         }
 
     }
