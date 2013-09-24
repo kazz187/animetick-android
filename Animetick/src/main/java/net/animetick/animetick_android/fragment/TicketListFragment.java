@@ -113,6 +113,8 @@ public class TicketListFragment extends Fragment {
     private void moveToAnimeEpisodeActivity(Ticket ticket) {
         Intent intent = new Intent(this.getActivity(), AnimeEpisodeActivity.class);
         intent.putExtra("title_id", ticket.getTitleId());
+        intent.putExtra("title", ticket.getTitle());
+        intent.putExtra("icon_path", ticket.getIconPath());
         startActivity(intent);
         this.getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
     }

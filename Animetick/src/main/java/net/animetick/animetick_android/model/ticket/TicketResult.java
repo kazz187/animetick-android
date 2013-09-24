@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Created by kazz on 2013/09/20.
  */
 public class TicketResult {
+
     private ArrayList<Ticket> ticketList;
     private boolean isLast;
 
@@ -24,4 +25,5 @@ public class TicketResult {
     public ArrayList<Ticket> getTicketList() {
         return ticketList;
     }
+
 }

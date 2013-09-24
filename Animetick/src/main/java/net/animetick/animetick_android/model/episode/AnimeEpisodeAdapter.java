@@ -20,13 +20,13 @@ import net.animetick.animetick_android.model.WatchMenuManager;
  */
 public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
 
-    private LayoutInflater ticketInflater;
+    private LayoutInflater episodeInflater;
     private Authentication authentication;
     private WatchMenuManager watchMenuManager;
 
     public AnimeEpisodeAdapter(Context context) {
         super(context, R.layout.ticket_list);
-        ticketInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
+        episodeInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         this.authentication = new Authentication(context);
         this.watchMenuManager = new WatchMenuManager(authentication, context);
     }
@@ -34,7 +34,7 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = ticketInflater.inflate(R.layout.ticket, null);
+            convertView = episodeInflater.inflate(R.layout.ticket, null);
             if (convertView == null) {
                 return null;
             }

@@ -7,24 +7,32 @@ import android.view.View;
 import android.widget.ListView;
 
 import net.animetick.animetick_android.R;
+import net.animetick.animetick_android.model.Authentication;
+import net.animetick.animetick_android.model.episode.AnimeEpisodeAdapter;
+import net.animetick.animetick_android.model.episode.AnimeEpisodeManager;
+import net.animetick.animetick_android.model.episode.AnimeInfo;
 
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
 public class AnimeEpisodeActivity extends Activity {
 
     PullToRefreshAttacher attacher;
+    AnimeEpisodeAdapter adapter;
+    Authentication authentication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.ticket_list);
+        this.authentication = new Authentication(this);
         View view = getLayoutInflater().inflate(R.layout.ticket_list, null);
         if (view == null) {
             return;
         }
         ListView listView = (ListView) view.findViewById(R.id.ticket_list);
-        listView.addFooterView(getLayoutInflater().inflate(R.layout.ticket_footer, null));
-        int titleId = getIntent().getIntExtra("title_id", 0);
+        View footerView = getLayoutInflater().inflate(R.layout.ticket_footer, null);
+        listView.addFooterView(footerView);
+        AnimeInfo animeInfo = new AnimeInfo(getIntent());
         attacher = PullToRefreshAttacher.get(this);
         attacher.addRefreshableView(listView, new PullToRefreshAttacher.OnRefreshListener() {
 
@@ -39,7 +47,9 @@ public class AnimeEpisodeActivity extends Activity {
             }
 
         });
-
+        adapter = new AnimeEpisodeAdapter(this);
+        AnimeEpisodeManager manager = new AnimeEpisodeManager(adapter, authentication, animeInfo);
+        manager.loadTickets(true, listView, footerView, null);
         setContentView(view);
     }
 
