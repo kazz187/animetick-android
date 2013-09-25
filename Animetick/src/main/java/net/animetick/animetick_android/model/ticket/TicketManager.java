@@ -41,6 +41,7 @@ public class TicketManager {
             page = 0;
             ticketHash.clear();
             isLast = false;
+            adapter.getWatchMenuManager().resetWatchedNum();
         }
         if (isLast) {
             running.set(false);
@@ -118,7 +119,8 @@ public class TicketManager {
     }
 
     private String getRequestPath() {
-        return "/ticket/list/" + page + ".json";
+        int watchedNum = adapter.getWatchMenuManager().getWatchedNum();
+        return "/ticket/list/" + page + "/" + watchedNum + ".json";
     }
 
 }

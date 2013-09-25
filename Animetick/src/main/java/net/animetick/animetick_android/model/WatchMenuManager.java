@@ -31,6 +31,7 @@ public class WatchMenuManager {
     private TicketMenuComponent component;
     private static JsonFactory jsonFactory = new JsonFactory();
     private Context context;
+    private int watchedNum = 0;
 
     public WatchMenuManager(Authentication authentication, Context context) {
         this.authentication = authentication;
@@ -125,9 +126,11 @@ public class WatchMenuManager {
             if ("watch".equals(action)) {
                 ticket.setWatched(true);
                 component = new UnwatchMenuComponent(ticket, watchButton, tweetButton, manager, false);
+                incrementWatchedNum();
             } else if ("unwatch".equals(action)) {
                 ticket.setWatched(false);
                 component = new WatchMenuComponent(ticket, watchButton, tweetButton, manager, false);
+                decrementWatchedNum();
             }
             callback.run();
             String toastText = "";
@@ -142,6 +145,22 @@ public class WatchMenuManager {
             Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public void incrementWatchedNum() {
+        watchedNum++;
+    }
+
+    public void decrementWatchedNum() {
+        watchedNum--;
+    }
+
+    public int getWatchedNum() {
+        return watchedNum;
+    }
+
+    public void resetWatchedNum() {
+        watchedNum = 0;
     }
 
     public void cancel() {
