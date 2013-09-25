@@ -119,11 +119,11 @@ public class TicketListFragment extends Fragment {
         this.getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
     }
 
-
     private View getFooterLayout() {
         if (footer == null) {
             footer = getActivity().getLayoutInflater().inflate(R.layout.ticket_footer, null);
         }
         return footer;
     }
+
 }

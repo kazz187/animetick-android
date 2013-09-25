@@ -34,7 +34,7 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         if (convertView == null) {
-            convertView = episodeInflater.inflate(R.layout.ticket, null);
+            convertView = episodeInflater.inflate(R.layout.episode, null);
             if (convertView == null) {
                 return null;
             }

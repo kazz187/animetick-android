@@ -19,6 +19,7 @@ public class AnimeEpisodeActivity extends Activity {
     PullToRefreshAttacher attacher;
     AnimeEpisodeAdapter adapter;
     Authentication authentication;
+    View footer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +31,7 @@ public class AnimeEpisodeActivity extends Activity {
             return;
         }
         ListView listView = (ListView) view.findViewById(R.id.ticket_list);
-        View footerView = getLayoutInflater().inflate(R.layout.ticket_footer, null);
-        listView.addFooterView(footerView);
+        listView.addFooterView(getFooterLayout());
         AnimeInfo animeInfo = new AnimeInfo(getIntent());
         attacher = PullToRefreshAttacher.get(this);
         attacher.addRefreshableView(listView, new PullToRefreshAttacher.OnRefreshListener() {
@@ -49,7 +49,8 @@ public class AnimeEpisodeActivity extends Activity {
         });
         adapter = new AnimeEpisodeAdapter(this);
         AnimeEpisodeManager manager = new AnimeEpisodeManager(adapter, authentication, animeInfo);
-        manager.loadTickets(true, listView, footerView, null);
+        manager.loadTickets(true, listView, getFooterLayout(), null);
+        listView.setAdapter(adapter);
         setContentView(view);
     }
 
@@ -64,6 +65,13 @@ public class AnimeEpisodeActivity extends Activity {
     protected void onPause() {
         overridePendingTransition(R.anim.fade_in, R.anim.slide_out_right);
         super.onPause();
+    }
+
+    private View getFooterLayout() {
+        if (footer == null) {
+            footer = this.getLayoutInflater().inflate(R.layout.ticket_footer, null);
+        }
+        return footer;
     }
 
 }
