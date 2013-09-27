@@ -22,6 +22,11 @@ public class AnimeEpisodeFactory {
         } else {
             throw new IllegalArgumentException("AnimeEpisode doesn't have count. AnimeEpisode must have count.");
         }
+        if (node.has("watched")) {
+            animeEpisode.setWatched(node.get("watched").booleanValue());
+        } else {
+            throw new IllegalArgumentException("AnimeEpisode doesn't have watched flag. AnimeEpisode must have watched flag.");
+        }
         return animeEpisode;
     }
 }

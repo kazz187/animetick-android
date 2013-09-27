@@ -1,4 +1,4 @@
-package net.animetick.animetick_android.model;
+package net.animetick.animetick_android.component.ticket;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -11,10 +11,9 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.animetick.animetick_android.component.ticket.TicketMenuComponent;
-import net.animetick.animetick_android.component.ticket.UnwatchMenuComponent;
-import net.animetick.animetick_android.component.ticket.WatchMenuComponent;
 import net.animetick.animetick_android.config.Config;
+import net.animetick.animetick_android.model.Authentication;
+import net.animetick.animetick_android.model.Networking;
 import net.animetick.animetick_android.model.ticket.Ticket;
 
 import java.io.IOException;

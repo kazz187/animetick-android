@@ -13,7 +13,7 @@ import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.IconManager;
 import net.animetick.animetick_android.model.Networking;
-import net.animetick.animetick_android.model.WatchMenuManager;
+import net.animetick.animetick_android.component.ticket.WatchMenuManager;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

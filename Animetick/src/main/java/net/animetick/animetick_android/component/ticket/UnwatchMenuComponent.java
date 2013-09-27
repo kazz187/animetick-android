@@ -4,7 +4,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.animetick.animetick_android.model.ticket.Ticket;
-import net.animetick.animetick_android.model.WatchMenuManager;
 
 /**
  * Created by kazz on 2013/09/17.

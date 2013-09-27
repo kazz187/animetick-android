@@ -12,7 +12,8 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/ticket_detail_layout"
         android:background="@drawable/ticket_grad"
-        android:layout_toLeftOf="@+id/ticket_watch_button">
+        android:layout_toLeftOf="@+id/ticket_watch_button"
+        android:paddingBottom="5dp">
         <ImageView
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -41,12 +42,6 @@
             android:layout_marginLeft="3dp"
             android:textColor="#333"
             />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="5dp"
-            android:id="@+id/space"
-            android:layout_below="@+id/ticket_sub_title" />
 
     </RelativeLayout>
 
