@@ -1,6 +1,7 @@
 package net.animetick.animetick_android.component;
 
 import android.graphics.drawable.TransitionDrawable;
+import android.os.AsyncTask;
 import android.view.View;
 
 /**
@@ -24,11 +25,32 @@ public class Button {
 
             @Override
             public void onClick(View v) {
-                if (event.onClick()) {
-                    onSuccess();
-                } else {
-                    onFailure();
+                if (!event.isAsync()) {
+                    if (event.onClick()) {
+                        onSuccess();
+                    } else {
+                        onFailure();
+                    }
+                    return;
                 }
+                AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
+
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+                        return event.onClick();
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean isSuccess) {
+                        if (isSuccess) {
+                            onSuccess();
+                        } else {
+                            onFailure();
+                        }
+                    }
+
+                };
+                task.execute();
             }
 
         });

@@ -10,10 +10,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.animetick.animetick_android.R;
+import net.animetick.animetick_android.component.newticket.WatchMenuManager;
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.IconManager;
 import net.animetick.animetick_android.model.Networking;
-import net.animetick.animetick_android.component.ticket.WatchMenuManager;
 
 /**
  * Created by kazz on 2013/08/11.
@@ -22,13 +22,13 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
 
     private LayoutInflater episodeInflater;
     private Authentication authentication;
-    private WatchMenuManager watchMenuManager;
+    private float density;
 
     public AnimeEpisodeAdapter(Context context) {
         super(context, R.layout.ticket_list);
         episodeInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         this.authentication = new Authentication(context);
-        this.watchMenuManager = new WatchMenuManager(authentication, context);
+        this.density = context.getResources().getDisplayMetrics().density;
     }
 
     @Override
@@ -77,15 +77,12 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
         IconManager.applyIcon(animeEpisode.getIconPath(), networking, icon);
     }
 
-    private void setWatchButton(View convertView, final AnimeEpisode animeEpisode) {
-        final TextView watchButton = (TextView) convertView.findViewById(R.id.ticket_watch_button);
-        final ImageView tweetButton = (ImageView) convertView.findViewById(R.id.ticket_tweet_button);
+    private void setWatchButton(View convertView, AnimeEpisode animeEpisode) {
+        TextView watchButton = (TextView) convertView.findViewById(R.id.ticket_watch_button);
+        ImageView tweetButton = (ImageView) convertView.findViewById(R.id.ticket_tweet_button);
+        ImageView watchHereButton = (ImageView) convertView.findViewById(R.id.watch_here);
         watchButton.setHeight(0);
-        //watchMenuManager.initWatchMenuComponent(animeEpisode, watchButton, tweetButton);
-    }
-
-    public WatchMenuManager getWatchMenuManager() {
-        return watchMenuManager;
+        new WatchMenuManager(watchButton, tweetButton, watchHereButton, animeEpisode, density);
     }
 
 }

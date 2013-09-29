@@ -1,101 +1,132 @@
 package net.animetick.animetick_android.component.newticket;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import net.animetick.animetick_android.component.MenuPanel;
 import net.animetick.animetick_android.component.OnClickEvent;
+import net.animetick.animetick_android.model.episode.AnimeEpisode;
 
-import net.animetick.animetick_android.model.ticket.Ticket;
+import java.util.ArrayList;
 
 /**
  * Created by kazz on 2013/09/27.
  */
 public class WatchMenuManager {
 
-    public WatchMenuManager() {
+    private TextView watchButtonView;
+    private ImageView tweetButtonView;
+    private ImageView watchHereButtonView;
+    private AnimeEpisode ticket;
+    private MenuPanel panel;
+    private float density;
 
+    public WatchMenuManager(TextView watchButtonView, ImageView tweetButtonView,
+                            ImageView watchHereButtonView, AnimeEpisode ticket, float density) {
+        this.watchButtonView = watchButtonView;
+        this.tweetButtonView = tweetButtonView;
+        this.watchHereButtonView = watchHereButtonView;
+        this.ticket = ticket;
+        this.density = density;
+        initPanel();
     }
 
-    public void initComponent(TextView watchButton, ImageView tweetButton, Ticket ticket) {
+    private void initComponent() {
         if (ticket.isWatched()) {
-            setupUnwatchMenuComponent(watchButton, tweetButton);
+            transitionUnwatchMenuComponent();
         } else {
-            setupWatchMenuComponent(watchButton, tweetButton);
+            transitionWatchMenuComponent();
         }
     }
 
-    private void setupWatchMenuComponent(final TextView watchButton, final ImageView tweetButton) {
-        new WatchButton(watchButton, new OnClickEvent() {
+    private void initPanel() {
+        ArrayList<View> buttonViewList = new ArrayList<View>();
+        buttonViewList.add(watchHereButtonView);
+        buttonViewList.add(tweetButtonView);
+        float iconWidth = 40 * density;
+        this.panel = new MenuPanel(buttonViewList, iconWidth);
+        initComponent();
+    }
+
+    private void transitionWatchMenuComponent() {
+        new WatchButton(watchButtonView, new OnClickEvent<Void>() {
+
+            @Override
+            public boolean isAsync() {
+                return false;
+            }
 
             @Override
             public boolean onClick() {
-                // TODO: 放送済みチェック
                 return true;
             }
 
             @Override
             public void onSuccess() {
-                setupWatchConfirmMenuComponent(watchButton, tweetButton);
+                transitionWatchConfirmMenuComponent();
             }
 
             @Override
-            public void onFailure() {
-
-            }
+            public void onFailure() {}
 
         });
     }
 
-    private void setupWatchConfirmMenuComponent(final TextView watchButton, final ImageView tweetButton) {
-        new WatchConfirmButton(watchButton, new OnClickEvent() {
+    private void transitionWatchConfirmMenuComponent() {
+        panel.open();
+        class WatchEvent implements OnClickEvent {
+
+            boolean isTweet;
+
+            WatchEvent(boolean isTweet) {
+                this.isTweet = isTweet;
+            }
+
+            @Override
+            public boolean isAsync() {
+                return true;
+            }
 
             @Override
             public boolean onClick() {
                 // 送信
-                return false;
+                return true;
             }
 
             @Override
             public void onSuccess() {
-                setupUnwatchMenuComponent(watchButton, tweetButton);
+                panel.close();
+                transitionUnwatchMenuComponent();
             }
 
             @Override
             public void onFailure() {
-                setupWatchConfirmMenuComponent(watchButton, tweetButton);
+                panel.close();
+                transitionWatchMenuComponent();
             }
 
-        });
-        new TweetButton(tweetButton, new OnClickEvent() {
+        }
+        new WatchConfirmButton(watchButtonView, new WatchEvent(false));
+        new TweetButton(tweetButtonView, new WatchEvent(true));
 
-            @Override
-            public boolean onClick() {
-                return false;
-            }
-
-            @Override
-            public void onSuccess() {
-
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-
-        });
     }
 
-    private void setupUnwatchMenuComponent(TextView watchButton, ImageView tweetButton) {
-        new UnwatchButton(watchButton, new OnClickEvent() {
+    private void transitionUnwatchMenuComponent() {
+        new UnwatchButton(watchButtonView, new OnClickEvent() {
             @Override
-            public boolean onClick() {
+            public boolean isAsync() {
                 return false;
             }
 
             @Override
-            public void onSuccess() {
+            public boolean onClick() {
+                return true;
+            }
 
+            @Override
+            public void onSuccess() {
+                transitionUnwatchConfirmMenuComponent();
             }
 
             @Override
@@ -105,6 +136,28 @@ public class WatchMenuManager {
         });
     }
 
+    private void transitionUnwatchConfirmMenuComponent() {
+        new UnwatchConfirmButton(watchButtonView, new OnClickEvent() {
+            @Override
+            public boolean isAsync() {
+                return true;
+            }
 
+            @Override
+            public boolean onClick() {
+                return true;
+            }
+
+            @Override
+            public void onSuccess() {
+                transitionWatchMenuComponent();
+            }
+
+            @Override
+            public void onFailure() {
+                transitionUnwatchMenuComponent();
+            }
+        });
+    }
 
 }

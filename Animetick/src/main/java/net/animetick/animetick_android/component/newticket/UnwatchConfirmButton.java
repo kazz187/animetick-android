@@ -10,13 +10,12 @@ import net.animetick.animetick_android.component.TransitionData;
 /**
  * Created by kazz on 2013/09/27.
  */
-public class WatchButton extends Button {
+public class UnwatchConfirmButton extends Button {
 
-    public WatchButton(TextView view, OnClickEvent event) {
-        super(view, event, new TransitionData(TransitionData.NULL, 0,
-                                              R.drawable.trans_watch_to_confirm, 150));
-        view.setText("Watch");
-        view.setBackgroundResource(R.drawable.watch_button);
+    public UnwatchConfirmButton(TextView view, OnClickEvent event) {
+        super(view, event, new TransitionData(R.drawable.trans_confirm_to_unwatch, 150,
+                                              R.drawable.trans_confirm_to_watch, 150));
+        view.setText("Unwatch?");
     }
 
 }

@@ -16,6 +16,7 @@ public class UnwatchButton extends Button {
         super(view, event, new TransitionData(TransitionData.NULL, 0,
                                               R.drawable.trans_unwatch_to_confirm, 150));
         view.setText("Watched");
+        view.setBackgroundResource(R.drawable.unwatch_button);
     }
 
 }

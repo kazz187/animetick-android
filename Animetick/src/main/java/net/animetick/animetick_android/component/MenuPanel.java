@@ -4,39 +4,42 @@ import android.animation.ObjectAnimator;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by kazz on 2013/09/26.
  */
 public class MenuPanel {
 
     private boolean isOpen = false;
-    private View panelLayout;
-    private ObjectAnimator transX;
-//    private List<Button> buttonList = new ArrayList<Button>();
+    private List<View> panelLayoutList;
+    private List<ObjectAnimator> animList;
+    private float iconWidth;
 
-//    public MenuPanel(PanelResource panelResource) {
-//        this.panelLayout = panelResource.getPanelLayout();
-//        this.setupTransition();
-//        for (final ButtonResource buttonResource : panelResource.getButtonResourceList()) {
-//            buttonList.add(new Button(buttonResource.getView(), new OnClickEvent() {
-//                @Override
-//                public boolean onClick() {
-//                    buttonResource.getCallback().onClick();
-//                    return false;
-//                }
-//            }, buttonResource.getTransitionData()));
-//        }
-//    }
-    public MenuPanel(View panelLayout) {
-        this.panelLayout = panelLayout;
+    public MenuPanel(View panelLayout, float iconWidth) {
+        this.iconWidth = iconWidth;
+        this.panelLayoutList = new ArrayList<View>();
+        panelLayoutList.add(panelLayout);
+        setupTransition();
+    }
+
+    public MenuPanel(List<View> panelLayoutList, float iconWidth) {
+        this.iconWidth = iconWidth;
+        this.panelLayoutList = panelLayoutList;
         setupTransition();
     }
 
     private void setupTransition() {
-        this.transX = ObjectAnimator.ofFloat(this.panelLayout, "translationX", 0,
-                                             -this.panelLayout.getMeasuredWidth());
-        this.transX.setDuration(150);
-        this.transX.setInterpolator(new AccelerateInterpolator(5));
+        int width = 0;
+        animList = new ArrayList<ObjectAnimator>();
+        for (View button : panelLayoutList) {
+            width += iconWidth;
+            ObjectAnimator anim = ObjectAnimator.ofFloat(button, "translationX", 0, -width);
+            anim.setDuration(150);
+            anim.setInterpolator(new AccelerateInterpolator(5));
+            animList.add(anim);
+        }
     }
 
     public void switchOpen() {
@@ -48,12 +51,16 @@ public class MenuPanel {
     }
 
     public void open() {
-        transX.start();
+        for (ObjectAnimator anim : animList) {
+            anim.start();
+        }
         isOpen = true;
     }
 
     public void close() {
-        transX.reverse();
+        for (ObjectAnimator anim : animList) {
+            anim.reverse();
+        }
         isOpen = false;
     }
 
