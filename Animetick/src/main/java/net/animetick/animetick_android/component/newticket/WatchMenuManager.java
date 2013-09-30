@@ -50,7 +50,7 @@ public class WatchMenuManager {
     }
 
     private void transitionWatchMenuComponent() {
-        new WatchButton(watchButtonView, new OnClickEvent<Void>() {
+        new WatchButton(watchButtonView, new OnClickEvent() {
 
             @Override
             public boolean isAsync() {
@@ -109,6 +109,32 @@ public class WatchMenuManager {
         }
         new WatchConfirmButton(watchButtonView, new WatchEvent(false));
         new TweetButton(tweetButtonView, new WatchEvent(true));
+        new WatchHereButton(watchHereButtonView, new OnClickEvent() {
+
+            @Override
+            public boolean isAsync() {
+                return true;
+            }
+
+            @Override
+            public boolean onClick() {
+                // 送信
+                return true;
+            }
+
+            @Override
+            public void onSuccess() {
+                panel.close();
+                transitionUnwatchMenuComponent();
+            }
+
+            @Override
+            public void onFailure() {
+                panel.close();
+                transitionWatchMenuComponent();
+            }
+
+        });
 
     }
 
