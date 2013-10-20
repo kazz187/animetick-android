@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.animetick.animetick_android.R;
+import net.animetick.animetick_android.component.newticket.WatchMenuComponent;
 import net.animetick.animetick_android.component.newticket.WatchMenuManager;
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.IconManager;
@@ -23,12 +24,17 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
     private LayoutInflater episodeInflater;
     private Authentication authentication;
     private float density;
+    private WatchMenuManager menuManager = new WatchMenuManager();
 
     public AnimeEpisodeAdapter(Context context) {
         super(context, R.layout.ticket_list);
         episodeInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         this.authentication = new Authentication(context);
         this.density = context.getResources().getDisplayMetrics().density;
+    }
+
+    public WatchMenuManager getMenuManager() {
+        return menuManager;
     }
 
     @Override
@@ -82,7 +88,9 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
         ImageView tweetButton = (ImageView) convertView.findViewById(R.id.ticket_tweet_button);
         ImageView watchHereButton = (ImageView) convertView.findViewById(R.id.watch_here);
         watchButton.setHeight(0);
-        new WatchMenuManager(watchButton, tweetButton, watchHereButton, animeEpisode, density);
+        WatchMenuComponent menuComponent = new WatchMenuComponent(watchButton, tweetButton,
+                                                                  watchHereButton, animeEpisode,
+                                                                  density, menuManager);
     }
 
 }

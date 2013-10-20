@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import net.animetick.animetick_android.R;
@@ -50,6 +52,41 @@ public class AnimeEpisodeActivity extends Activity {
         adapter = new AnimeEpisodeAdapter(this);
         AnimeEpisodeManager manager = new AnimeEpisodeManager(adapter, authentication, animeInfo);
         manager.loadTickets(true, listView, getFooterLayout(), null);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                adapter.getMenuManager().close();
+            }
+        });
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                switch (scrollState) {
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                        adapter.getMenuManager().close();
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                        adapter.getMenuManager().close();
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                // TODO: Load more episodes.
+//                if (totalItemCount != 0 && totalItemCount != 1 && totalItemCount == firstVisibleItem + visibleItemCount) {
+//
+//                }
+            }
+        });
+
+
         listView.setAdapter(adapter);
         setContentView(view);
     }

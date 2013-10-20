@@ -4,33 +4,45 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.view.View;
 
+import net.animetick.animetick_android.component.newticket.WatchMenuComponent;
+
 /**
  * Created by kazz on 2013/09/26.
  */
 public class Button {
 
     protected View view;
+    protected WatchMenuComponent component;
     protected OnClickEvent event;
     protected TransitionData transitionData;
 
-    public Button(View view, OnClickEvent event) {
-        this(view, event, null);
+    public Button(View view, final WatchMenuComponent component, OnClickEvent event) {
+        this(view, component, event, null);
     }
 
-    public Button(View view, final OnClickEvent event, TransitionData transitionData) {
+    public Button(View view, final WatchMenuComponent component, final OnClickEvent event,
+                  TransitionData transitionData) {
         this.view = view;
+        this.component = component;
         this.event = event;
         this.transitionData = transitionData;
         view.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+
+                if (!component.inAction.compareAndSet(false, true)) {
+                    return;
+                }
+
                 if (!event.isAsync()) {
                     if (event.onClick()) {
                         onSuccess();
                     } else {
                         onFailure();
                     }
+                    component.setComponent();
+                    component.inAction.set(false);
                     return;
                 }
                 AsyncTask<Void, Void, Boolean> task = new AsyncTask<Void, Void, Boolean>() {
@@ -47,6 +59,8 @@ public class Button {
                         } else {
                             onFailure();
                         }
+                        component.setComponent();
+                        component.inAction.set(false);
                     }
 
                 };
@@ -70,13 +84,18 @@ public class Button {
         transit(transitionData.getPrev(), transitionData.getPrevDuration());
     }
 
+    public void close() {
+        this.onFailure();
+    }
+
     private void transit(int transitResource, int duration) {
         if (transitResource == TransitionData.NULL)
             return;
         view.setBackgroundResource(transitResource);
         TransitionDrawable drawable = (TransitionDrawable) view.getBackground();
-        if (drawable != null)
+        if (drawable != null) {
             drawable.startTransition(duration);
+        }
     }
 
 }

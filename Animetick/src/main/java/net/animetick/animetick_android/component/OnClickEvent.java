@@ -3,14 +3,25 @@ package net.animetick.animetick_android.component;
 /**
  * Created by kazz on 2013/09/26.
  */
-public interface OnClickEvent {
+public class OnClickEvent {
+    protected boolean isAsync = false;
 
-    public boolean isAsync();
+    public OnClickEvent() {}
 
-    public boolean onClick();
+    public OnClickEvent(boolean isAsync) {
+        this.isAsync = isAsync;
+    }
 
-    public void onSuccess();
+    public boolean isAsync() {
+        return isAsync;
+    }
 
-    public void onFailure();
+    public boolean onClick() {
+        return true;
+    }
+
+    public void onSuccess() {}
+
+    public void onFailure() {}
 
 }

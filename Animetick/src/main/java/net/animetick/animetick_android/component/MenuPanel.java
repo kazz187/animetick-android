@@ -42,14 +42,6 @@ public class MenuPanel {
         }
     }
 
-    public void switchOpen() {
-        if (isOpen) {
-            close();
-        } else {
-            open();
-        }
-    }
-
     public void open() {
         for (ObjectAnimator anim : animList) {
             anim.start();

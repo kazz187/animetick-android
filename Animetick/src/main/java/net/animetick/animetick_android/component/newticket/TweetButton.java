@@ -10,8 +10,8 @@ import net.animetick.animetick_android.component.OnClickEvent;
  */
 public class TweetButton extends Button {
 
-    public TweetButton(ImageView tweetButton, OnClickEvent onClickEvent) {
-        super(tweetButton, onClickEvent);
+    public TweetButton(ImageView tweetButton, WatchMenuComponent component, OnClickEvent onClickEvent) {
+        super(tweetButton, component, onClickEvent);
     }
 
 }
