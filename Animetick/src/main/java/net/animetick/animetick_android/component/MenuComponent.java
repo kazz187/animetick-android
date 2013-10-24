@@ -17,9 +17,11 @@ abstract public class MenuComponent {
     protected MenuPanel panel;
     protected List<Button> buttonList = new CopyOnWriteArrayList<Button>();
     public AtomicBoolean inAction = new AtomicBoolean(false);
+    protected MenuManager menuManager;
 
-    public MenuComponent(float density) {
+    public MenuComponent(MenuManager menuManager, float density) {
         this.density = density;
+        this.menuManager = menuManager;
     }
 
     protected void initPanel() {
@@ -36,6 +38,10 @@ abstract public class MenuComponent {
             button.close();
         }
         this.inAction.set(false);
+    }
+
+    public void setComponent() {
+        this.menuManager.setComponent(this);
     }
 
     abstract protected void initComponent();

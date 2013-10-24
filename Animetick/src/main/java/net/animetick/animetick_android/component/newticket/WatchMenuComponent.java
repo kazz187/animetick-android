@@ -17,18 +17,17 @@ public class WatchMenuComponent extends MenuComponent {
     private ImageView tweetButtonView;
     private ImageView watchHereButtonView;
     private AnimeEpisode ticket;
-    private MenuManager menuManager;
+
 
     public WatchMenuComponent(TextView watchButtonView, ImageView tweetButtonView,
                               ImageView watchHereButtonView, AnimeEpisode ticket,
                               float density, MenuManager menuManager) {
-        super(density);
+        super(menuManager, density);
         this.watchButtonView = watchButtonView;
         this.tweetButtonView = tweetButtonView;
         this.watchHereButtonView = watchHereButtonView;
         this.ticket = ticket;
 
-        this.menuManager = menuManager;
         buttonViewList.add(watchHereButtonView);
         buttonViewList.add(tweetButtonView);
         initPanel();
@@ -41,10 +40,6 @@ public class WatchMenuComponent extends MenuComponent {
         } else {
             transitionWatchMenuComponent();
         }
-    }
-
-    public void setComponent() {
-        this.menuManager.setComponent(this);
     }
 
     private void transitionWatchMenuComponent() {

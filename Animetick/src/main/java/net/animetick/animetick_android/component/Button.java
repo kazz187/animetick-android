@@ -4,23 +4,21 @@ import android.graphics.drawable.TransitionDrawable;
 import android.os.AsyncTask;
 import android.view.View;
 
-import net.animetick.animetick_android.component.newticket.WatchMenuComponent;
-
 /**
  * Created by kazz on 2013/09/26.
  */
 public class Button {
 
     protected View view;
-    protected WatchMenuComponent component;
+    protected MenuComponent component;
     protected OnClickEvent event;
     protected TransitionData transitionData;
 
-    public Button(View view, final WatchMenuComponent component, OnClickEvent event) {
+    public Button(View view, final MenuComponent component, OnClickEvent event) {
         this(view, component, event, null);
     }
 
-    public Button(View view, final WatchMenuComponent component, final OnClickEvent event,
+    public Button(View view, final MenuComponent component, final OnClickEvent event,
                   TransitionData transitionData) {
         this.view = view;
         this.component = component;
