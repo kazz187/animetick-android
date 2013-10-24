@@ -10,7 +10,8 @@ import net.animetick.animetick_android.component.OnClickEvent;
  */
 public class WatchHereButton extends Button {
 
-    public WatchHereButton(ImageView watchHereButtonView, WatchMenuComponent component, OnClickEvent onClickEvent) {
+    public WatchHereButton(ImageView watchHereButtonView,
+                           WatchMenuComponent component, OnClickEvent onClickEvent) {
         super(watchHereButtonView, component, onClickEvent);
     }
 

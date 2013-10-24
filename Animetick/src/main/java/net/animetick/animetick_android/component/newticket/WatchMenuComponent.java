@@ -1,71 +1,46 @@
 package net.animetick.animetick_android.component.newticket;
 
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import net.animetick.animetick_android.component.Button;
-import net.animetick.animetick_android.component.MenuPanel;
+import net.animetick.animetick_android.component.MenuComponent;
+import net.animetick.animetick_android.component.MenuManager;
 import net.animetick.animetick_android.component.OnClickEvent;
 import net.animetick.animetick_android.model.episode.AnimeEpisode;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by kazz on 2013/09/27.
  */
-public class WatchMenuComponent {
+public class WatchMenuComponent extends MenuComponent {
 
     private TextView watchButtonView;
     private ImageView tweetButtonView;
     private ImageView watchHereButtonView;
     private AnimeEpisode ticket;
-    private MenuPanel panel;
-    private float density;
-    private WatchMenuManager menuManager;
-    private List<Button> buttonList = new CopyOnWriteArrayList<Button>();
-    public AtomicBoolean inAction = new AtomicBoolean(false);
+    private MenuManager menuManager;
 
     public WatchMenuComponent(TextView watchButtonView, ImageView tweetButtonView,
                               ImageView watchHereButtonView, AnimeEpisode ticket,
-                              float density, WatchMenuManager menuManager) {
+                              float density, MenuManager menuManager) {
+        super(density);
         this.watchButtonView = watchButtonView;
         this.tweetButtonView = tweetButtonView;
         this.watchHereButtonView = watchHereButtonView;
         this.ticket = ticket;
-        this.density = density;
+
         this.menuManager = menuManager;
+        buttonViewList.add(watchHereButtonView);
+        buttonViewList.add(tweetButtonView);
         initPanel();
     }
 
-    public void close() {
-        if (!this.inAction.compareAndSet(false, true)) {
-            return;
-        }
-        for (Button button : buttonList) {
-            button.close();
-        }
-        this.inAction.set(false);
-    }
 
-    private void initComponent() {
+    protected void initComponent() {
         if (ticket.isWatched()) {
             transitionUnwatchMenuComponent();
         } else {
             transitionWatchMenuComponent();
         }
-    }
-
-    private void initPanel() {
-        ArrayList<View> buttonViewList = new ArrayList<View>();
-        buttonViewList.add(watchHereButtonView);
-        buttonViewList.add(tweetButtonView);
-        float iconWidth = 40 * density;
-        this.panel = new MenuPanel(buttonViewList, iconWidth);
-        initComponent();
     }
 
     public void setComponent() {

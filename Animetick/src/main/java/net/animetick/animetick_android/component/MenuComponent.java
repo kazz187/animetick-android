@@ -1,44 +1,43 @@
 package net.animetick.animetick_android.component;
 
+import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 /**
  * Created by kazz on 2013/09/26.
  */
-public class MenuComponent {
+abstract public class MenuComponent {
 
-    private Button menuButton;
-    private MenuPanel menuPanel;
+    protected ArrayList<View> buttonViewList = new ArrayList<View>();
+    protected float density;
+    protected MenuPanel panel;
+    protected List<Button> buttonList = new CopyOnWriteArrayList<Button>();
+    public AtomicBoolean inAction = new AtomicBoolean(false);
 
-    public MenuComponent(Button menuButton, MenuPanel menuPanel) {
-        this.menuButton = menuButton;
-        this.menuPanel = menuPanel;
-//        this.menuButton
+    public MenuComponent(float density) {
+        this.density = density;
+    }
 
-
-//        this.menuButton = new Button(menuButtonResource.getView(), new OnClickEvent() {
-//            @Override
-//            public boolean onClick() {
-//                boolean isSuccess = menuButtonResource.getCallback().onClick();
-//                if (isSuccess) {
-//                    menuPanel.switchOpen();
-//                }
-//                return isSuccess;
-//            }
-//
-//            @Override
-//            public void onSuccess() {
-//
-//            }
-//
-//            @Override
-//            public void onFailure() {
-//
-//            }
-//        }, menuButtonResource.getTransitionData());
-        //this.menuPanel = new MenuPanel(panelResource);
+    protected void initPanel() {
+        float iconWidth = 40 * density;
+        this.panel = new MenuPanel(buttonViewList, iconWidth);
+        initComponent();
     }
 
     public void close() {
-        menuPanel.close();
+        if (!this.inAction.compareAndSet(false, true)) {
+            return;
+        }
+        for (Button button : buttonList) {
+            button.close();
+        }
+        this.inAction.set(false);
     }
+
+    abstract protected void initComponent();
 
 }

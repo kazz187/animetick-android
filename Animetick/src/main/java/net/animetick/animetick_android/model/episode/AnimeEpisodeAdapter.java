@@ -10,8 +10,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.animetick.animetick_android.R;
+import net.animetick.animetick_android.component.MenuManager;
 import net.animetick.animetick_android.component.newticket.WatchMenuComponent;
-import net.animetick.animetick_android.component.newticket.WatchMenuManager;
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.IconManager;
 import net.animetick.animetick_android.model.Networking;
@@ -24,7 +24,7 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
     private LayoutInflater episodeInflater;
     private Authentication authentication;
     private float density;
-    private WatchMenuManager menuManager = new WatchMenuManager();
+    private MenuManager menuManager = new MenuManager();
 
     public AnimeEpisodeAdapter(Context context) {
         super(context, R.layout.ticket_list);
@@ -33,7 +33,7 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
         this.density = context.getResources().getDisplayMetrics().density;
     }
 
-    public WatchMenuManager getMenuManager() {
+    public MenuManager getMenuManager() {
         return menuManager;
     }
 
