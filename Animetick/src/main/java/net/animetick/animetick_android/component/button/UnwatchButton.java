@@ -1,9 +1,10 @@
-package net.animetick.animetick_android.component.newticket;
+package net.animetick.animetick_android.component.button;
 
 import android.widget.TextView;
 
 import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.component.Button;
+import net.animetick.animetick_android.component.MenuComponent;
 import net.animetick.animetick_android.component.OnClickEvent;
 import net.animetick.animetick_android.component.TransitionData;
 
@@ -12,7 +13,7 @@ import net.animetick.animetick_android.component.TransitionData;
  */
 public class UnwatchButton extends Button {
 
-    public UnwatchButton(TextView view, WatchMenuComponent component, OnClickEvent event) {
+    public UnwatchButton(TextView view, MenuComponent component, OnClickEvent event) {
         super(view, component, event, new TransitionData(TransitionData.NULL, 0,
                                                          R.drawable.trans_unwatch_to_confirm, 150));
         view.setText("Watched");

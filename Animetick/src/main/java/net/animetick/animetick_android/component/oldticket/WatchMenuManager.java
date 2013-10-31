@@ -1,4 +1,4 @@
-package net.animetick.animetick_android.component.ticket;
+package net.animetick.animetick_android.component.oldticket;
 
 import android.content.Context;
 import android.os.AsyncTask;

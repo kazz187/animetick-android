@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.component.MenuManager;
-import net.animetick.animetick_android.component.newticket.WatchMenuComponent;
+import net.animetick.animetick_android.component.episode.EpisodeMenuComponent;
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.IconManager;
 import net.animetick.animetick_android.model.Networking;
@@ -88,9 +88,7 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
         ImageView tweetButton = (ImageView) convertView.findViewById(R.id.ticket_tweet_button);
         ImageView watchHereButton = (ImageView) convertView.findViewById(R.id.watch_here);
         watchButton.setHeight(0);
-        WatchMenuComponent menuComponent = new WatchMenuComponent(watchButton, tweetButton,
-                                                                  watchHereButton, animeEpisode,
-                                                                  density, menuManager);
+        new EpisodeMenuComponent(watchButton, tweetButton, watchHereButton, animeEpisode, density, menuManager);
     }
 
 }

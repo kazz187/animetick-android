@@ -1,8 +1,9 @@
-package net.animetick.animetick_android.component.newticket;
+package net.animetick.animetick_android.component.button;
 
 import android.widget.ImageView;
 
 import net.animetick.animetick_android.component.Button;
+import net.animetick.animetick_android.component.MenuComponent;
 import net.animetick.animetick_android.component.OnClickEvent;
 
 /**
@@ -11,7 +12,7 @@ import net.animetick.animetick_android.component.OnClickEvent;
 public class WatchHereButton extends Button {
 
     public WatchHereButton(ImageView watchHereButtonView,
-                           WatchMenuComponent component, OnClickEvent onClickEvent) {
+                           MenuComponent component, OnClickEvent onClickEvent) {
         super(watchHereButtonView, component, onClickEvent);
     }
 

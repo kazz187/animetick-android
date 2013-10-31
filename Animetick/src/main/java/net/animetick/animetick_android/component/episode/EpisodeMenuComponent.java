@@ -1,4 +1,4 @@
-package net.animetick.animetick_android.component.newticket;
+package net.animetick.animetick_android.component.episode;
 
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -6,12 +6,18 @@ import android.widget.TextView;
 import net.animetick.animetick_android.component.MenuComponent;
 import net.animetick.animetick_android.component.MenuManager;
 import net.animetick.animetick_android.component.OnClickEvent;
+import net.animetick.animetick_android.component.button.TweetButton;
+import net.animetick.animetick_android.component.button.UnwatchButton;
+import net.animetick.animetick_android.component.button.UnwatchConfirmButton;
+import net.animetick.animetick_android.component.button.WatchButton;
+import net.animetick.animetick_android.component.button.WatchConfirmButton;
+import net.animetick.animetick_android.component.button.WatchHereButton;
 import net.animetick.animetick_android.model.episode.AnimeEpisode;
 
 /**
  * Created by kazz on 2013/09/27.
  */
-public class WatchMenuComponent extends MenuComponent {
+public class EpisodeMenuComponent extends MenuComponent {
 
     private TextView watchButtonView;
     private ImageView tweetButtonView;
@@ -19,14 +25,14 @@ public class WatchMenuComponent extends MenuComponent {
     private AnimeEpisode ticket;
 
 
-    public WatchMenuComponent(TextView watchButtonView, ImageView tweetButtonView,
-                              ImageView watchHereButtonView, AnimeEpisode ticket,
-                              float density, MenuManager menuManager) {
+    public EpisodeMenuComponent(TextView watchButtonView, ImageView tweetButtonView,
+                                ImageView watchHereButtonView, AnimeEpisode episode,
+                                float density, MenuManager menuManager) {
         super(menuManager, density);
         this.watchButtonView = watchButtonView;
         this.tweetButtonView = tweetButtonView;
         this.watchHereButtonView = watchHereButtonView;
-        this.ticket = ticket;
+        this.ticket = episode;
 
         buttonViewList.add(watchHereButtonView);
         buttonViewList.add(tweetButtonView);

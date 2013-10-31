@@ -1,8 +1,9 @@
-package net.animetick.animetick_android.component.newticket;
+package net.animetick.animetick_android.component.button;
 
 import android.widget.ImageView;
 
 import net.animetick.animetick_android.component.Button;
+import net.animetick.animetick_android.component.MenuComponent;
 import net.animetick.animetick_android.component.OnClickEvent;
 
 /**
@@ -10,7 +11,7 @@ import net.animetick.animetick_android.component.OnClickEvent;
  */
 public class TweetButton extends Button {
 
-    public TweetButton(ImageView tweetButton, WatchMenuComponent component, OnClickEvent onClickEvent) {
+    public TweetButton(ImageView tweetButton, MenuComponent component, OnClickEvent onClickEvent) {
         super(tweetButton, component, onClickEvent);
     }
 
