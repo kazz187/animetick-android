@@ -17,13 +17,6 @@ public class MenuPanel {
     private List<ObjectAnimator> animList;
     private float iconWidth;
 
-    public MenuPanel(View panelLayout, float iconWidth) {
-        this.iconWidth = iconWidth;
-        this.panelLayoutList = new ArrayList<View>();
-        panelLayoutList.add(panelLayout);
-        setupTransition();
-    }
-
     public MenuPanel(List<View> panelLayoutList, float iconWidth) {
         this.iconWidth = iconWidth;
         this.panelLayoutList = panelLayoutList;
