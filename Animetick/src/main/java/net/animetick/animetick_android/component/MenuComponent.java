@@ -39,6 +39,4 @@ abstract public class MenuComponent {
         this.menuManager.setComponent(this);
     }
 
-    abstract protected void initComponent();
-
 }

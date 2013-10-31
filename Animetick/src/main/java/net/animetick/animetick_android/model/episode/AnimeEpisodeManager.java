@@ -7,6 +7,7 @@ import android.widget.ListView;
 
 import net.animetick.animetick_android.config.Config;
 import net.animetick.animetick_android.model.Authentication;
+import net.animetick.animetick_android.model.Episode;
 import net.animetick.animetick_android.model.Networking;
 
 import java.io.IOException;
@@ -26,7 +27,7 @@ public class AnimeEpisodeManager {
     private Authentication authentication;
     private AnimeEpisodeAdapter adapter;
     private AtomicBoolean running = new AtomicBoolean(false);
-    private ConcurrentHashMap<ArrayList<Integer>, AnimeEpisode> animeEpisodeHash = new ConcurrentHashMap<ArrayList<Integer>, AnimeEpisode>();
+    private ConcurrentHashMap<ArrayList<Integer>, Episode> animeEpisodeHash = new ConcurrentHashMap<ArrayList<Integer>, Episode>();
     private AnimeInfo animeInfo;
 
     public AnimeEpisodeManager(AnimeEpisodeAdapter adapter, Authentication authentication, AnimeInfo animeInfo) {
@@ -51,10 +52,10 @@ public class AnimeEpisodeManager {
         if (listView.getFooterViewsCount() < 1) {
             listView.addFooterView(footerView);
         }
-        final AsyncTask<Void, Void, List<AnimeEpisode>> task = new AsyncTask<Void, Void, List<AnimeEpisode>>() {
+        final AsyncTask<Void, Void, List<Episode>> task = new AsyncTask<Void, Void, List<Episode>>() {
 
             @Override
-            protected List<AnimeEpisode> doInBackground(Void... params) {
+            protected List<Episode> doInBackground(Void... params) {
                 Networking networking = new Networking(authentication);
                 String path = getRequestPath();
                 InputStream is;
@@ -69,7 +70,7 @@ public class AnimeEpisodeManager {
                 }
 
                 AnimeEpisodeListFactory animeEpisodeListFactory = new AnimeEpisodeListFactory();
-                ArrayList<AnimeEpisode> animeEpisodeList;
+                ArrayList<Episode> animeEpisodeList;
                 try {
                     AnimeEpisodeResult animeEpisodeResult = animeEpisodeListFactory.createAnimeEpisodeList(is, animeInfo);
                     animeEpisodeList = animeEpisodeResult.getAnimeEpisodeList();
@@ -85,7 +86,7 @@ public class AnimeEpisodeManager {
             }
 
             @Override
-            protected void onPostExecute(List<AnimeEpisode> result) {
+            protected void onPostExecute(List<Episode> result) {
                 Log.e(Config.LOG_LABEL, "loaded: " + page);
                 if (result != null) {
                     if (page == 0) {
@@ -107,14 +108,14 @@ public class AnimeEpisodeManager {
         task.execute();
     }
 
-    private List<AnimeEpisode> getUniqueAnimeEpisodes(List<AnimeEpisode> animeEpisodeList) {
-        ArrayList<AnimeEpisode> resultAnimeEpisodeList = new ArrayList<AnimeEpisode>();
-        for (AnimeEpisode animeEpisode : animeEpisodeList) {
+    private List<Episode> getUniqueAnimeEpisodes(List<Episode> animeEpisodeList) {
+        ArrayList<Episode> resultAnimeEpisodeList = new ArrayList<Episode>();
+        for (Episode animeEpisode : animeEpisodeList) {
             ArrayList<Integer> key = new ArrayList<Integer>();
             key.add(animeEpisode.getTitleId());
             key.add(animeEpisode.getCount());
 
-            AnimeEpisode existAnimeEpisode = animeEpisodeHash.putIfAbsent(key, animeEpisode);
+            Episode existAnimeEpisode = animeEpisodeHash.putIfAbsent(key, animeEpisode);
             if (existAnimeEpisode == null) {
                 resultAnimeEpisodeList.add(animeEpisode);
             }

@@ -43,6 +43,9 @@ public class MenuPanel {
     }
 
     public void open() {
+        if (isOpen) {
+            return;
+        }
         for (ObjectAnimator anim : animList) {
             anim.start();
         }
@@ -50,6 +53,9 @@ public class MenuPanel {
     }
 
     public void close() {
+        if (!isOpen) {
+            return;
+        }
         for (ObjectAnimator anim : animList) {
             anim.reverse();
         }

@@ -1,5 +1,7 @@
 package net.animetick.animetick_android.model.episode;
 
+import net.animetick.animetick_android.model.Episode;
+
 import java.util.ArrayList;
 
 /**
@@ -7,10 +9,10 @@ import java.util.ArrayList;
  */
 public class AnimeEpisodeResult {
 
-    private ArrayList<AnimeEpisode> animeEpisodeList;
+    private ArrayList<Episode> animeEpisodeList;
     private boolean isLast;
 
-    public void setAnimeEpisodeList(ArrayList<AnimeEpisode> animeEpisodeList) {
+    public void setAnimeEpisodeList(ArrayList<Episode> animeEpisodeList) {
         this.animeEpisodeList = animeEpisodeList;
     }
 
@@ -22,7 +24,7 @@ public class AnimeEpisodeResult {
         return isLast;
     }
 
-    public ArrayList<AnimeEpisode> getAnimeEpisodeList() {
+    public ArrayList<Episode> getAnimeEpisodeList() {
         return animeEpisodeList;
     }
 

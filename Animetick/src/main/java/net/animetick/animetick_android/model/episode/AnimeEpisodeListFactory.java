@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.animetick.animetick_android.config.Config;
+import net.animetick.animetick_android.model.Episode;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -23,14 +24,14 @@ public class AnimeEpisodeListFactory {
 
     public AnimeEpisodeResult createAnimeEpisodeList(InputStream is, AnimeInfo animeInfo) throws IOException {
         this.animeInfo = animeInfo;
-        ArrayList<AnimeEpisode> animeEpisodeList = new ArrayList<AnimeEpisode>();
+        ArrayList<Episode> animeEpisodeList = new ArrayList<Episode>();
         ObjectMapper mapper = new ObjectMapper(jsonFactory);
         JsonNode rootNode = mapper.readTree(is);
         Log.e(Config.LOG_LABEL, String.valueOf(rootNode));
         AnimeEpisodeFactory animeEpisodeFactory = new AnimeEpisodeFactory();
         for (JsonNode animeEpisodeNode : rootNode) {
             try {
-                AnimeEpisode animeEpisode = animeEpisodeFactory.createAnimeEpisode(animeInfo, animeEpisodeNode);
+                Episode animeEpisode = animeEpisodeFactory.createAnimeEpisode(animeInfo, animeEpisodeNode);
                 animeEpisodeList.add(animeEpisode);
             } catch (ParseException e) {
                 e.printStackTrace();

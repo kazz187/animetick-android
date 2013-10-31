@@ -1,15 +1,16 @@
-package net.animetick.animetick_android.model.episode;
+package net.animetick.animetick_android.model;
 
 /**
- * Created by kazz on 2013/08/11.
+ * Created by kazz on 2013/11/01.
  */
-public class AnimeEpisode {
-    private int titleId;
-    private String title = null;
-    private int count = -1;
-    private String subTitle = null;
-    private String iconPath;
-    private boolean isWatched = false;
+public class Episode {
+
+    protected boolean isWatched = false;
+    protected int titleId;
+    protected String title = null;
+    protected int count = -1;
+    protected String subTitle = null;
+    protected String iconPath;
 
     public void setTitleId(int titleId) {
         this.titleId = titleId;
@@ -34,6 +35,7 @@ public class AnimeEpisode {
     public int getTitleId() {
         return titleId;
     }
+
     public String getTitle() {
         return title;
     }
@@ -50,6 +52,14 @@ public class AnimeEpisode {
         return iconPath;
     }
 
+    public boolean isWatched() {
+        return isWatched;
+    }
+
+    public void setWatched(boolean isWatched) {
+        this.isWatched = isWatched;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -58,16 +68,8 @@ public class AnimeEpisode {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        AnimeEpisode ticket = (AnimeEpisode) obj;
-        return this.titleId == ticket.getTitleId() && this.count == ticket.getCount();
-    }
-
-    public boolean isWatched() {
-        return isWatched;
-    }
-
-    public void setWatched(boolean isWatched) {
-        this.isWatched = isWatched;
+        Episode episode = (Episode) obj;
+        return this.titleId == episode.getTitleId() && this.count == episode.getCount();
     }
 
 }

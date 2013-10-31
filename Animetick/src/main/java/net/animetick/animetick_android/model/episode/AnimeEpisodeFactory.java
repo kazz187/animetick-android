@@ -2,15 +2,17 @@ package net.animetick.animetick_android.model.episode;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
+import net.animetick.animetick_android.model.Episode;
+
 import java.text.ParseException;
 
 /**
  * Created by kazz on 2013/08/29.
  */
 public class AnimeEpisodeFactory {
-    public AnimeEpisode createAnimeEpisode(AnimeInfo animeInfo, JsonNode node)
+    public Episode createAnimeEpisode(AnimeInfo animeInfo, JsonNode node)
             throws ParseException, IllegalArgumentException {
-        AnimeEpisode animeEpisode = new AnimeEpisode();
+        Episode animeEpisode = new Episode();
         animeEpisode.setTitleId(animeInfo.getTitleId());
         animeEpisode.setTitle(animeInfo.getTitle());
         animeEpisode.setIconPath(animeInfo.getIconPath());

@@ -13,6 +13,7 @@ import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.component.MenuManager;
 import net.animetick.animetick_android.component.episode.EpisodeMenuComponent;
 import net.animetick.animetick_android.model.Authentication;
+import net.animetick.animetick_android.model.Episode;
 import net.animetick.animetick_android.model.IconManager;
 import net.animetick.animetick_android.model.Networking;
 
@@ -21,7 +22,7 @@ import java.util.List;
 /**
  * Created by kazz on 2013/08/11.
  */
-public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
+public class AnimeEpisodeAdapter extends ArrayAdapter<Episode> {
 
     private LayoutInflater episodeInflater;
     private Authentication authentication;
@@ -47,7 +48,7 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
                 return null;
             }
         }
-        AnimeEpisode animeEpisode = getItem(position);
+        Episode animeEpisode = getItem(position);
         setTitle(convertView, animeEpisode);
         setSubTitle(convertView, animeEpisode);
         setIcon(convertView, animeEpisode);
@@ -56,7 +57,7 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
         return convertView;
     }
 
-    private void setTitle(View convertView, AnimeEpisode animeEpisode) {
+    private void setTitle(View convertView, Episode animeEpisode) {
         TextView title = (TextView) convertView.findViewById(R.id.ticket_title);
         String animeEpisodeTitle = animeEpisode.getTitle();
         if (animeEpisodeTitle != null) {
@@ -66,7 +67,7 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
         }
     }
 
-    private void setSubTitle(View convertView, AnimeEpisode animeEpisode) {
+    private void setSubTitle(View convertView, Episode animeEpisode) {
         TextView subTitle = (TextView) convertView.findViewById(R.id.ticket_sub_title);
         String animeEpisodeSubTitle = animeEpisode.getSubTitle();
         int count = animeEpisode.getCount();
@@ -78,14 +79,14 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
         }
     }
 
-    private void setIcon(View convertView, AnimeEpisode animeEpisode) {
+    private void setIcon(View convertView, Episode animeEpisode) {
         ImageView icon = (ImageView) convertView.findViewById(R.id.ticket_icon);
         icon.setImageDrawable(null);
         Networking networking = new Networking(authentication);
         IconManager.applyIcon(animeEpisode.getIconPath(), networking, icon);
     }
 
-    private void setWatchButton(View convertView, AnimeEpisode animeEpisode) {
+    private void setWatchButton(View convertView, Episode animeEpisode) {
         TextView watchButton = (TextView) convertView.findViewById(R.id.ticket_watch_button);
         ImageView tweetButton = (ImageView) convertView.findViewById(R.id.ticket_tweet_button);
         ImageView watchHereButton = (ImageView) convertView.findViewById(R.id.watch_here);
