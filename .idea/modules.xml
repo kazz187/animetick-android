@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Animetick/Animetick.iml" filepath="$PROJECT_DIR$/Animetick/Animetick.iml" />
       <module fileurl="file://$PROJECT_DIR$/AnimetickProject.iml" filepath="$PROJECT_DIR$/AnimetickProject.iml" />
-      <module fileurl="file://$PROJECT_DIR$/library/PullToRefresh/PullToRefresh.iml" filepath="$PROJECT_DIR$/library/PullToRefresh/PullToRefresh.iml" />
     </modules>
   </component>
 </project>
