@@ -2,7 +2,6 @@ package net.animetick.animetick_android.component;
 
 import android.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -12,22 +11,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 abstract public class MenuComponent {
 
-    protected ArrayList<View> buttonViewList = new ArrayList<View>();
+    private static final int WIDTH = 40;
     protected float density;
     protected MenuPanel panel;
     protected List<Button> buttonList = new CopyOnWriteArrayList<Button>();
     public AtomicBoolean inAction = new AtomicBoolean(false);
     protected MenuManager menuManager;
 
-    public MenuComponent(MenuManager menuManager, float density) {
+    public MenuComponent(MenuManager menuManager, List<View> panelViewList, float density) {
         this.density = density;
         this.menuManager = menuManager;
-    }
-
-    protected void initPanel() {
-        float iconWidth = 40 * density;
-        this.panel = new MenuPanel(buttonViewList, iconWidth);
-        initComponent();
+        float iconWidth = WIDTH * density;
+        this.panel = new MenuPanel(panelViewList, iconWidth);
     }
 
     public void close() {

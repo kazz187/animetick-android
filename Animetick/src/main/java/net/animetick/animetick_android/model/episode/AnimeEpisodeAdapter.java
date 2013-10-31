@@ -16,6 +16,8 @@ import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.IconManager;
 import net.animetick.animetick_android.model.Networking;
 
+import java.util.List;
+
 /**
  * Created by kazz on 2013/08/11.
  */
@@ -87,8 +89,8 @@ public class AnimeEpisodeAdapter extends ArrayAdapter<AnimeEpisode> {
         TextView watchButton = (TextView) convertView.findViewById(R.id.ticket_watch_button);
         ImageView tweetButton = (ImageView) convertView.findViewById(R.id.ticket_tweet_button);
         ImageView watchHereButton = (ImageView) convertView.findViewById(R.id.watch_here);
-        watchButton.setHeight(0);
-        new EpisodeMenuComponent(watchButton, tweetButton, watchHereButton, animeEpisode, density, menuManager);
+        List<View> panelViewList = EpisodeMenuComponent.createPanelViewList(tweetButton, watchHereButton);
+        new EpisodeMenuComponent(watchButton, panelViewList, animeEpisode, density, menuManager);
     }
 
 }

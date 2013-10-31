@@ -1,5 +1,6 @@
 package net.animetick.animetick_android.component.episode;
 
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,34 +15,34 @@ import net.animetick.animetick_android.component.button.WatchConfirmButton;
 import net.animetick.animetick_android.component.button.WatchHereButton;
 import net.animetick.animetick_android.model.episode.AnimeEpisode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by kazz on 2013/09/27.
  */
 public class EpisodeMenuComponent extends MenuComponent {
 
+    private static final int TWEET = 0;
+    private static final int WATCH_HERE = 1;
     private TextView watchButtonView;
-    private ImageView tweetButtonView;
-    private ImageView watchHereButtonView;
-    private AnimeEpisode ticket;
+    private View tweetButtonView;
+    private View watchHereButtonView;
+    private AnimeEpisode episode;
 
-
-    public EpisodeMenuComponent(TextView watchButtonView, ImageView tweetButtonView,
-                                ImageView watchHereButtonView, AnimeEpisode episode,
-                                float density, MenuManager menuManager) {
-        super(menuManager, density);
+    public EpisodeMenuComponent(TextView watchButtonView, List<View> panelViewList,
+                                AnimeEpisode episode, float density, MenuManager menuManager) {
+        super(menuManager, panelViewList, density);
         this.watchButtonView = watchButtonView;
-        this.tweetButtonView = tweetButtonView;
-        this.watchHereButtonView = watchHereButtonView;
-        this.ticket = episode;
-
-        buttonViewList.add(watchHereButtonView);
-        buttonViewList.add(tweetButtonView);
-        initPanel();
+        watchButtonView.setHeight(0);
+        this.tweetButtonView = panelViewList.get(TWEET);
+        this.watchHereButtonView = panelViewList.get(WATCH_HERE);
+        this.episode = episode;
+        initComponent();
     }
 
-
     protected void initComponent() {
-        if (ticket.isWatched()) {
+        if (episode.isWatched()) {
             transitionUnwatchMenuComponent();
         } else {
             transitionWatchMenuComponent();
@@ -152,6 +153,13 @@ public class EpisodeMenuComponent extends MenuComponent {
                 transitionUnwatchMenuComponent();
             }
         }));
+    }
+
+    public static List<View> createPanelViewList(ImageView tweetButtonView, ImageView watchHereButtonView) {
+        List<View> panelViewList = new ArrayList<View>(2);
+        panelViewList.add(tweetButtonView);
+        panelViewList.add(watchHereButtonView);
+        return panelViewList;
     }
 
 }
