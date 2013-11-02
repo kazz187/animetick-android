@@ -9,15 +9,19 @@ public class MenuManager {
 
     public void setComponent(MenuComponent component) {
         if (this.component != component) {
-                this.close();
+            this.close();
             this.component = component;
         }
     }
 
-    public void close() {
+    public boolean close() {
         if (this.component != null) {
+            boolean isClosed = this.component.getPanel().getIsOpen();
             this.component.close();
+            this.component = null;
+            return isClosed;
         }
+        return false;
     }
 
 }

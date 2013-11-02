@@ -10,7 +10,9 @@ import android.widget.ListView;
 
 import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.model.Authentication;
-import net.animetick.animetick_android.model.episode.AnimeEpisodeAdapter;
+import net.animetick.animetick_android.model.Episode;
+import net.animetick.animetick_android.model.EpisodeManager;
+import net.animetick.animetick_android.model.EpisodeAdapter;
 import net.animetick.animetick_android.model.episode.AnimeEpisodeManager;
 import net.animetick.animetick_android.model.episode.AnimeInfo;
 
@@ -19,7 +21,7 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 public class AnimeEpisodeActivity extends Activity {
 
     PullToRefreshAttacher attacher;
-    AnimeEpisodeAdapter adapter;
+    EpisodeAdapter<Episode> adapter;
     Authentication authentication;
     View footer;
 
@@ -49,8 +51,8 @@ public class AnimeEpisodeActivity extends Activity {
             }
 
         });
-        adapter = new AnimeEpisodeAdapter(this);
-        AnimeEpisodeManager manager = new AnimeEpisodeManager(adapter, authentication, animeInfo);
+        adapter = new EpisodeAdapter<Episode>(this);
+        EpisodeManager manager = new AnimeEpisodeManager(adapter, authentication, animeInfo);
         manager.loadTickets(true, listView, getFooterLayout(), null);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

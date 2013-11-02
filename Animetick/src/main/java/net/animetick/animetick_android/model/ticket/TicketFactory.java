@@ -10,6 +10,7 @@ import java.util.List;
  * Created by kazz on 2013/08/29.
  */
 public class TicketFactory {
+
     public Ticket createTicket(JsonNode node) throws ParseException, IllegalArgumentException {
         Ticket ticket = new Ticket();
         if (node.has("title_id")) {
@@ -54,4 +55,5 @@ public class TicketFactory {
         }
         return ticket;
     }
+
 }

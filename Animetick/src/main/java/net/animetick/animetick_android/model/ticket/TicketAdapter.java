@@ -1,19 +1,14 @@
 package net.animetick.animetick_android.model.ticket;
 
-import android.app.Activity;
 import android.content.Context;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.animetick.animetick_android.R;
-import net.animetick.animetick_android.model.Authentication;
-import net.animetick.animetick_android.model.IconManager;
-import net.animetick.animetick_android.model.Networking;
-import net.animetick.animetick_android.component.oldticket.WatchMenuManager;
+import net.animetick.animetick_android.component.ticket.TicketMenuComponent;
+import net.animetick.animetick_android.model.EpisodeAdapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -24,62 +19,24 @@ import java.util.List;
 /**
  * Created by kazz on 2013/08/11.
  */
-public class TicketAdapter extends ArrayAdapter<Ticket> {
-
-    private LayoutInflater ticketInflater;
-    private Authentication authentication;
-    private WatchMenuManager watchMenuManager;
+public class TicketAdapter extends EpisodeAdapter<Ticket> {
 
     public TicketAdapter(Context context) {
-        super(context, R.layout.ticket_list);
-        ticketInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        this.authentication = new Authentication(context);
-        this.watchMenuManager = new WatchMenuManager(authentication, context);
+        super(context);
+        resourceId = R.layout.ticket;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        convertView = super.getView(position, convertView, parent);
         if (convertView == null) {
-            convertView = ticketInflater.inflate(R.layout.ticket, null);
-            if (convertView == null) {
-                return null;
-            }
+            return null;
         }
         Ticket ticket = getItem(position);
-        setTitle(convertView, ticket);
-        setSubTitle(convertView, ticket);
         setChannel(convertView, ticket);
         setStartAt(convertView, ticket);
-        setIcon(convertView, ticket);
         setWatchButton(convertView, ticket);
-
         return convertView;
-    }
-
-    private void setTitle(View convertView, Ticket ticket) {
-        TextView title = (TextView) convertView.findViewById(R.id.ticket_title);
-        String ticketTitle = ticket.getTitle();
-        if (ticketTitle != null) {
-            title.setText(ticketTitle);
-        } else {
-            title.setText("");
-        }
-    }
-
-    private void setSubTitle(View convertView, Ticket ticket) {
-        TextView subTitle = (TextView) convertView.findViewById(R.id.ticket_sub_title);
-        String ticketSubTitle = ticket.getSubTitle();
-        int count = ticket.getCount();
-        if (ticketSubTitle != null) {
-            ticketSubTitle = "#" + count + " " + ticketSubTitle;
-        } else {
-            ticketSubTitle = "#" + count;
-        }
-        List<String> flags = ticket.getFlags();
-        for (String flag : flags) {
-            ticketSubTitle += " [" + flag + "]";
-        }
-        subTitle.setText(ticketSubTitle);
     }
 
     private void setChannel(View convertView, Ticket ticket) {
@@ -140,22 +97,12 @@ public class TicketAdapter extends ArrayAdapter<Ticket> {
         return calendar;
     }
 
-    private void setIcon(View convertView, Ticket ticket) {
-        ImageView icon = (ImageView) convertView.findViewById(R.id.ticket_icon);
-        icon.setImageDrawable(null);
-        Networking networking = new Networking(authentication);
-        IconManager.applyIcon(ticket.getIconPath(), networking, icon);
-    }
-
-    private void setWatchButton(View convertView, final Ticket ticket) {
-        final TextView watchButton = (TextView) convertView.findViewById(R.id.ticket_watch_button);
-        final ImageView tweetButton = (ImageView) convertView.findViewById(R.id.ticket_tweet_button);
-        watchButton.setHeight(0);
-        watchMenuManager.initWatchMenuComponent(ticket, watchButton, tweetButton);
-    }
-
-    public WatchMenuManager getWatchMenuManager() {
-        return watchMenuManager;
+    @Override
+    protected void setWatchButton(View convertView, final Ticket ticket) {
+        TextView watchButton = (TextView) convertView.findViewById(R.id.ticket_watch_button);
+        ImageView tweetButton = (ImageView) convertView.findViewById(R.id.ticket_tweet_button);
+        List<View> panelViewList = TicketMenuComponent.createPanelViewList(tweetButton);
+        new TicketMenuComponent(watchButton, panelViewList, ticket, density, menuManager);
     }
 
 }

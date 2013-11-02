@@ -25,18 +25,23 @@ abstract public class MenuComponent {
         this.panel = new MenuPanel(panelViewList, iconWidth);
     }
 
-    public void close() {
+    public boolean close() {
         if (!this.inAction.compareAndSet(false, true)) {
-            return;
+            return false;
         }
         for (Button button : buttonList) {
             button.close();
         }
         this.inAction.set(false);
+        return true;
     }
 
     public void setComponent() {
         this.menuManager.setComponent(this);
+    }
+
+    public MenuPanel getPanel() {
+        return panel;
     }
 
 }

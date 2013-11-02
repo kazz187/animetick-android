@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.animetick.animetick_android.config.Config;
+import net.animetick.animetick_android.model.EpisodeResult;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +21,7 @@ public class TicketListFactory {
 
     private static JsonFactory jsonFactory = new JsonFactory();
 
-    public TicketResult createTicketList(InputStream is) throws IOException {
+    public EpisodeResult<Ticket> createTicketList(InputStream is) throws IOException {
         ArrayList<Ticket> ticketList = new ArrayList<Ticket>();
         ObjectMapper mapper = new ObjectMapper(jsonFactory);
         JsonNode rootNode = mapper.readTree(is);
@@ -41,9 +42,8 @@ public class TicketListFactory {
             }
         }
         boolean isLast = rootNode.get("last_flag").asBoolean();
-        TicketResult ticketResult = new TicketResult();
-        ticketResult.setTicketList(ticketList);
-
+        EpisodeResult<Ticket> ticketResult = new EpisodeResult<Ticket>();
+        ticketResult.setAnimeEpisodeList(ticketList);
         ticketResult.setIsLast(isLast);
         return ticketResult;
     }

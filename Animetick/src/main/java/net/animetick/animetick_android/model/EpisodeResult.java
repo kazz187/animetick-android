@@ -1,18 +1,16 @@
-package net.animetick.animetick_android.model.episode;
-
-import net.animetick.animetick_android.model.Episode;
+package net.animetick.animetick_android.model;
 
 import java.util.ArrayList;
 
 /**
  * Created by kazz on 2013/09/20.
  */
-public class AnimeEpisodeResult {
+public class EpisodeResult<T extends Episode> {
 
-    private ArrayList<Episode> animeEpisodeList;
+    private ArrayList<T> animeEpisodeList;
     private boolean isLast;
 
-    public void setAnimeEpisodeList(ArrayList<Episode> animeEpisodeList) {
+    public void setAnimeEpisodeList(ArrayList<T> animeEpisodeList) {
         this.animeEpisodeList = animeEpisodeList;
     }
 
@@ -24,7 +22,7 @@ public class AnimeEpisodeResult {
         return isLast;
     }
 
-    public ArrayList<Episode> getAnimeEpisodeList() {
+    public ArrayList<T> getAnimeEpisodeList() {
         return animeEpisodeList;
     }
 

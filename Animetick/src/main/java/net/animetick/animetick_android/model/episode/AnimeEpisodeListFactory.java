@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import net.animetick.animetick_android.config.Config;
 import net.animetick.animetick_android.model.Episode;
+import net.animetick.animetick_android.model.EpisodeResult;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,10 +21,8 @@ import java.util.ArrayList;
 public class AnimeEpisodeListFactory {
 
     private static JsonFactory jsonFactory = new JsonFactory();
-    private AnimeInfo animeInfo;
 
-    public AnimeEpisodeResult createAnimeEpisodeList(InputStream is, AnimeInfo animeInfo) throws IOException {
-        this.animeInfo = animeInfo;
+    public EpisodeResult<Episode> createAnimeEpisodeList(InputStream is, AnimeInfo animeInfo) throws IOException {
         ArrayList<Episode> animeEpisodeList = new ArrayList<Episode>();
         ObjectMapper mapper = new ObjectMapper(jsonFactory);
         JsonNode rootNode = mapper.readTree(is);
@@ -39,7 +38,7 @@ public class AnimeEpisodeListFactory {
                 e.printStackTrace();
             }
         }
-        AnimeEpisodeResult animeEpisodeResult = new AnimeEpisodeResult();
+        EpisodeResult<Episode> animeEpisodeResult = new EpisodeResult<Episode>();
         animeEpisodeResult.setAnimeEpisodeList(animeEpisodeList);
 
         animeEpisodeResult.setIsLast(true);

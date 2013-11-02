@@ -25,7 +25,6 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
  * Created by kazz on 2013/08/10.
  */
 public class TicketListFragment extends Fragment {
-    private Authentication authentication;
     private TicketManager ticketManager;
     private ListView listView;
     private TicketAdapter ticketAdapter;
@@ -34,7 +33,7 @@ public class TicketListFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        authentication = new Authentication(activity);
+        Authentication authentication = new Authentication(activity);
         ticketAdapter = new TicketAdapter(activity);
         ticketManager = new TicketManager(ticketAdapter, authentication);
     }
@@ -73,12 +72,9 @@ public class TicketListFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (ticketAdapter.getWatchMenuManager().getComponent() != null) {
-                    ticketAdapter.getWatchMenuManager().cancel();
-                    return;
+                if (!ticketAdapter.getMenuManager().close()) {
+                    moveToAnimeEpisodeActivity(ticketAdapter.getItem(position));
                 }
-                Ticket ticket = ticketAdapter.getItem(position);
-                moveToAnimeEpisodeActivity(ticket);
             }
         });
         listView.setOnScrollListener(new AbsListView.OnScrollListener() {
@@ -86,10 +82,10 @@ public class TicketListFragment extends Fragment {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                        ticketAdapter.getWatchMenuManager().cancel();
+                        ticketAdapter.getMenuManager().close();
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                        ticketAdapter.getWatchMenuManager().cancel();
+                        ticketAdapter.getMenuManager().close();
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                         break;
@@ -106,7 +102,6 @@ public class TicketListFragment extends Fragment {
             }
         });
         listView.setAdapter(ticketAdapter);
-
         return view;
     }
 

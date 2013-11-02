@@ -55,4 +55,8 @@ public class MenuPanel {
         isOpen = false;
     }
 
+    public boolean getIsOpen() {
+        return isOpen;
+    }
+
 }
