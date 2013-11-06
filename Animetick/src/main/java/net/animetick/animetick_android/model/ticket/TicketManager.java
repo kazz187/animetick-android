@@ -49,4 +49,10 @@ public class TicketManager extends EpisodeManager<Ticket> {
         return resultEpisodeList;
     }
 
+    @Override
+    protected void reset() {
+        super.reset();
+        TicketHash.getInstance().reset();
+    }
+
 }

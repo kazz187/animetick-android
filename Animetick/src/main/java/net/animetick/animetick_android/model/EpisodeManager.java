@@ -34,9 +34,7 @@ abstract public class EpisodeManager<T extends Episode> {
             return;
         }
         if (reset) {
-            page = 0;
-            TicketHash.getInstance().reset();
-            isLast = false;
+            reset();
         }
         if (isLast) {
             running.set(false);
@@ -97,6 +95,11 @@ abstract public class EpisodeManager<T extends Episode> {
 
         };
         task.execute();
+    }
+
+    protected void reset() {
+        page = 0;
+        isLast = false;
     }
 
     abstract protected List<T> getUniqueEpisodes(List<T> animeEpisodeList);
