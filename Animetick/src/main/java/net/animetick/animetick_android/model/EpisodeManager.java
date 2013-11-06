@@ -11,8 +11,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
@@ -25,8 +23,6 @@ abstract public class EpisodeManager<T extends Episode> {
     protected Authentication authentication;
     protected EpisodeAdapter<T> adapter;
     protected AtomicBoolean running = new AtomicBoolean(false);
-    protected ConcurrentMap<ArrayList<Integer>, T> animeEpisodeHash
-            = new ConcurrentHashMap<ArrayList<Integer>, T>();
 
     public EpisodeManager(EpisodeAdapter<T> adapter, Authentication authentication) {
         this.authentication = authentication;
@@ -39,7 +35,7 @@ abstract public class EpisodeManager<T extends Episode> {
         }
         if (reset) {
             page = 0;
-            animeEpisodeHash.clear();
+            TicketHash.getInstance().getHash().clear();
             isLast = false;
         }
         if (isLast) {
@@ -77,7 +73,7 @@ abstract public class EpisodeManager<T extends Episode> {
                     running.set(false);
                     return null;
                 }
-                return getUniqueAnimeEpisodes(animeEpisodeList);
+                return getUniqueEpisodes(animeEpisodeList);
             }
 
             @Override
@@ -103,25 +99,23 @@ abstract public class EpisodeManager<T extends Episode> {
         task.execute();
     }
 
-    private List<T> getUniqueAnimeEpisodes(List<T> animeEpisodeList) {
+    abstract protected List<T> getUniqueEpisodes(List<T> animeEpisodeList); /* {
         ArrayList<T> resultAnimeEpisodeList = new ArrayList<T>();
         for (T animeEpisode : animeEpisodeList) {
             ArrayList<Integer> key = new ArrayList<Integer>();
             key.add(animeEpisode.getTitleId());
             key.add(animeEpisode.getCount());
 
-            T existAnimeEpisode = animeEpisodeHash.putIfAbsent(key, animeEpisode);
+            T existAnimeEpisode = TicketHash.getInstance().getHash().putIfAbsent(key, animeEpisode);
             if (existAnimeEpisode == null) {
                 resultAnimeEpisodeList.add(animeEpisode);
             }
         }
         return resultAnimeEpisodeList;
-    }
+    }*/
 
     abstract protected EpisodeResult<T> createAnimeEpisodeList(InputStream is) throws IOException;
 
-    abstract protected String getRequestPath(); /* {
-        // TODO
-    }*/
+    abstract protected String getRequestPath();
 
 }

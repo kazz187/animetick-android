@@ -21,16 +21,16 @@ import java.util.List;
 public class EpisodeAdapter<T extends Episode> extends ArrayAdapter<T> {
 
     protected LayoutInflater episodeInflater;
-    protected Authentication authentication;
     protected int resourceId = R.layout.episode;
     protected float density;
-    protected MenuManager menuManager = new MenuManager();
+    protected MenuManager menuManager;
 
     public EpisodeAdapter(Context context) {
         super(context, R.layout.ticket_list);
         episodeInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-        this.authentication = new Authentication(context);
         this.density = context.getResources().getDisplayMetrics().density;
+        Authentication authentication = new Authentication(context);
+        this.menuManager = new MenuManager(authentication);
     }
 
     public MenuManager getMenuManager() {
@@ -78,7 +78,7 @@ public class EpisodeAdapter<T extends Episode> extends ArrayAdapter<T> {
     protected void setIcon(View convertView, T animeEpisode) {
         ImageView icon = (ImageView) convertView.findViewById(R.id.ticket_icon);
         icon.setImageDrawable(null);
-        Networking networking = new Networking(authentication);
+        Networking networking = menuManager.createNetworking();
         IconManager.applyIcon(animeEpisode.getIconPath(), networking, icon);
     }
 

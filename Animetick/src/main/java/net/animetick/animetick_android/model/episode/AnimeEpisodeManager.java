@@ -8,6 +8,7 @@ import net.animetick.animetick_android.model.EpisodeResult;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Created by kazz on 2013/11/03.
@@ -31,4 +32,10 @@ public class AnimeEpisodeManager extends EpisodeManager<Episode> {
     protected String getRequestPath() {
         return "/anime/" + animeInfo.getTitleId() + "/episode/list.json";
     }
+
+    @Override
+    protected List<Episode> getUniqueEpisodes(List<Episode> episodeList) {
+        return episodeList;
+    }
+
 }
