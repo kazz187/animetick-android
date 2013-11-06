@@ -35,7 +35,7 @@ public class EpisodeMenuComponent extends WatchMenuComponent {
     @Override
     protected void transitionWatchConfirmMenuComponent() {
         super.transitionWatchConfirmMenuComponent();
-        buttonList.add(new TweetButton(tweetButtonView, this, new WatchEvent(true, true)));
+        buttonList.add(new TweetButton(tweetButtonView, this, new WatchEvent(true)));
         buttonList.add(new WatchHereButton(watchHereButtonView, this, new OnClickEvent(true) {
 
             @Override

@@ -35,7 +35,7 @@ abstract public class EpisodeManager<T extends Episode> {
         }
         if (reset) {
             page = 0;
-            TicketHash.getInstance().getHash().clear();
+            TicketHash.getInstance().reset();
             isLast = false;
         }
         if (isLast) {
@@ -99,20 +99,7 @@ abstract public class EpisodeManager<T extends Episode> {
         task.execute();
     }
 
-    abstract protected List<T> getUniqueEpisodes(List<T> animeEpisodeList); /* {
-        ArrayList<T> resultAnimeEpisodeList = new ArrayList<T>();
-        for (T animeEpisode : animeEpisodeList) {
-            ArrayList<Integer> key = new ArrayList<Integer>();
-            key.add(animeEpisode.getTitleId());
-            key.add(animeEpisode.getCount());
-
-            T existAnimeEpisode = TicketHash.getInstance().getHash().putIfAbsent(key, animeEpisode);
-            if (existAnimeEpisode == null) {
-                resultAnimeEpisodeList.add(animeEpisode);
-            }
-        }
-        return resultAnimeEpisodeList;
-    }*/
+    abstract protected List<T> getUniqueEpisodes(List<T> animeEpisodeList);
 
     abstract protected EpisodeResult<T> createAnimeEpisodeList(InputStream is) throws IOException;
 

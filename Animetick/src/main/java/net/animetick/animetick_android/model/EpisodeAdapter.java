@@ -29,8 +29,7 @@ public class EpisodeAdapter<T extends Episode> extends ArrayAdapter<T> {
         super(context, R.layout.ticket_list);
         episodeInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         this.density = context.getResources().getDisplayMetrics().density;
-        Authentication authentication = new Authentication(context);
-        this.menuManager = new MenuManager(authentication);
+        this.menuManager = new MenuManager(context);
     }
 
     public MenuManager getMenuManager() {

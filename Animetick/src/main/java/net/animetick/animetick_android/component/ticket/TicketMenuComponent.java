@@ -30,7 +30,7 @@ public class TicketMenuComponent extends WatchMenuComponent {
     @Override
     protected void transitionWatchConfirmMenuComponent() {
         super.transitionWatchConfirmMenuComponent();
-        buttonList.add(new TweetButton(tweetButtonView, this, new WatchEvent(true, true)));
+        buttonList.add(new TweetButton(tweetButtonView, this, new WatchEvent(true)));
     }
 
     public static List<View> createPanelViewList(ImageView tweetButtonView) {

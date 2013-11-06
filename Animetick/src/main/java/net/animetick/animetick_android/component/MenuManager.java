@@ -1,5 +1,7 @@
 package net.animetick.animetick_android.component;
 
+import android.content.Context;
+
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.Networking;
 
@@ -10,9 +12,11 @@ public class MenuManager {
 
     private MenuComponent component = null;
     protected Authentication authentication;
+    protected Context context = null;
 
-    public MenuManager(Authentication authentication) {
-        this.authentication = authentication;
+    public MenuManager(Context context) {
+        this.context = context;
+        this.authentication = new Authentication(context);
     }
 
     public void setComponent(MenuComponent component) {
@@ -34,6 +38,10 @@ public class MenuManager {
 
     public Networking createNetworking() {
         return new Networking(authentication);
+    }
+
+    public Context getContext() {
+        return context;
     }
 
 }

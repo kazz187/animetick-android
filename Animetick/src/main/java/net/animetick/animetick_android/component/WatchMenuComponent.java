@@ -1,8 +1,10 @@
 package net.animetick.animetick_android.component;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -15,6 +17,7 @@ import net.animetick.animetick_android.component.button.WatchConfirmButton;
 import net.animetick.animetick_android.config.Config;
 import net.animetick.animetick_android.model.Episode;
 import net.animetick.animetick_android.model.Networking;
+import net.animetick.animetick_android.model.TicketHash;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,6 +55,15 @@ abstract public class WatchMenuComponent extends MenuComponent {
         buttonList.clear();
         panel.close();
         buttonList.add(new WatchButton(watchButtonView, this, new OnClickEvent() {
+
+            @Override
+            public boolean onClick() {
+                if (!episode.isBroadcasted()) {
+                    toastText("まだ放送されていない作品です。");
+                    return false;
+                }
+                return true;
+            }
 
             @Override
             public void onSuccess() {
@@ -105,13 +117,20 @@ abstract public class WatchMenuComponent extends MenuComponent {
 
     protected class WatchEvent extends TicketEvent {
 
-        public WatchEvent(boolean isTweet, boolean isAsync) {
-            super("watch", isTweet, isAsync);
+        public WatchEvent(boolean isTweet) {
+            super("watch", isTweet, true);
         }
 
         @Override
         public void onSuccess() {
             transitionUnwatchMenuComponent();
+            episode.setWatched(true);
+            TicketHash.getInstance().ticketWatched(episode.getTitleId(), episode.getCount());
+            String toastText = episode.getTitle() + " #" + episode.getCount() + "を Watch しました。";
+            if (isTweet) {
+                toastText += "(Tweet しました。)";
+            }
+            toastText(toastText);
         }
 
         @Override
@@ -121,10 +140,32 @@ abstract public class WatchMenuComponent extends MenuComponent {
 
     }
 
+    protected class UnwatchEvent extends TicketEvent {
+
+        public UnwatchEvent() {
+            super("unwatch", false, true);
+        }
+
+        @Override
+        public void onSuccess() {
+            transitionWatchMenuComponent();
+            episode.setWatched(false);
+            TicketHash.getInstance().ticketUnwatched(episode.getTitleId(), episode.getCount());
+            String toastText = episode.getTitle() + " #" + episode.getCount() + "を Unwatch しました。";
+            toastText(toastText);
+        }
+
+        @Override
+        public void onFailure() {
+            transitionUnwatchMenuComponent();
+        }
+
+    }
+
     protected void transitionWatchConfirmMenuComponent() {
         buttonList.clear();
         panel.open();
-        buttonList.add(new WatchConfirmButton(watchButtonView, this, new WatchEvent(false, true)));
+        buttonList.add(new WatchConfirmButton(watchButtonView, this, new WatchEvent(false)));
     }
 
     protected void transitionUnwatchMenuComponent() {
@@ -141,18 +182,12 @@ abstract public class WatchMenuComponent extends MenuComponent {
     }
 
     protected void transitionUnwatchConfirmMenuComponent() {
-        buttonList.add(new UnwatchConfirmButton(watchButtonView, this, new OnClickEvent(true) {
+        buttonList.add(new UnwatchConfirmButton(watchButtonView, this, new UnwatchEvent()));
+    }
 
-            @Override
-            public void onSuccess() {
-                transitionWatchMenuComponent();
-            }
-
-            @Override
-            public void onFailure() {
-                transitionUnwatchMenuComponent();
-            }
-        }));
+    protected void toastText(String text) {
+        Context context = menuManager.getContext();
+        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
     }
 
 }

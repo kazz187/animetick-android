@@ -28,9 +28,9 @@ public class TicketManager extends EpisodeManager<Ticket> {
 
     @Override
     protected String getRequestPath() {
-        //int watchedNum = adapter.getMenuManager().getWatchedNum();
-        // TODO: send offset
-        return "/ticket/list/" + page + ".json";
+        int watchedNum = TicketHash.getInstance().getWatchedNum();
+        int offset = page * 30 - watchedNum;
+        return "/ticket/list.json?offset=" + offset;
     }
 
     @Override

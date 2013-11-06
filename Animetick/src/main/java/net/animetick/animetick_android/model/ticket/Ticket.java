@@ -51,6 +51,7 @@ public class Ticket extends Episode {
         return startAt;
     }
 
+    @Override
     public boolean isBroadcasted() {
         Date now = new Date();
         return now.after(startAt);
@@ -59,4 +60,5 @@ public class Ticket extends Episode {
     public List<String> getFlags() {
         return flags;
     }
+
 }

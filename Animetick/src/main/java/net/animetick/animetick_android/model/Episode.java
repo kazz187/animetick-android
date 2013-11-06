@@ -60,6 +60,10 @@ public class Episode {
         this.isWatched = isWatched;
     }
 
+    public boolean isBroadcasted() {
+        return true;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
