@@ -1,12 +1,9 @@
 package net.animetick.animetick_android.model.episode;
 
-import android.util.Log;
-
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import net.animetick.animetick_android.config.Config;
 import net.animetick.animetick_android.model.Episode;
 import net.animetick.animetick_android.model.EpisodeResult;
 
@@ -26,7 +23,6 @@ public class AnimeEpisodeListFactory {
         ArrayList<Episode> animeEpisodeList = new ArrayList<Episode>();
         ObjectMapper mapper = new ObjectMapper(jsonFactory);
         JsonNode rootNode = mapper.readTree(is);
-        Log.e(Config.LOG_LABEL, String.valueOf(rootNode));
         AnimeEpisodeFactory animeEpisodeFactory = new AnimeEpisodeFactory();
         for (JsonNode animeEpisodeNode : rootNode) {
             try {

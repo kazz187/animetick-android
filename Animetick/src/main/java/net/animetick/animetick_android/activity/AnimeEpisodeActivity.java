@@ -29,7 +29,6 @@ public class AnimeEpisodeActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.ticket_list);
         this.authentication = new Authentication(this);
         View view = getLayoutInflater().inflate(R.layout.ticket_list, null);
         if (view == null) {

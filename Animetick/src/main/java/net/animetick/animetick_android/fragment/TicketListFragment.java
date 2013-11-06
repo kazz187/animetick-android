@@ -41,6 +41,7 @@ public class TicketListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
         boolean isLoad = listView == null;
         View view = inflater.inflate(R.layout.ticket_list, null);
         if (view == null) {
@@ -101,8 +102,13 @@ public class TicketListFragment extends Fragment {
                 }
             }
         });
-        listView.setAdapter(ticketAdapter);
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        listView.setAdapter(ticketAdapter);
     }
 
     private void moveToAnimeEpisodeActivity(Ticket ticket) {

@@ -52,7 +52,6 @@ abstract public class EpisodeManager<T extends Episode> {
                 InputStream is;
                 try {
                     is = networking.get(path);
-                    Log.e(Config.LOG_LABEL, "get " + path);
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e(Config.LOG_LABEL, "Failed to get anime episode list. path: " + path);
