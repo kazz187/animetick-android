@@ -3,7 +3,9 @@ package net.animetick.animetick_android.activity;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.GestureDetector;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -12,8 +14,8 @@ import android.widget.ListView;
 import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.Episode;
-import net.animetick.animetick_android.model.EpisodeManager;
 import net.animetick.animetick_android.model.EpisodeAdapter;
+import net.animetick.animetick_android.model.EpisodeManager;
 import net.animetick.animetick_android.model.episode.AnimeEpisodeManager;
 import net.animetick.animetick_android.model.episode.AnimeInfo;
 
@@ -25,6 +27,7 @@ public class AnimeEpisodeActivity extends Activity {
     EpisodeAdapter<Episode> adapter;
     Authentication authentication;
     View footer;
+    GestureDetector gestureDetector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +103,38 @@ public class AnimeEpisodeActivity extends Activity {
 //                }
             }
         });
-
-
         listView.setAdapter(adapter);
+        listView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
         setContentView(view);
+        gestureDetector = new GestureDetector(this, new GestureDetector.SimpleOnGestureListener() {
+
+            private static final int SWIPE_MIN_DISTANCE = 120;
+            private static final int SWIPE_MAX_OFF_PATH = 250;
+            private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+                if (Math.abs(e1.getY() - e2.getY()) > SWIPE_MAX_OFF_PATH) {
+                    return false;
+                }
+                if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
+                    finish();
+                    return true;
+                }
+                return false;
+            }
+
+        });
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gestureDetector.onTouchEvent(event);
     }
 
     @Override
