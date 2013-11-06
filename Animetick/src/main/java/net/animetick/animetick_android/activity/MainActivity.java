@@ -1,6 +1,7 @@
 package net.animetick.animetick_android.activity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -78,8 +79,9 @@ public class MainActivity extends FragmentActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean res;
         switch (item.getItemId()) {
-            case R.id.action_settings:
+            case R.id.action_open_uri:
                 res = true;
+                openUri();
                 break;
             case R.id.action_sign_out:
                 res = true;
@@ -90,6 +92,12 @@ public class MainActivity extends FragmentActivity {
                 break;
         }
         return res;
+    }
+
+    private void openUri() {
+        Uri uri = Uri.parse("http://animetick.net");
+        Intent i = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(i);
     }
 
     private void signOut() {

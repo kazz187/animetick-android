@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">Animetick</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_open_uri">Open http://animetick.net</string>
     <string name="title_section1">Ticket</string>
     <string name="title_section2">Anime</string>
     <string name="title_section3">Channel</string>
