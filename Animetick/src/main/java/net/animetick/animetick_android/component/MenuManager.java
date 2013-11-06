@@ -3,6 +3,8 @@ package net.animetick.animetick_android.component;
 import android.content.Context;
 
 import net.animetick.animetick_android.model.Authentication;
+import net.animetick.animetick_android.model.Episode;
+import net.animetick.animetick_android.model.EpisodeManager;
 import net.animetick.animetick_android.model.Networking;
 
 /**
@@ -13,6 +15,7 @@ public class MenuManager {
     private MenuComponent component = null;
     protected Authentication authentication;
     protected Context context = null;
+    protected EpisodeManager<Episode> episodeManager = null;
 
     public MenuManager(Context context) {
         this.context = context;
@@ -24,6 +27,14 @@ public class MenuManager {
             this.close();
             this.component = component;
         }
+    }
+
+    public void setEpisodeManager(EpisodeManager<Episode> episodeManager) {
+        this.episodeManager = episodeManager;
+    }
+
+    public EpisodeManager<Episode> getEpisodeManager() {
+        return episodeManager;
     }
 
     public boolean close() {

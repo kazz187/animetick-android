@@ -71,8 +71,9 @@ public class AnimeEpisodeActivity extends Activity {
 
         });
         adapter = new EpisodeAdapter<Episode>(this);
-        EpisodeManager manager = new AnimeEpisodeManager(adapter, authentication, animeInfo);
+        EpisodeManager<Episode> manager = new AnimeEpisodeManager(adapter, authentication, animeInfo);
         manager.loadTickets(true, listView, getFooterLayout(), null);
+        adapter.getMenuManager().setEpisodeManager(manager);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

@@ -38,4 +38,12 @@ public class AnimeEpisodeManager extends EpisodeManager<Episode> {
         return episodeList;
     }
 
+    @Override
+    public List<Episode> getTemplateList() {
+        List<Episode> list = super.getTemplateList();
+        for (int i = 0; i < adapter.getCount(); i++) {
+            list.add(adapter.getItem(i));
+        }
+        return list;
+    }
 }

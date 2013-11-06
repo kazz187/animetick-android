@@ -16,6 +16,7 @@ import net.animetick.animetick_android.component.button.WatchButton;
 import net.animetick.animetick_android.component.button.WatchConfirmButton;
 import net.animetick.animetick_android.config.Config;
 import net.animetick.animetick_android.model.Episode;
+import net.animetick.animetick_android.model.EpisodeManager;
 import net.animetick.animetick_android.model.Networking;
 import net.animetick.animetick_android.model.TicketHash;
 
@@ -126,7 +127,7 @@ abstract public class WatchMenuComponent extends MenuComponent {
             transitionUnwatchMenuComponent();
             episode.setWatched(true);
             TicketHash.getInstance().ticketWatched(episode.getTitleId(), episode.getCount());
-            String toastText = episode.getTitle() + " #" + episode.getCount() + "を Watch しました。";
+            String toastText = episode.getTitle() + " #" + episode.getCount() + " を Watch しました。";
             if (isTweet) {
                 toastText += "(Tweet しました。)";
             }
@@ -151,13 +152,47 @@ abstract public class WatchMenuComponent extends MenuComponent {
             transitionWatchMenuComponent();
             episode.setWatched(false);
             TicketHash.getInstance().ticketUnwatched(episode.getTitleId(), episode.getCount());
-            String toastText = episode.getTitle() + " #" + episode.getCount() + "を Unwatch しました。";
+            String toastText = episode.getTitle() + " #" + episode.getCount() + " を Unwatch しました。";
             toastText(toastText);
         }
 
         @Override
         public void onFailure() {
             transitionUnwatchMenuComponent();
+        }
+
+    }
+
+    protected class WatchHereEvent extends TicketEvent {
+
+        public WatchHereEvent() {
+            super("watch_here", false, true);
+        }
+
+        @Override
+        public void onSuccess() {
+            transitionUnwatchMenuComponent();
+            episode.setWatched(true);
+            for (int i = 0; i <= episode.getCount(); i++) {
+                TicketHash.getInstance().ticketWatched(episode.getTitleId(), i);
+            }
+            
+            EpisodeManager<Episode> episodeManager = menuManager.getEpisodeManager();
+            if (episodeManager != null) {
+                List<Episode> list = episodeManager.getTemplateList();
+                for (Episode epi : list) {
+                    if (epi.getCount() <= episode.getCount()) {
+                        epi.setWatched(true);
+                    }
+                }
+            }
+            String toastText = episode.getTitle() + " #" + episode.getCount() + " までまとめて Watch しました。";
+            toastText(toastText);
+        }
+
+        @Override
+        public void onFailure() {
+            transitionWatchMenuComponent();
         }
 
     }

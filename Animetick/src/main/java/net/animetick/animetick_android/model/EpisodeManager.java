@@ -96,6 +96,10 @@ abstract public class EpisodeManager<T extends Episode> {
         task.execute();
     }
 
+    public List<T> getTemplateList() {
+        return new ArrayList<T>();
+    }
+
     protected void reset() {
         page = 0;
         isLast = false;

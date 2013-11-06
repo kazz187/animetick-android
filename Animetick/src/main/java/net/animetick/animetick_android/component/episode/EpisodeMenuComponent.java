@@ -1,12 +1,10 @@
 package net.animetick.animetick_android.component.episode;
 
-import
-        android.view.View;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.animetick.animetick_android.component.MenuManager;
-import net.animetick.animetick_android.component.OnClickEvent;
 import net.animetick.animetick_android.component.WatchMenuComponent;
 import net.animetick.animetick_android.component.button.TweetButton;
 import net.animetick.animetick_android.component.button.WatchHereButton;
@@ -36,30 +34,7 @@ public class EpisodeMenuComponent extends WatchMenuComponent {
     protected void transitionWatchConfirmMenuComponent() {
         super.transitionWatchConfirmMenuComponent();
         buttonList.add(new TweetButton(tweetButtonView, this, new WatchEvent(true)));
-        buttonList.add(new WatchHereButton(watchHereButtonView, this, new OnClickEvent(true) {
-
-            @Override
-            public boolean onClick() {
-                // 送信
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                return true;
-            }
-
-            @Override
-            public void onSuccess() {
-                transitionUnwatchMenuComponent();
-            }
-
-            @Override
-            public void onFailure() {
-                transitionWatchMenuComponent();
-            }
-
-        }));
+        buttonList.add(new WatchHereButton(watchHereButtonView, this, new WatchHereEvent()));
     }
 
     public static List<View> createPanelViewList(ImageView tweetButtonView, ImageView watchHereButtonView) {
