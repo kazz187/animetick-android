@@ -1,5 +1,8 @@
 package net.animetick.animetick_android.model.episode;
 
+import android.view.View;
+import android.widget.ListView;
+
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.Episode;
 import net.animetick.animetick_android.model.EpisodeAdapter;
@@ -17,8 +20,9 @@ public class AnimeEpisodeManager extends EpisodeManager<Episode> {
 
     private AnimeInfo animeInfo;
 
-    public AnimeEpisodeManager(EpisodeAdapter<Episode> adapter, Authentication authentication, AnimeInfo animeInfo) {
-        super(adapter, authentication);
+    public AnimeEpisodeManager(EpisodeAdapter<Episode> adapter, Authentication authentication, AnimeInfo animeInfo,
+                               ListView listView, View footerView) {
+        super(adapter, authentication, listView, footerView);
         this.animeInfo = animeInfo;
     }
 

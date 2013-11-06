@@ -34,6 +34,7 @@ abstract public class WatchMenuComponent extends MenuComponent {
     protected TextView watchButtonView;
     private Episode episode;
     private static JsonFactory jsonFactory = new JsonFactory();
+    private static Toast toast = null;
 
     public WatchMenuComponent(MenuManager menuManager, TextView watchButtonView,
                               List<View> panelViewList, float density, Episode episode) {
@@ -176,7 +177,6 @@ abstract public class WatchMenuComponent extends MenuComponent {
             for (int i = 0; i <= episode.getCount(); i++) {
                 TicketHash.getInstance().ticketWatched(episode.getTitleId(), i);
             }
-            
             EpisodeManager<Episode> episodeManager = menuManager.getEpisodeManager();
             if (episodeManager != null) {
                 List<Episode> list = episodeManager.getTemplateList();
@@ -185,6 +185,7 @@ abstract public class WatchMenuComponent extends MenuComponent {
                         epi.setWatched(true);
                     }
                 }
+                episodeManager.refreshView();
             }
             String toastText = episode.getTitle() + " #" + episode.getCount() + " までまとめて Watch しました。";
             toastText(toastText);
@@ -222,7 +223,11 @@ abstract public class WatchMenuComponent extends MenuComponent {
 
     protected void toastText(String text) {
         Context context = menuManager.getContext();
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+        if (toast != null) {
+            toast.cancel();
+        }
+        toast = Toast.makeText(context, text, Toast.LENGTH_SHORT);
+        toast.show();
     }
 
 }

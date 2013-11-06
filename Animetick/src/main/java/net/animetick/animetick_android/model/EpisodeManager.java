@@ -23,13 +23,18 @@ abstract public class EpisodeManager<T extends Episode> {
     protected Authentication authentication;
     protected EpisodeAdapter<T> adapter;
     protected AtomicBoolean running = new AtomicBoolean(false);
+    protected ListView listView;
+    protected View footerView;
 
-    public EpisodeManager(EpisodeAdapter<T> adapter, Authentication authentication) {
+    public EpisodeManager(EpisodeAdapter<T> adapter, Authentication authentication,
+                          ListView listView, View footerView) {
         this.authentication = authentication;
         this.adapter = adapter;
+        this.listView = listView;
+        this.footerView = footerView;
     }
 
-    public void loadTickets(boolean reset, final ListView listView, final View footerView, final Runnable postTask) {
+    public void loadTickets(boolean reset, final Runnable postTask) {
         if (running.getAndSet(true)) {
             return;
         }
@@ -75,7 +80,7 @@ abstract public class EpisodeManager<T extends Episode> {
 
             @Override
             protected void onPostExecute(List<T> result) {
-                Log.e(Config.LOG_LABEL, "loaded: " + page);
+                Log.d(Config.LOG_LABEL, "loaded: " + page);
                 if (result != null) {
                     if (page == 0) {
                         adapter.clear();
@@ -94,6 +99,10 @@ abstract public class EpisodeManager<T extends Episode> {
 
         };
         task.execute();
+    }
+
+    public void refreshView() {
+        listView.setAdapter(adapter);
     }
 
     public List<T> getTemplateList() {

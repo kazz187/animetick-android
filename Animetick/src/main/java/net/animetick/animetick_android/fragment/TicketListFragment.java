@@ -33,15 +33,14 @@ public class TicketListFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        Authentication authentication = new Authentication(activity);
         ticketAdapter = new TicketAdapter(activity);
-        ticketManager = new TicketManager(ticketAdapter, authentication);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
+        Authentication authentication = new Authentication(getActivity());
         boolean isLoad = listView == null;
         View view = inflater.inflate(R.layout.ticket_list, null);
         if (view == null) {
@@ -49,15 +48,16 @@ public class TicketListFragment extends Fragment {
         }
         listView = (ListView) view.findViewById(R.id.ticket_list);
         listView.addFooterView(getFooterLayout());
+        ticketManager = new TicketManager(ticketAdapter, authentication, listView, getFooterLayout());
         if (isLoad) {
-            ticketManager.loadTickets(true, listView, getFooterLayout(), null);
+            ticketManager.loadTickets(true, null);
         }
         MainActivity activity = (MainActivity) getActivity();
         final PullToRefreshAttacher attacher = activity.getPullToRefreshAttacher();
         attacher.addRefreshableView(listView, new PullToRefreshAttacher.OnRefreshListener() {
             @Override
             public void onRefreshStarted(View view) {
-                ticketManager.loadTickets(true, listView, getFooterLayout(), new Runnable() {
+                ticketManager.loadTickets(true, new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -98,7 +98,7 @@ public class TicketListFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (totalItemCount != 0 && totalItemCount != 1 && totalItemCount == firstVisibleItem + visibleItemCount) {
-                    ticketManager.loadTickets(false, listView, getFooterLayout(), null);
+                    ticketManager.loadTickets(false, null);
                 }
             }
         });

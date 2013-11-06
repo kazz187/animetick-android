@@ -1,5 +1,8 @@
 package net.animetick.animetick_android.model.ticket;
 
+import android.view.View;
+import android.widget.ListView;
+
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.EpisodeAdapter;
 import net.animetick.animetick_android.model.EpisodeManager;
@@ -16,8 +19,9 @@ import java.util.List;
  */
 public class TicketManager extends EpisodeManager<Ticket> {
 
-    public TicketManager(EpisodeAdapter<Ticket> adapter, Authentication authentication) {
-        super(adapter, authentication);
+    public TicketManager(EpisodeAdapter<Ticket> adapter, Authentication authentication,
+                         ListView listView, View footerView) {
+        super(adapter, authentication, listView, footerView);
     }
 
     @Override
