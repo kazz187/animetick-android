@@ -35,6 +35,7 @@ public class TicketAdapter extends EpisodeAdapter<Ticket> {
         Ticket ticket = getItem(position);
         setChannel(convertView, ticket);
         setStartAt(convertView, ticket);
+        setRelativeDay(convertView, ticket);
         setWatchButton(convertView, ticket);
         return convertView;
     }
@@ -57,15 +58,26 @@ public class TicketAdapter extends EpisodeAdapter<Ticket> {
         if (ticketStartAt != null) {
             DateFormat df = new SimpleDateFormat("MM/dd HH:mm ~");
             String startAtStr = df.format(ticketStartAt);
-            String relativeDay = getRelativeDay(ticketStartAt);
-            if (relativeDay != null) {
-                startAtStr = relativeDay + " " + startAtStr;
-            }
             startAt.setText(startAtStr);
         }
     }
 
-    public String getRelativeDay(Date startAt) {
+    private void setRelativeDay(View convertView, Ticket ticket) {
+        TextView relativeDayView = (TextView) convertView.findViewById(R.id.ticket_relative_day);
+        Date ticketStartAt = ticket.getStartAt();
+        if (ticketStartAt != null) {
+            RelativeDayInfo relativeDay = getRelativeDay(ticketStartAt);
+            if (relativeDay != null) {
+                relativeDayView.setText(relativeDay.getName());
+                relativeDayView.setBackgroundResource(relativeDay.getResourceId());
+                relativeDayView.setVisibility(View.VISIBLE);
+                return;
+            }
+        }
+        relativeDayView.setVisibility(View.GONE);
+    }
+
+    public RelativeDayInfo getRelativeDay(Date startAt) {
         Calendar now = Calendar.getInstance();
         now.setTime(new Date());
         Calendar today = shiftDate(now);
@@ -77,13 +89,41 @@ public class TicketAdapter extends EpisodeAdapter<Ticket> {
         startAtCal.setTime(startAt);
         startAtCal = shiftDate(startAtCal);
         if (yesterday.equals(startAtCal)) {
-            return "昨晩";
+            return new RelativeDayInfo(R.drawable.ticket_yesterday, "昨晩");
         } else if (today.equals(startAtCal)) {
-            return "今晩";
+            return new RelativeDayInfo(R.drawable.ticket_today, "今晩");
         } else if (tomorrow.equals(startAtCal)) {
-            return "翌晩";
+            return new RelativeDayInfo(R.drawable.ticket_tomorrrow, "翌晩");
         }
         return null;
+    }
+
+    class RelativeDayInfo {
+
+        private int resourceId;
+        private String name;
+
+        RelativeDayInfo(int resourceId, String name) {
+            this.resourceId = resourceId;
+            this.name = name;
+        }
+
+        public void setResourceId(int resourceId) {
+            this.resourceId = resourceId;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getResourceId() {
+            return resourceId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
     }
 
     private Calendar shiftDate(Calendar original) {

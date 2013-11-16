@@ -68,6 +68,24 @@
             android:layout_toRightOf="@+id/ticket_channel"
             android:layout_marginLeft="5dp"
             />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:id="@+id/ticket_relative_day"
+            android:background="@drawable/ticket_ch"
+            android:textColor="#ffffff"
+            android:textSize="@dimen/ch_font_size"
+            android:paddingLeft="4dp"
+            android:paddingRight="4dp"
+            android:paddingTop="1dp"
+            android:paddingBottom="1dp"
+            android:textStyle="bold"
+            android:layout_below="@+id/ticket_sub_title"
+            android:layout_toRightOf="@+id/ticket_start_at"
+            android:layout_marginLeft="4dp" />
+
         <Space
             android:layout_width="0dp"
             android:layout_height="5dp"
