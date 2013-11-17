@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by kazz on 2013/09/27.
  */
-public class EpisodeMenuComponent extends WatchMenuComponent {
+public class EpisodeMenuComponent<T extends Episode> extends WatchMenuComponent<T> {
 
     private static final int TWEET = 0;
     private static final int WATCH_HERE = 1;
@@ -24,7 +24,7 @@ public class EpisodeMenuComponent extends WatchMenuComponent {
     private View watchHereButtonView;
 
     public EpisodeMenuComponent(TextView watchButtonView, List<View> panelViewList,
-                                Episode episode, float density, MenuManager menuManager) {
+                                T episode, float density, MenuManager<T> menuManager) {
         super(menuManager, watchButtonView, panelViewList, density, episode);
         this.tweetButtonView = panelViewList.get(TWEET);
         this.watchHereButtonView = panelViewList.get(WATCH_HERE);

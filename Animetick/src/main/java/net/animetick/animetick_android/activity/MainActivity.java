@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import net.animetick.animetick_android.R;
+import net.animetick.animetick_android.fragment.AnimeListFragment;
 import net.animetick.animetick_android.fragment.TicketListFragment;
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.Networking;
@@ -151,8 +152,9 @@ public class MainActivity extends FragmentActivity {
             // below) with the page number as its lone argument.
             switch (position) {
                 case 0:
-                    Fragment fragment = new TicketListFragment();
-                    return fragment;
+                    return new TicketListFragment();
+                case 1:
+                    return new AnimeListFragment();
                 default:
                     break;
             }
@@ -167,7 +169,7 @@ public class MainActivity extends FragmentActivity {
         @Override
         public int getCount() {
             // TODO: Implements more fragments.
-            return 1;
+            return 2;
         }
 
         @Override
@@ -176,7 +178,7 @@ public class MainActivity extends FragmentActivity {
             switch (position) {
                 case 0:
                     return getString(R.string.title_section1).toUpperCase(l);
-                case 1: // TODO: Not implements
+                case 1:
                     return getString(R.string.title_section2).toUpperCase(l);
                 case 2: // TODO: Not implements
                     return getString(R.string.title_section3).toUpperCase(l);

@@ -80,7 +80,8 @@ public class AuthenticationActivity extends FragmentActivity {
                 webView.loadUrl(Config.ANIMETICK_SCHEME + "://" + Config.ANIMETICK_URL + SIGN_IN_URL);
                 webView.setWebViewClient(new WebViewClient() {
                     @Override
-                    public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
+                    public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler,
+                                                          String host, String realm) {
                         if (Config.ANIMETICK_USER != null) {
                             handler.proceed(Config.ANIMETICK_USER, Config.ANIMETICK_PASS);
                         }

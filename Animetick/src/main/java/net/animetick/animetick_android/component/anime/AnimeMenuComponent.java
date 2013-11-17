@@ -1,4 +1,4 @@
-package net.animetick.animetick_android.component;
+package net.animetick.animetick_android.component.anime;
 
 import android.content.Context;
 import android.util.Log;
@@ -10,15 +10,16 @@ import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import net.animetick.animetick_android.component.MenuComponent;
+import net.animetick.animetick_android.component.MenuManager;
+import net.animetick.animetick_android.component.OnClickEvent;
 import net.animetick.animetick_android.component.button.UnwatchButton;
 import net.animetick.animetick_android.component.button.UnwatchConfirmButton;
 import net.animetick.animetick_android.component.button.WatchButton;
 import net.animetick.animetick_android.component.button.WatchConfirmButton;
 import net.animetick.animetick_android.config.Config;
-import net.animetick.animetick_android.model.Episode;
-import net.animetick.animetick_android.model.EpisodeManager;
+import net.animetick.animetick_android.model.Anime;
 import net.animetick.animetick_android.model.Networking;
-import net.animetick.animetick_android.model.TicketHash;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,24 +30,24 @@ import java.util.Map;
 /**
  * Created by kazz on 2013/11/01.
  */
-abstract public class WatchMenuComponent<T extends Episode> extends MenuComponent<T> {
+public class AnimeMenuComponent extends MenuComponent<Anime> {
 
     protected TextView watchButtonView;
-    private T episode;
+    private Anime anime;
     private static JsonFactory jsonFactory = new JsonFactory();
     private static Toast toast = null;
 
-    public WatchMenuComponent(MenuManager<T> menuManager, TextView watchButtonView,
-                              List<View> panelViewList, float density, T episode) {
+    public AnimeMenuComponent(MenuManager<Anime> menuManager, TextView watchButtonView,
+                              List<View> panelViewList, float density, Anime anime) {
         super(menuManager, panelViewList, density);
         this.watchButtonView = watchButtonView;
         watchButtonView.setHeight(0);
-        this.episode = episode;
+        this.anime = anime;
         initComponent();
     }
 
     private void initComponent() {
-        if (episode.isWatched()) {
+        if (anime.isWatching()) {
             transitionUnwatchMenuComponent();
         } else {
             transitionWatchMenuComponent();
@@ -60,10 +61,6 @@ abstract public class WatchMenuComponent<T extends Episode> extends MenuComponen
 
             @Override
             public boolean onClick() {
-                if (!episode.isBroadcasted()) {
-                    toastText("まだ放送されていない作品です。");
-                    return false;
-                }
                 return true;
             }
 
@@ -75,14 +72,12 @@ abstract public class WatchMenuComponent<T extends Episode> extends MenuComponen
         }));
     }
 
-    abstract protected class TicketEvent extends OnClickEvent {
+    abstract protected class AnimeEvent extends OnClickEvent {
 
-        protected boolean isTweet;
         protected String action;
 
-        public TicketEvent(String action, boolean isTweet, boolean isAsync) {
+        public AnimeEvent(String action, boolean isAsync) {
             super(isAsync);
-            this.isTweet = isTweet;
             this.action = action;
         }
 
@@ -91,9 +86,6 @@ abstract public class WatchMenuComponent<T extends Episode> extends MenuComponen
             Networking networking = menuManager.createNetworking();
             String url = getRequestUrl();
             Map<String, String> rawParams = new HashMap<String, String>();
-            if (isTweet) {
-                rawParams.put("twitter", "true");
-            }
             try {
                 InputStream is = networking.post(url, rawParams);
                 ObjectMapper mapper = new ObjectMapper(jsonFactory);
@@ -110,28 +102,24 @@ abstract public class WatchMenuComponent<T extends Episode> extends MenuComponen
         }
 
         private String getRequestUrl() {
-            int titleId = episode.getTitleId();
-            int count = episode.getCount();
-            return "/ticket/" + titleId + "/" + count + "/" + action + ".json";
+            int titleId = anime.getTitleId();
+            return "/anime/" + titleId + "/" + action + ".json";
         }
 
     }
 
-    protected class WatchEvent extends TicketEvent {
+    protected class WatchEvent extends AnimeEvent {
 
-        public WatchEvent(boolean isTweet) {
-            super("watch", isTweet, true);
+        public WatchEvent() {
+            super("watch", true);
         }
 
         @Override
         public void onSuccess() {
             transitionUnwatchMenuComponent();
-            episode.setWatched(true);
-            TicketHash.getInstance().ticketWatched(episode.getTitleId(), episode.getCount());
-            String toastText = episode.getTitle() + " #" + episode.getCount() + " を Watch しました。";
-            if (isTweet) {
-                toastText += "(Tweet しました。)";
-            }
+            anime.setWatched(true);
+//            TicketHash.getInstance().ticketWatched(anime.getTitleId(), anime.getCount());
+            String toastText = anime.getTitle() + " を Watch しはじめました。";
             toastText(toastText);
         }
 
@@ -142,58 +130,24 @@ abstract public class WatchMenuComponent<T extends Episode> extends MenuComponen
 
     }
 
-    protected class UnwatchEvent extends TicketEvent {
+    protected class UnwatchEvent extends AnimeEvent {
 
         public UnwatchEvent() {
-            super("unwatch", false, true);
+            super("unwatch", true);
         }
 
         @Override
         public void onSuccess() {
             transitionWatchMenuComponent();
-            episode.setWatched(false);
-            TicketHash.getInstance().ticketUnwatched(episode.getTitleId(), episode.getCount());
-            String toastText = episode.getTitle() + " #" + episode.getCount() + " を Unwatch しました。";
+            anime.setWatched(false);
+//            TicketHash.getInstance().ticketUnwatched(anime.getTitleId(), anime.getCount());
+            String toastText = anime.getTitle() + " を Unwatch しました。";
             toastText(toastText);
         }
 
         @Override
         public void onFailure() {
             transitionUnwatchMenuComponent();
-        }
-
-    }
-
-    protected class WatchHereEvent extends TicketEvent {
-
-        public WatchHereEvent() {
-            super("watch_here", false, true);
-        }
-
-        @Override
-        public void onSuccess() {
-            transitionUnwatchMenuComponent();
-            episode.setWatched(true);
-            for (int i = 0; i <= episode.getCount(); i++) {
-                TicketHash.getInstance().ticketWatched(episode.getTitleId(), i);
-            }
-            EpisodeManager<T> episodeManager = menuManager.getEpisodeManager();
-            if (episodeManager != null) {
-                List<T> list = episodeManager.getTemplateList();
-                for (T epi : list) {
-                    if (epi.getCount() <= episode.getCount()) {
-                        epi.setWatched(true);
-                    }
-                }
-                episodeManager.refreshView();
-            }
-            String toastText = episode.getTitle() + " #" + episode.getCount() + " までまとめて Watch しました。";
-            toastText(toastText);
-        }
-
-        @Override
-        public void onFailure() {
-            transitionWatchMenuComponent();
         }
 
     }
@@ -201,7 +155,7 @@ abstract public class WatchMenuComponent<T extends Episode> extends MenuComponen
     protected void transitionWatchConfirmMenuComponent() {
         buttonList.clear();
         panel.open();
-        buttonList.add(new WatchConfirmButton(watchButtonView, this, new WatchEvent(false)));
+        buttonList.add(new WatchConfirmButton(watchButtonView, this, new WatchEvent()));
     }
 
     protected void transitionUnwatchMenuComponent() {

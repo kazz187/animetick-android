@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by kazz on 2013/09/20.
  */
-public class EpisodeResult<T extends Episode> {
+public class EpisodeResult<T> {
 
     private ArrayList<T> animeEpisodeList;
     private boolean isLast;

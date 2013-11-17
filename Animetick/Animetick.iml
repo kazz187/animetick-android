@@ -76,6 +76,15 @@
     <orderEntry type="library" exported="" name="jackson-databind-2.2.2" level="project" />
     <orderEntry type="library" exported="" name="ComGithubChrisbanesActionbarpulltorefreshLibrary073.aar" level="project" />
     <orderEntry type="library" exported="" name="jackson-annotations-2.2.2" level="project" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$APPLICATION_HOME_DIR$/lib/annotations.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>
 

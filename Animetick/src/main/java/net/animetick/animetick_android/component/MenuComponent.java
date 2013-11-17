@@ -9,16 +9,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Created by kazz on 2013/09/26.
  */
-abstract public class MenuComponent {
+abstract public class MenuComponent<T> {
 
     private static final int WIDTH = 40;
     protected float density;
     protected MenuPanel panel;
     protected List<Button> buttonList = new CopyOnWriteArrayList<Button>();
     public AtomicBoolean inAction = new AtomicBoolean(false);
-    protected MenuManager menuManager;
+    protected MenuManager<T> menuManager;
 
-    public MenuComponent(MenuManager menuManager, List<View> panelViewList, float density) {
+    public MenuComponent(MenuManager<T> menuManager, List<View> panelViewList, float density) {
         this.density = density;
         this.menuManager = menuManager;
         float iconWidth = WIDTH * density;

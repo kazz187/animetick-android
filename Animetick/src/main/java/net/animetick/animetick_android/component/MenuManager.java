@@ -3,19 +3,18 @@ package net.animetick.animetick_android.component;
 import android.content.Context;
 
 import net.animetick.animetick_android.model.Authentication;
-import net.animetick.animetick_android.model.Episode;
 import net.animetick.animetick_android.model.EpisodeManager;
 import net.animetick.animetick_android.model.Networking;
 
 /**
  * Created by kazz on 2013/10/24.
  */
-public class MenuManager {
+public class MenuManager<T> {
 
     private MenuComponent component = null;
     protected Authentication authentication;
     protected Context context = null;
-    protected EpisodeManager<Episode> episodeManager = null;
+    protected EpisodeManager<T> episodeManager = null;
 
     public MenuManager(Context context) {
         this.context = context;
@@ -29,11 +28,11 @@ public class MenuManager {
         }
     }
 
-    public void setEpisodeManager(EpisodeManager<Episode> episodeManager) {
+    public void setEpisodeManager(EpisodeManager<T> episodeManager) {
         this.episodeManager = episodeManager;
     }
 
-    public EpisodeManager<Episode> getEpisodeManager() {
+    public EpisodeManager<T> getEpisodeManager() {
         return episodeManager;
     }
 

@@ -23,16 +23,16 @@ public class EpisodeAdapter<T extends Episode> extends ArrayAdapter<T> {
     protected LayoutInflater episodeInflater;
     protected int resourceId = R.layout.episode;
     protected float density;
-    protected MenuManager menuManager;
+    protected MenuManager<T> menuManager;
 
     public EpisodeAdapter(Context context) {
         super(context, R.layout.ticket_list);
         episodeInflater = (LayoutInflater) context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
         this.density = context.getResources().getDisplayMetrics().density;
-        this.menuManager = new MenuManager(context);
+        this.menuManager = new MenuManager<T>(context);
     }
 
-    public MenuManager getMenuManager() {
+    public MenuManager<T> getMenuManager() {
         return menuManager;
     }
 
@@ -86,7 +86,7 @@ public class EpisodeAdapter<T extends Episode> extends ArrayAdapter<T> {
         ImageView tweetButton = (ImageView) convertView.findViewById(R.id.ticket_tweet_button);
         ImageView watchHereButton = (ImageView) convertView.findViewById(R.id.watch_here);
         List<View> panelViewList = EpisodeMenuComponent.createPanelViewList(tweetButton, watchHereButton);
-        new EpisodeMenuComponent(watchButton, panelViewList, animeEpisode, density, menuManager);
+        new EpisodeMenuComponent<T>(watchButton, panelViewList, animeEpisode, density, menuManager);
     }
 
 }

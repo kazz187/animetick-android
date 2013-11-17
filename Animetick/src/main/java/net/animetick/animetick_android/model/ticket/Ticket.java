@@ -31,7 +31,7 @@ public class Ticket extends Episode {
         this.startAt = (Date) df.parseObject(startAt);
     }
 
-    public void setStartAt(Date startAt) throws ParseException {
+    public void setStartAt(Date startAt) {
         this.startAt = startAt;
     }
 

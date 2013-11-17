@@ -3,6 +3,7 @@ package net.animetick.animetick_android.model;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import net.animetick.animetick_android.config.Config;
@@ -16,17 +17,17 @@ import java.util.concurrent.atomic.AtomicBoolean;
 /**
  * Created by kazz on 2013/09/13.
  */
-abstract public class EpisodeManager<T extends Episode> {
+abstract public class EpisodeManager<T> {
 
     protected int page = 0;
     protected boolean isLast = false;
     protected Authentication authentication;
-    protected EpisodeAdapter<T> adapter;
+    protected ArrayAdapter<T> adapter;
     protected AtomicBoolean running = new AtomicBoolean(false);
     protected ListView listView;
     protected View footerView;
 
-    public EpisodeManager(EpisodeAdapter<T> adapter, Authentication authentication,
+    public EpisodeManager(ArrayAdapter<T> adapter, Authentication authentication,
                           ListView listView, View footerView) {
         this.authentication = authentication;
         this.adapter = adapter;

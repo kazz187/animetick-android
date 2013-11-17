@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:orientation="vertical" >
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="期毎でさがす"
+        android:id="@+id/button" />
+
+    <ListView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/anime_list"
+        android:layout_gravity="left|center_vertical"
+        android:headerDividersEnabled="false"
+        android:footerDividersEnabled="false" />
+</LinearLayout>
