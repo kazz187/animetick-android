@@ -18,7 +18,7 @@ import net.animetick.animetick_android.component.button.UnwatchConfirmButton;
 import net.animetick.animetick_android.component.button.WatchButton;
 import net.animetick.animetick_android.component.button.WatchConfirmButton;
 import net.animetick.animetick_android.config.Config;
-import net.animetick.animetick_android.model.Anime;
+import net.animetick.animetick_android.model.anime.Anime;
 import net.animetick.animetick_android.model.Networking;
 
 import java.io.IOException;
@@ -117,8 +117,7 @@ public class AnimeMenuComponent extends MenuComponent<Anime> {
         @Override
         public void onSuccess() {
             transitionUnwatchMenuComponent();
-            anime.setWatched(true);
-//            TicketHash.getInstance().ticketWatched(anime.getTitleId(), anime.getCount());
+            anime.setWatching(true);
             String toastText = anime.getTitle() + " を Watch しはじめました。";
             toastText(toastText);
         }
@@ -139,8 +138,7 @@ public class AnimeMenuComponent extends MenuComponent<Anime> {
         @Override
         public void onSuccess() {
             transitionWatchMenuComponent();
-            anime.setWatched(false);
-//            TicketHash.getInstance().ticketUnwatched(anime.getTitleId(), anime.getCount());
+            anime.setWatching(false);
             String toastText = anime.getTitle() + " を Unwatch しました。";
             toastText(toastText);
         }
@@ -161,7 +159,7 @@ public class AnimeMenuComponent extends MenuComponent<Anime> {
     protected void transitionUnwatchMenuComponent() {
         buttonList.clear();
         panel.close();
-        buttonList.add(new UnwatchButton(watchButtonView, this, new OnClickEvent() {
+        buttonList.add(new UnwatchButton("Watching", watchButtonView, this, new OnClickEvent() {
 
             @Override
             public void onSuccess() {

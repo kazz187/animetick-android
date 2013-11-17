@@ -90,8 +90,12 @@ abstract public class EpisodeManager<T> {
                     adapter.addAll(result);
                 }
                 running.set(false);
-                if (isLast) {
-                    listView.removeFooterView(footerView);
+                if (isLast && listView.getFooterViewsCount() != 0) {
+                    try {
+                        listView.removeFooterView(footerView);
+                    } catch (ClassCastException e) {
+                        e.printStackTrace();
+                    }
                 }
                 if (postTask != null) {
                     postTask.run();

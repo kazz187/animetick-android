@@ -68,6 +68,9 @@ public class Button {
         });
     }
 
+    public Button() {
+    }
+
     protected void onSuccess() {
         event.onSuccess();
         if (transitionData == null)

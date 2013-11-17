@@ -3,8 +3,6 @@ package net.animetick.animetick_android.model.anime;
 import android.view.View;
 import android.widget.ListView;
 
-import net.animetick.animetick_android.model.Anime;
-import net.animetick.animetick_android.model.AnimeAdapter;
 import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.EpisodeManager;
 import net.animetick.animetick_android.model.EpisodeResult;
@@ -25,16 +23,17 @@ public class AnimeManager extends EpisodeManager<Anime> {
 
     @Override
     protected List<Anime> getUniqueEpisodes(List<Anime> animeEpisodeList) {
-        return null;
+        return animeEpisodeList;
     }
 
     @Override
     protected EpisodeResult<Anime> createAnimeEpisodeList(InputStream is) throws IOException {
-        return null;
+        AnimeListFactory animeListFactory = new AnimeListFactory();
+        return animeListFactory.createAnimeList(is);
     }
 
     @Override
     protected String getRequestPath() {
-        return null;
+        return "/anime/list.json";
     }
 }

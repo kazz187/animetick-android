@@ -2,13 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
-              android:orientation="vertical" >
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="期毎でさがす"
-        android:id="@+id/button" />
+              android:orientation="vertical"
+    android:id="@+id/anime_layout">
 
     <ListView
         android:layout_width="fill_parent"

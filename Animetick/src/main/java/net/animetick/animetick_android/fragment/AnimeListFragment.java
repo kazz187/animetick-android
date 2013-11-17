@@ -14,10 +14,10 @@ import android.widget.ListView;
 import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.activity.AnimeEpisodeActivity;
 import net.animetick.animetick_android.activity.MainActivity;
+import net.animetick.animetick_android.model.anime.Anime;
+import net.animetick.animetick_android.model.anime.AnimeAdapter;
 import net.animetick.animetick_android.model.Authentication;
-import net.animetick.animetick_android.model.ticket.Ticket;
-import net.animetick.animetick_android.model.ticket.TicketAdapter;
-import net.animetick.animetick_android.model.ticket.TicketManager;
+import net.animetick.animetick_android.model.anime.AnimeManager;
 
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
 
@@ -25,15 +25,15 @@ import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;
  * Created by kazz on 2013/08/10.
  */
 public class AnimeListFragment extends Fragment {
-    private TicketManager ticketManager;
+    private AnimeManager animeManager;
     private ListView listView;
-    private TicketAdapter ticketAdapter;
+    private AnimeAdapter animeAdapter;
     private View footer;
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ticketAdapter = new TicketAdapter(activity);
+        animeAdapter = new AnimeAdapter(activity);
     }
 
     @Override
@@ -48,16 +48,16 @@ public class AnimeListFragment extends Fragment {
         }
         listView = (ListView) view.findViewById(R.id.anime_list);
         listView.addFooterView(getFooterLayout());
-        ticketManager = new TicketManager(ticketAdapter, authentication, listView, getFooterLayout());
+        animeManager = new AnimeManager(animeAdapter, authentication, listView, getFooterLayout());
         if (isLoad) {
-            ticketManager.loadTickets(true, null);
+            animeManager.loadTickets(true, null);
         }
         MainActivity activity = (MainActivity) getActivity();
         final PullToRefreshAttacher attacher = activity.getPullToRefreshAttacher();
         attacher.addRefreshableView(listView, new PullToRefreshAttacher.OnRefreshListener() {
             @Override
             public void onRefreshStarted(View view) {
-                ticketManager.loadTickets(true, new Runnable() {
+                animeManager.loadTickets(true, new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -73,8 +73,8 @@ public class AnimeListFragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (!ticketAdapter.getMenuManager().close()) {
-                    moveToAnimeEpisodeActivity(ticketAdapter.getItem(position));
+                if (!animeAdapter.getMenuManager().close()) {
+                    moveToAnimeEpisodeActivity(animeAdapter.getItem(position));
                 }
             }
         });
@@ -83,10 +83,10 @@ public class AnimeListFragment extends Fragment {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 switch (scrollState) {
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-                        ticketAdapter.getMenuManager().close();
+                        animeAdapter.getMenuManager().close();
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
-                        ticketAdapter.getMenuManager().close();
+                        animeAdapter.getMenuManager().close();
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
                         break;
@@ -98,7 +98,7 @@ public class AnimeListFragment extends Fragment {
             @Override
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (totalItemCount != 0 && totalItemCount != 1 && totalItemCount == firstVisibleItem + visibleItemCount) {
-                    ticketManager.loadTickets(false, null);
+                    animeManager.loadTickets(false, null);
                 }
             }
         });
@@ -108,14 +108,14 @@ public class AnimeListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        listView.setAdapter(ticketAdapter);
+        listView.setAdapter(animeAdapter);
     }
 
-    private void moveToAnimeEpisodeActivity(Ticket ticket) {
+    private void moveToAnimeEpisodeActivity(Anime anime) {
         Intent intent = new Intent(this.getActivity(), AnimeEpisodeActivity.class);
-        intent.putExtra("title_id", ticket.getTitleId());
-        intent.putExtra("title", ticket.getTitle());
-        intent.putExtra("icon_path", ticket.getIconPath());
+        intent.putExtra("title_id", anime.getTitleId());
+        intent.putExtra("title", anime.getTitle());
+        intent.putExtra("icon_path", anime.getIconPath());
         startActivity(intent);
         this.getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.fade_out);
     }
