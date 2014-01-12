@@ -15,7 +15,7 @@ public class WatchButton extends Button {
 
     public WatchButton(TextView view, MenuComponent component, OnClickEvent event) {
         super(view, component, event, new TransitionData(TransitionData.NULL, 0,
-                                                         R.drawable.trans_watch_to_confirm, 150));
+                                                         R.drawable.trans_watch_to_confirm, DURATION_TIME));
         view.setText("Watch");
         view.setBackgroundResource(R.drawable.watch_button);
     }

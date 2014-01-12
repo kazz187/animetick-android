@@ -9,6 +9,7 @@ import android.view.View;
  */
 public class Button {
 
+    protected static int DURATION_TIME = 10; // millis
     protected View view;
     protected MenuComponent component;
     protected OnClickEvent event;

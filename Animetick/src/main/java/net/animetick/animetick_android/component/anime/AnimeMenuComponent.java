@@ -18,8 +18,8 @@ import net.animetick.animetick_android.component.button.UnwatchConfirmButton;
 import net.animetick.animetick_android.component.button.WatchButton;
 import net.animetick.animetick_android.component.button.WatchConfirmButton;
 import net.animetick.animetick_android.config.Config;
-import net.animetick.animetick_android.model.anime.Anime;
 import net.animetick.animetick_android.model.Networking;
+import net.animetick.animetick_android.model.anime.Anime;
 
 import java.io.IOException;
 import java.io.InputStream;

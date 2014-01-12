@@ -16,6 +16,7 @@ public class Ticket extends Episode {
     private String chName = null;
     private int chNum = -1;
     private Date startAt = null;
+    private Date endAt = null;
     private List<String> flags = new ArrayList<String>();
 
     public void setChName(String chName) {
@@ -31,8 +32,9 @@ public class Ticket extends Episode {
         this.startAt = (Date) df.parseObject(startAt);
     }
 
-    public void setStartAt(Date startAt) {
-        this.startAt = startAt;
+    public void setEndAt(String endAt) throws ParseException {
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZZ");
+        this.endAt = (Date) df.parseObject(endAt);
     }
 
     public void setFlags(List<String> flags) {
@@ -49,6 +51,10 @@ public class Ticket extends Episode {
 
     public Date getStartAt() {
         return startAt;
+    }
+
+    public Date getEndAt() {
+        return endAt;
     }
 
     @Override

@@ -39,6 +39,9 @@ public class TicketFactory {
         if (node.has("start_at")) { // start_at is optional.
             ticket.setStartAt(node.get("start_at").textValue());
         }
+        if (node.has("end_at")) { // end_at is optional.
+            ticket.setEndAt(node.get("end_at").textValue());
+        }
         if (node.has("ch_name")) { // ch_name is optional.
             ticket.setChName(node.get("ch_name").textValue());
         }

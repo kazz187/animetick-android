@@ -14,8 +14,8 @@ import net.animetick.animetick_android.component.TransitionData;
 public class WatchConfirmButton extends Button {
 
     public WatchConfirmButton(TextView view, MenuComponent component, OnClickEvent event) {
-        super(view, component, event, new TransitionData(R.drawable.trans_confirm_to_watch, 150,
-                                                         R.drawable.trans_confirm_to_unwatch, 150));
+        super(view, component, event, new TransitionData(R.drawable.trans_confirm_to_watch, DURATION_TIME,
+                                                         R.drawable.trans_confirm_to_unwatch, DURATION_TIME));
         view.setText("Watch?");
     }
 

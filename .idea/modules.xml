@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Animetick/Animetick.iml" filepath="$PROJECT_DIR$/Animetick/Animetick.iml" />
-      <module fileurl="file://$PROJECT_DIR$/AnimetickProject.iml" filepath="$PROJECT_DIR$/AnimetickProject.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AnimetickAndroid.iml" filepath="$PROJECT_DIR$/AnimetickAndroid.iml" />
     </modules>
   </component>
 </project>

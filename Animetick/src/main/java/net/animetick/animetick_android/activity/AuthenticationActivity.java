@@ -3,10 +3,12 @@ package net.animetick.animetick_android.activity;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.AndroidRuntimeException;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
@@ -120,6 +122,27 @@ public class AuthenticationActivity extends FragmentActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.authentication, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean res;
+        switch (item.getItemId()) {
+            case R.id.action_open_uri:
+                res = true;
+                openUri();
+                break;
+            default:
+                res = super.onOptionsItemSelected(item);
+                break;
+        }
+        return res;
+    }
+
+    private void openUri() {
+        Uri uri = Uri.parse("http://animetick.net");
+        Intent i = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(i);
     }
 
     @Override

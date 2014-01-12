@@ -19,7 +19,7 @@ public class UnwatchButton extends Button {
     }
     public UnwatchButton(TextView view, MenuComponent component, OnClickEvent event) {
         super(view, component, event, new TransitionData(TransitionData.NULL, 0,
-                R.drawable.trans_unwatch_to_confirm, 150));
+                R.drawable.trans_unwatch_to_confirm, DURATION_TIME));
         view.setText("Watched");
         view.setBackgroundResource(R.drawable.unwatch_button);
     }

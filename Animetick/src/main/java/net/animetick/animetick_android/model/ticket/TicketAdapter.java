@@ -65,8 +65,9 @@ public class TicketAdapter extends EpisodeAdapter<Ticket> {
     private void setRelativeDay(View convertView, Ticket ticket) {
         TextView relativeDayView = (TextView) convertView.findViewById(R.id.ticket_relative_day);
         Date ticketStartAt = ticket.getStartAt();
+        Date ticketEndAt = ticket.getEndAt();
         if (ticketStartAt != null) {
-            RelativeDayInfo relativeDay = getRelativeDay(ticketStartAt);
+            RelativeDayInfo relativeDay = getRelativeDay(ticketStartAt, ticketEndAt);
             if (relativeDay != null) {
                 relativeDayView.setText(relativeDay.getName());
                 relativeDayView.setBackgroundResource(relativeDay.getResourceId());
@@ -77,10 +78,11 @@ public class TicketAdapter extends EpisodeAdapter<Ticket> {
         relativeDayView.setVisibility(View.GONE);
     }
 
-    public RelativeDayInfo getRelativeDay(Date startAt) {
-        Calendar now = Calendar.getInstance();
-        now.setTime(new Date());
-        Calendar today = shiftDate(now);
+    public RelativeDayInfo getRelativeDay(Date startAt, Date endAt) {
+        Calendar nowCalendar = Calendar.getInstance();
+        Date now = new Date();
+        nowCalendar.setTime(now);
+        Calendar today = shiftDate(nowCalendar);
         Calendar yesterday = (Calendar) today.clone();
         yesterday.add(Calendar.DATE, -1);
         Calendar tomorrow = (Calendar) today.clone();
@@ -91,7 +93,11 @@ public class TicketAdapter extends EpisodeAdapter<Ticket> {
         if (yesterday.equals(startAtCal)) {
             return new RelativeDayInfo(R.drawable.ticket_yesterday, "昨晩");
         } else if (today.equals(startAtCal)) {
-            return new RelativeDayInfo(R.drawable.ticket_today, "今晩");
+            String relativeDay = "今晩";
+            if (startAt.compareTo(now) <= 0 && endAt.compareTo(now) >= 0) {
+                relativeDay = "放送中";
+            }
+            return new RelativeDayInfo(R.drawable.ticket_today, relativeDay);
         } else if (tomorrow.equals(startAtCal)) {
             return new RelativeDayInfo(R.drawable.ticket_tomorrrow, "翌晩");
         }

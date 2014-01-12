@@ -14,9 +14,9 @@ import android.widget.ListView;
 import net.animetick.animetick_android.R;
 import net.animetick.animetick_android.activity.AnimeEpisodeActivity;
 import net.animetick.animetick_android.activity.MainActivity;
+import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.anime.Anime;
 import net.animetick.animetick_android.model.anime.AnimeAdapter;
-import net.animetick.animetick_android.model.Authentication;
 import net.animetick.animetick_android.model.anime.AnimeManager;
 
 import uk.co.senab.actionbarpulltorefresh.library.PullToRefreshAttacher;

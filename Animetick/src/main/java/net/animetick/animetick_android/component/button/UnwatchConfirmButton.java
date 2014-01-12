@@ -14,8 +14,8 @@ import net.animetick.animetick_android.component.TransitionData;
 public class UnwatchConfirmButton extends Button {
 
     public UnwatchConfirmButton(TextView view, MenuComponent component, OnClickEvent event) {
-        super(view, component, event, new TransitionData(R.drawable.trans_confirm_to_unwatch, 150,
-                                                         R.drawable.trans_confirm_to_watch, 150));
+        super(view, component, event, new TransitionData(R.drawable.trans_confirm_to_unwatch, DURATION_TIME,
+                                                         R.drawable.trans_confirm_to_watch, DURATION_TIME));
         view.setText("Unwatch?");
     }
 
